@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Владислав Попов">
+    <title>Блог</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <a href="./index.html">Главная</a>
+                </li>
+                <li>
+                    <a href="./blog.html">Блог</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Блог</h1>
+        <p>
+            Добро пожаловать в хранилище <em>ценных</em> мюслей и <em>важных</em> новостей.
+            Читайте, запоминайте и мотайте на ус.
+        </p>
+        <section>
+            <h2>Статьи</h2>
+            <ul>
+                <li>
+                    <article>
+                        <header>
+                            <h3>Я уронил отварную сосиску</h3>
+                            <p>
+                                Опубликовано:
+                                <time datetime="2026-03-05">5 марта 2026</time>
+                            </p>
+                        </header>
+                        <p>
+                            <time datetime="2026-03-04T18:00+07:00">
+                                4 марта около шести часов вечера
+                            </time>
+                            выпусник НГТУ, Владислав Попов,
+                            закончив отваривать молочную сосиску СПК, подцепил её кончиком вилки, чтобы
+                            переместить из кипятка в миску с отварным картофелем.
+                            <q>Я думал, что сосиска прочно держится на зубчиках вилки, но я ошибся...</q>
+                            вспоминаю я.
+                        </p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <header>
+                            <h3>Перекат в вайб-кодинг</h3>
+                            <p>
+                                Опубликовано:
+                                <time datetime="2026-02-28">28 февраля  2026</time>
+                            </p>
+                        </header>
+                        <p>
+                            Размышлял над текущим своим положением дел. К сожалению, ведение блога продолжается.
+                            К хорошим новостям — теперь все статьи будет писать ИИ-агент.
+                        </p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <header>
+                            <h3>Моей помощнице</h3>
+                            <p>
+                                Опубликовано:
+                                <time datetime="2026-02-24">24 февраля  2026</time>
+                            </p>
+                        </header>
+                        <p>
+                            Даяна,
+                            <time datetime="1989-02-24T11:30-07:00">
+                                сейчас 11:30, 24 февраля.
+                            </time>
+                            Въезжаю в городок Твин Пикс
+                        </p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <header>
+                            <h3>Я уронил отварную сосиску</h3>
+                            <p>
+                                Опубликовано:
+                                <time datetime="2026-03-05">5 марта 2026</time>
+                            </p>
+                        </header>
+                        <p>
+                            <time datetime="2026-03-04T18:00+07:00">
+                                4 марта около шести часов вечера
+                            </time>
+                            выпусник НГТУ, Владислав Попов,
+                            закончив отваривать молочную сосиску СПК, подцепил её кончиком вилки, чтобы
+                            переместить из кипятка в миску с отварным картофелем.
+                            <q>Я думал, что сосиска прочно держится на зубчиках вилки, но я ошибся...</q>
+                            вспоминаю я.
+                        </p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <header>
+                            <h3>Перекат в вайб-кодинг</h3>
+                            <p>
+                                Опубликовано:
+                                <time datetime="2026-02-28">28 февраля  2026</time>
+                            </p>
+                        </header>
+                        <p>
+                            Размышлял над текущим своим положением дел. К сожалению, ведение блога продолжается.
+                            К хорошим новостям — теперь все статьи будет писать ИИ-агент.
+                        </p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <header>
+                            <h3>Моей помощнице</h3>
+                            <p>
+                                Опубликовано:
+                                <time datetime="2026-02-24">24 февраля  2026</time>
+                            </p>
+                        </header>
+                        <p>
+                            Даяна,
+                            <time datetime="1989-02-23T11:30-07:00">
+                                сейчас 11:30, 24 февраля.
+                            </time>
+                            Въезжаю в городок Твин Пикс
+                        </p>
+                    </article>
+                </li>
+            </ul>
+        </section>
+        <section>
+            <h2>Создать статью</h2>
+            <form>
+                <p>
+                    <label for="title-input">Заголовок<mark>*</mark>:</label>
+                    <br />
+                    <input
+                        id="title-input"
+                        name="title"
+                        type="text"
+                        minlength="5"
+                        size="40"
+                        placeholder="Например, &quot;Крутая новость&quot;"
+                        required
+                    />
+                </p>
+                <p>
+                    <label for="text-input">Текст статьи<mark>*</mark>:</label>
+                    <br />
+                    <textarea
+                        id="text-input"
+                        name="text"
+                        rows="10"
+                        cols="40"
+                        placeholder="Сама новость..."
+                        required
+                    ></textarea>
+                </p>
+                <p>
+                    <label for="photo-input">Прикрепить фото:</label>
+                    <br />
+                    <input
+                        id="photo-input"
+                        name="photo"
+                        type="file"
+                        accept="image/*"
+                    />
+                </p>
+                <p>
+                    <mark>*</mark> - поля, обязательные для заполнения
+                </p>
+                <button type="submit">Добавить</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <section>
+            <h2>Контакты</h2>
+            <address>
+                Email: <a href="mailto:user@example.com">user@example.com</a><br />
+                Телефон: <a href="tel:+78005553535">+7 (800) 555-35-35</a>
+            </address>
+        </section>
+        <section>
+            <h2>Социальные сети</h2>
+            <ul>
+                <li>
+                    <a
+                            href="https://github.com/MiniScoob"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                    >
+                        GitHub
+                    </a>
+                </li>
+                <li>
+                    <a
+                            href="https://t.me"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                    >
+                        Telegram
+                    </a>
+                </li>
+            </ul>
+        </section>
+    </footer>
+</body>
+</html>
