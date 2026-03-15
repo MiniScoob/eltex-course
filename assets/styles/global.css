@@ -210,9 +210,12 @@ form mark {
     gap: 1.6rem;
 }
 
+.header-content a {
+    transition: color var(--animation-time);
+}
+
 .header-content a:hover {
     color: var(--color-primary);
-    font-weight: 600;
 }
 
 .footer-content {
