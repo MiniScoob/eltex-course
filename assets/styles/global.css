@@ -216,7 +216,7 @@ form mark {
 }
 
 .footer-content {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 1.6rem;
     padding-top: 1.6rem;
     padding-bottom: 1.6rem;
@@ -330,5 +330,11 @@ article img {
     article img {
         grid-area: 1 / 2 / 2 / 4;
         max-height: unset;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
