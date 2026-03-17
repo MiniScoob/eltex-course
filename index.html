@@ -5,35 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Владислав Попов">
     <title>Главная</title>
+
+    <link rel="stylesheet" href="assets/styles/fonts.css" />
+    <link rel="stylesheet" href="assets/styles/global.css" />
+    <link rel="stylesheet" href="index.css" />
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li>
-                    <a href="./index.html">Главная</a>
-                </li>
-                <li>
-                    <a href="./blog.html">Блог</a>
-                </li>
-            </ul>
-        </nav>
+    <header class="header">
+        <div class="card light header-content flex">
+            <p class="title">MiniScoob.io</p>
+            <nav>
+                <ul class="flex">
+                    <li>
+                        <a href="./index.html">Главная</a>
+                    </li>
+                    <li>
+                        <a href="./blog.html">Блог</a>
+                    </li>
+                    <li>
+                        <a href="#contacts">Контакты</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    <main>
-        <h1>Обо мне</h1>
-        <p>
-            Любитель конфет и сладких ракет.<br />
-            Последние несколько лет подрабатываю веб-разработчиком, специализируюсь на интеграции с блокчейном.<br />
-            В этом бложике делюсь своими ценными мюслями, интересными практиками и важными новостями.
-        </p>
-        <img
-            src="./assets/twinpeaks.jpg"
-            alt="Фотография меня с чашечкой чертовски хорошего кофе. Позади монитор с фотографией Лоры Палмер"
-        />
+    <main class="card light main">
+        <section class="about-me flex">
+            <div>
+                <h1 class="lead-title">Обо мне</h1>
+                <p>
+                    Любитель конфет и сладких ракет.<br />
+                    Последние несколько лет подрабатываю веб-разработчиком, специализируюсь на интеграции с блокчейном.<br />
+                    В этом бложике делюсь своими ценными мюслями, интересными практиками и важными новостями.
+                </p>
+            </div>
+            <img
+                    src="assets/images/twinpeaks.jpg"
+                    alt="Фотография меня с чашечкой чертовски хорошего кофе. Позади монитор с фотографией Лоры Палмер"
+            />
+        </section>
         <section>
-            <h2>Моя карьера</h2>
-            <section>
-                <h3>Текущая должность</h3>
+            <h2 class="lead-title">Моя карьера</h2>
+            <section class="card dark">
+                <h3 class="title">Текущая должность</h3>
                 <p>Frontend-разработчик, фриланс (2022 — по настоящее время)</p>
                 <p>
                     Разработка клиентской части веб-приложений на стеке Next, SCSS, Strapi<br />
@@ -41,100 +55,89 @@
                     до продакшена или уровня MVP.
                 </p>
             </section>
-            <section>
-                <h3>Мои проекты:</h3>
-                <ul>
+            <section class="card dark">
+                <h3 class="title">Мои проекты:</h3>
+                <ul class="list">
                     <li>
-                        <h4>Новый лэндинг для онлайн-тренажёра</h4>
-                        <p>
-                            Мой первый коммерческий проект, основная задача - поднять оценку производительности до 90+
-                            в мобильной версии сайта.
-                        </p>
+                        <section class="li-content project flex">
+                            <div class="icon flex center">
+                                <img src="assets/icons/gauge_high.svg" alt="Иконка спидометра" />
+                            </div>
+                            <div>
+                                <h4 class="subtitle">Новый лэндинг для онлайн-тренажёра</h4>
+                                <p>
+                                    Мой первый коммерческий проект, основная задача - поднять оценку производительности до 90+
+                                    в мобильной версии сайта.
+                                </p>
+                            </div>
+                        </section>
                     </li>
                     <li>
-                        <h4>Крипто-стартап</h4>
-                        <p>
-                            Отвечал за интеграцию взаимодействия с сервером и блокчейном,
-                            подписывание и проведение транзакций.<br />
-                            Главное достижение — отслеживание всех шагов записи в блок с
-                            модальными окнами на каждый из них.
-                        </p>
+                        <section class="li-content project flex">
+                            <div class="icon flex center">
+                                <img src="assets/icons/bitcoin.svg" alt="Иконка монеты Биткоин" />
+                            </div>
+                            <div>
+                                <h4 class="subtitle">Крипто-стартап</h4>
+                                <p>
+                                    Отвечал за интеграцию взаимодействия с сервером и блокчейном,
+                                    подписывание и проведение транзакций.<br />
+                                    Главное достижение — отслеживание всех шагов записи в блок с
+                                    модальными окнами на каждый из них.
+                                </p>
+                            </div>
+                        </section>
                     </li>
                     <li>
-                        <h4>Обменник на uniswap-протоколе</h4>
-                        <p>
-                            Интеграция взаимодействия с сервером и блокчейном.<br />
-                            Главное достижение — вычисления с BigInt с погрешность, в разы меньше минимально допустимой.
-                        </p>
+                        <section class="li-content project flex">
+                            <div class="icon flex center">
+                                <img src="assets/icons/arrow_right_arrow_left.svg" alt="Иконка обмена" />
+                            </div>
+                            <div>
+                                <h4 class="subtitle">Обменник на uniswap-протоколе</h4>
+                                <p>
+                                    Интеграция взаимодействия с сервером и блокчейном.<br />
+                                    Главное достижение — вычисления с BigInt с погрешность, в разы меньше минимально допустимой.
+                                </p>
+                            </div>
+                        </section>
                     </li>
                     <li>
-                        <h4>Сайт-портфолио дизайнера интерьеров</h4>
-                        <p>
-                            Первый проект, в котором использовал Strapi: поднял, настроил, позже мигрировал на новую версию.
-                        </p>
+                        <section class="li-content project flex">
+                            <div class="icon flex center">
+                                <img src="assets/icons/paint_roller.svg" alt="Иконка малярного валика" />
+                            </div>
+                            <div>
+                                <h4 class="subtitle">Сайт-портфолио дизайнера интерьеров</h4>
+                                <p>
+                                    Первый проект, в котором использовал Strapi: поднял, настроил, позже мигрировал на новую версию.
+                                </p>
+                            </div>
+                        </section>
                     </li>
                     <li>
-                        <h4>Telegram-бот для университета</h4>
-                        <p>
-                            Чат-бот для получения основной информации о факультете и студенческой жизни университета.<br />
-                            Главные достижения: рассчёт рейтинга абитуриента для всех вариантов поступления
-                            (соновной конкурс, внебюджетный, по квотам) и наличия/отсутствия оригиналов документов,
-                            отказоустойчивость и защита от спам-атак.<br />
-                            Рассчёт рейтинга производился на основе актуальных данных
-                            (бот парсил таблицу, которую заполняла приемная комиссия).
-                        </p>
-                    </li>
-                </ul>
-            </section>
-            <section>
-                <h3>Образование:</h3>
-                <ul>
-                    <li>
-                        <h4>Новосибирский государственный технический университет, 2023-2025</h4>
-                        <p>Информатика и вычислительная техника (магистр техники и технологии)</p>
-                    </li>
-                    <li>
-                        <h4>Сибирский государственный университет путей сообщения, 2019-2023</h4>
-                        <p>Информационные системы и технологии (инженер)</p>
-                    </li>
-                </ul>
-            </section>
-            <section>
-                <h3>Навыки:</h3>
-                <ul>
-                    <li>
-                        Программирование
-                        <ul>
-                            <li>HTML5</li>
-                            <li>CSS3/SASS</li>
-                            <li>JavaScript</li>
-                            <li>TypeScript</li>
-                            <li>React/Next</li>
-                            <li>NodeJS</li>
-                        </ul>
-                    </li>
-                    <li>
-                        Инструменты
-                        <ul>
-                            <li>Git</li>
-                            <li>Docker</li>
-                            <li>Figma</li>
-                            <li>WebStorm</li>
-                            <li>VS Code</li>
-                        </ul>
-                    </li>
-                    <li>
-                        Методологии
-                        <ul>
-                            <li>Scrum</li>
-                            <li>Test-Driven Development</li>
-                        </ul>
+                        <section class="li-content project flex">
+                            <div class="icon flex center">
+                                <img src="assets/icons/robot.svg" alt="Иконка робота" />
+                            </div>
+                            <div>
+                                <h4 class="subtitle">Telegram-бот для университета</h4>
+                                <p>
+                                    Чат-бот для получения основной информации о факультете и студенческой жизни университета.<br />
+                                    Главные достижения: рассчёт рейтинга абитуриента для всех вариантов поступления
+                                    (соновной конкурс, внебюджетный, по квотам) и наличия/отсутствия оригиналов документов,
+                                    отказоустойчивость и защита от спам-атак.<br />
+                                    Рассчёт рейтинга производился на основе актуальных данных
+                                    (бот парсил таблицу, которую заполняла приемная комиссия).
+                                </p>
+                            </div>
+                        </section>
                     </li>
                 </ul>
             </section>
-            <section>
-                <h3>Маленькие победы:</h3>
-                <ul>
+            <section class="card dark">
+                <h3 class="title">Маленькие победы:</h3>
+                <ul class="achievement-list">
                     <li>
                         Сделал библиотеку для авторизации и работы с кошельком MetaMask под свои проекты.
                     </li>
@@ -149,97 +152,259 @@
             </section>
         </section>
         <section>
-            <h2>Последние статьи</h2>
-            <ul>
+            <h2 class="lead-title">Моё развитие</h2>
+            <section class="card dark">
+                <h3 class="title">Образование:</h3>
+                <ul class="list">
+                    <li>
+                        <section class="li-content">
+                            <h4 class="subtitle">
+                                Новосибирский государственный технический университет, 2023-2025
+                            </h4>
+                            <p>Информатика и вычислительная техника (магистр техники и технологии)</p>
+                        </section>
+                    </li>
+                    <li>
+                        <section class="li-content">
+                            <h4 class="subtitle">
+                                Сибирский государственный университет путей сообщения, 2019-2023
+                            </h4>
+                            <p>Информационные системы и технологии (инженер)</p>
+                        </section>
+                    </li>
+                </ul>
+            </section>
+            <section class="card dark">
+                <h3 class="title">Навыки:</h3>
+                <ul class="skill-list">
+                    <li>
+                        <span class="subtitle">Программирование</span>
+                        <ul class="flex">
+                            <li>HTML5</li>
+                            <li>CSS3/SASS</li>
+                            <li>JavaScript</li>
+                            <li>TypeScript</li>
+                            <li>React/Next</li>
+                            <li>NodeJS</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="subtitle">Инструменты</span>
+                        <ul class="flex">
+                            <li>Git</li>
+                            <li>Docker</li>
+                            <li>Figma</li>
+                            <li>WebStorm</li>
+                            <li>VS Code</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="subtitle">Методологии</span>
+                        <ul class="flex">
+                            <li>Scrum</li>
+                            <li>Test-Driven Development</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </section>
+        <section>
+            <h2 class="lead-title">Мои хобби</h2>
+            <ul class="grid hobby-list">
+                <li class="hobby-card">
+                    <img
+                        src="assets/images/retro.avif"
+                        alt="Изображение в эстетике киберпанка 80-ых"
+                    />
+                    <section class="hobby-card-content flex center">
+                        <h3>Ретро</h3>
+                        <p>Старые консоли, пузатые телевизоры, фильмы на болванках</p>
+                    </section>
+                </li>
+                <li class="hobby-card">
+                    <img
+                        src="assets/images/park.avif"
+                        alt="Изображение парка летом"
+                    />
+                    <section class="hobby-card-content flex center">
+                        <h3>Прогулки</h3>
+                        <p>Пройти с десяток киллометров, заглянуть в каждый уголок города</p>
+                    </section>
+                </li>
+                <li class="hobby-card">
+                    <img
+                        src="assets/images/cinema.avif"
+                        alt="Absolute cinema"
+                    />
+                    <section class="hobby-card-content flex center">
+                        <h3>Absolute Cinema</h3>
+                        <p>Просмотр классических ужастиков</p>
+                    </section>
+                </li>
+                <li class="hobby-card">
+                    <img
+                        src="assets/images/lynch.avif"
+                        alt="Режиссер Дэвид Линч сидит в чёрном вигваме"
+                    />
+                    <section class="hobby-card-content flex center">
+                        <h3><bdo dir="rtl">Absolute Cinema</bdo></h3>
+                        <p>Творчество Линча и мемы по нему</p>
+                    </section>
+                </li>
+            </ul>
+        </section>
+        <section>
+            <h2 class="lead-title">Последние статьи</h2>
+            <ul class="article-list">
                 <li>
                     <article>
-                        <header>
-                            <h3>Я уронил отварную сосиску</h3>
+                        <div class="article-content">
+                            <header class="article-header">
+                                <h3>Я уронил отварную сосиску</h3>
+                                <p>
+                                    Опубликовано:
+                                    <time datetime="2026-03-05">5 марта 2026</time>
+                                </p>
+                            </header>
                             <p>
-                                Опубликовано:
-                                <time datetime="2026-03-05">5 марта 2026</time>
+                                <time datetime="2026-03-04T18:00+07:00">
+                                    4 марта около шести часов вечера
+                                </time>
+                                выпусник НГТУ, Владислав Попов,
+                                закончив отваривать молочную сосиску СПК, подцепил её кончиком вилки, чтобы
+                                переместить из кипятка в миску с отварным картофелем.
+                                <q>Я думал, что сосиска прочно держится на зубчиках вилки, но я ошибся...</q>
+                                вспоминаю я.
                             </p>
-                        </header>
-                        <p>
-                            <time datetime="2026-03-04T18:00+07:00">
-                                4 марта около шести часов вечера
-                            </time>
-                            выпусник НГТУ, Владислав Попов,
-                            закончив отваривать молочную сосиску СПК, подцепил её кончиком вилки, чтобы
-                            переместить из кипятка в миску с отварным картофелем.
-                            <q>Я думал, что сосиска прочно держится на зубчиках вилки, но я ошибся...</q>
-                            вспоминаю я.
-                        </p>
+                        </div>
+                        <img
+                            src="assets/images/cover.avif"
+                            alt="Картинка-заглушка для статьи"
+                        />
                     </article>
                 </li>
                 <li>
                     <article>
-                        <header>
-                            <h3>Перекат в вайб-кодинг</h3>
+                        <div class="article-content">
+                            <header class="article-header">
+                                <h3>Перекат в вайб-кодинг</h3>
+                                <p>
+                                    Опубликовано:
+                                    <time datetime="2026-02-28">28 февраля  2026</time>
+                                </p>
+                            </header>
                             <p>
-                                Опубликовано:
-                                <time datetime="2026-02-28">28 февраля  2026</time>
+                                Размышлял над текущим своим положением дел. К сожалению, ведение блога продолжается.
+                                К хорошим новостям — теперь все статьи будет писать ИИ-агент.
                             </p>
-                        </header>
-                        <p>
-                            Размышлял над текущим своим положением дел. К сожалению, ведение блога продолжается.
-                            К хорошим новостям — теперь все статьи будет писать ИИ-агент.
-                        </p>
+                        </div>
+                        <img
+                            src="assets/images/cover.avif"
+                            alt="Картинка-заглушка для статьи"
+                        />
                     </article>
                 </li>
                 <li>
                     <article>
-                        <header>
-                            <h3>Моей помощнице</h3>
+                        <div class="article-content">
+                            <header class="article-header">
+                                <h3>Моей помощнице</h3>
+                                <p>
+                                    Опубликовано:
+                                    <time datetime="2026-02-24">24 февраля  2026</time>
+                                </p>
+                            </header>
                             <p>
-                                Опубликовано:
-                                <time datetime="2026-02-24">24 февраля  2026</time>
+                                Даяна,
+                                <time datetime="1989-02-24T11:30-07:00">
+                                    сейчас 11:30, 24 февраля.
+                                </time>
+                                Въезжаю в городок Твин Пикс
                             </p>
-                        </header>
-                        <p>
-                            Даяна,
-                            <time datetime="1989-02-24T11:30-07:00">
-                                сейчас 11:30, 24 февраля.
-                            </time>
-                            Въезжаю в городок Твин Пикс
-                        </p>
+                        </div>
+                        <img
+                            src="assets/images/cooper.avif"
+                            alt="Дейл Купер въезжает в город Твин Пикс, записывая в этот момент сообщение помощнице"
+                        />
                     </article>
                 </li>
             </ul>
-            <a href="./blog.html">Посмотреть все статьи</a>
+            <a
+                class="button view-all"
+                href="./blog.html"
+            >
+                Посмотреть все статьи
+            </a>
         </section>
     </main>
-    <footer>
-        <section>
-            <h2>Контакты</h2>
-            <address>
-                Email: <a href="mailto:user@example.com">user@example.com</a><br />
-                Телефон: <a href="tel:+78005553535">+7 (800) 555-35-35</a>
-            </address>
-        </section>
-        <section>
-            <h2>Социальные сети</h2>
-            <ul>
-                <li>
-                    <a
-                        href="https://github.com/MiniScoob"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        GitHub
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="https://t.me"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Telegram
-                    </a>
-                </li>
-            </ul>
-        </section>
+    <footer class="footer">
+        <div class="card light footer-content grid">
+            <div>
+                <section id="contacts">
+                    <h2  class="lead-title">Контакты</h2>
+                    <address>
+                        <p>
+                            Email: <a href="mailto:user@example.com">user@example.com</a>
+                        </p>
+                        <p>
+                            Телефон: <a href="tel:+78005553535">+7 (800) 555-35-35</a>
+                        </p>
+                    </address>
+                </section>
+                <section>
+                    <h2 class="lead-title">Социальные сети</h2>
+                    <ul class="social-list flex">
+                        <li>
+                            <a
+                                href="https://github.com/MiniScoob"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img src="assets/icons/github.svg" alt="Иконка Github" />
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="https://t.me"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img src="assets/icons/telegram.svg" alt="Иконка Telegram" />
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+            <form class="footer-form">
+                <p>
+                    <label for="contacts-email">Email</label>
+                    <br />
+                    <input
+                        id="contacts-email"
+                        type="email"
+                        name="contacts-email"
+                        inputmode="email"
+                        autocomplete="email"
+                        placeholder="Ваш email-адрес"
+                        required
+                    />
+                </p>
+                <p>
+                    <label for="contacts-message">Сообщение</label>
+                    <br />
+                    <textarea
+                        id="contacts-message"
+                        name="contacts-message"
+                        placeholder="Ваше послание мне"
+                        rows="5"
+                        required
+                    ></textarea>
+                </p>
+                <button class="button" type="submit">
+                    Отправить
+                </button>
+            </form>
+        </div>
     </footer>
 </body>
 </html>

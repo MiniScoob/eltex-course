@@ -1,0 +1,16 @@
+.article-list {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    grid-column-gap: 24px;
+    grid-row-gap: 16px;
+}
+
+@media screen and (min-width: 900px) {
+    .article-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .article-list > li:first-child {
+        grid-area: 1 / 1 / 2 / 3;
+    }
+}

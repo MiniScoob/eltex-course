@@ -1,0 +1,204 @@
+.about-me {
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.about-me > img {
+    border-radius: 16px;
+}
+
+.list {
+    list-style: none;
+}
+
+.list > li:not(:last-child) {
+    margin-bottom: 1.6rem;
+}
+
+.li-content {
+    padding: 1.6rem;
+}
+
+.list > li:last-child > .li-content {
+    padding-bottom: 0;
+}
+
+:is(
+    .list > li:not(:last-child),
+    .skill-list ul > li
+)::after {
+    display: block;
+    content: "";
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-border-dark);
+}
+
+.project {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.6rem
+}
+
+.project > .icon {
+    flex-shrink: 0;
+}
+
+.icon {
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: 8px;
+    background: var(--color-primary);
+}
+
+.icon > img {
+    width: 2.4rem;
+    height: 2.4rem;
+}
+
+.achievement-list {
+    list-style-position: inside;
+}
+
+.achievement-list > li::marker {
+    content: "\1F3C6 ";
+}
+
+:is(
+    .achievement-list,
+    .skill-list
+) > li:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+@counter-style skills-emoji {
+    system: cyclic;
+    symbols: "\1F47E " "\1F6E0 " "\1F984 ";
+    suffix: " ";
+}
+
+.skill-list {
+    list-style-type: skills-emoji;
+    list-style-position: inside;
+}
+
+.skill-list ul {
+    list-style: none;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    gap: 0.5rem 1.6rem;
+}
+
+.hobby-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 1fr;
+    grid-column-gap: 24px;
+    grid-row-gap: 12px;
+}
+
+.hobby-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.hobby-card > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter var(--animation-time) ease,
+                transform var(--animation-time) ease;
+}
+
+.hobby-card:hover > img {
+    filter: blur(4px) brightness(0.7);
+    transform: scale(1.05);
+}
+
+.hobby-card:hover > .hobby-card-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hobby-card:hover > .hobby-card-content > h3,
+.hobby-card:hover > .hobby-card-content > p {
+    transform: translateY(0);
+}
+
+.hobby-card-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 2rem;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(2px);
+    text-align: center;
+    color: var(--color-white);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--animation-time) ease,
+                visibility var(--animation-time) ease;
+}
+
+.hobby-card-content > h3,
+.hobby-card-content > p {
+    transform: translateY(20px);
+    transition: transform var(--long-animation-time) ease;
+}
+
+.hobby-card-content > h3 {
+    margin-bottom: 1rem;
+    font-size: 4rem;
+}
+
+.hobby-card-content > p {
+    font-size: 1.8rem;
+}
+
+.article-list {
+    list-style: none;
+}
+
+.article-list {
+    margin-bottom: 2.4rem;
+}
+
+.article-list > li {
+    container-type: inline-size;
+}
+
+.article-list > li:not(:last-child) {
+    margin-bottom: 2.4rem;
+}
+
+@media screen and (min-width: 768px) {
+    .about-me {
+        flex-direction: row;
+    }
+
+    .project {
+        flex-direction: row;
+        align-items: unset;
+        text-align: unset;
+    }
+
+    .hobby-list {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+
+    .hobby-card:nth-child(1) {
+        grid-area: 1 / 1 / 3 / 2;
+    }
+    .hobby-card:nth-child(2) {
+        grid-area: 1 / 2 / 3 / 3;
+    }
+}
