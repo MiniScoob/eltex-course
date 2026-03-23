@@ -19,6 +19,7 @@ const ARTICLE_TEXT_QUERY = '.article__text';
 const ARTICLE_IMAGE_QUERY = '.article__image';
 
 const LONG_ANIMATION = 500;
+const DEFAULT_IMAGE = 'assets/images/cover.avif';
 
 const MONTHS_ENUM = {
   0: 'января',
@@ -83,16 +84,32 @@ const toDatetime = (date) =>
   `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}`;
 
 const toDateString = (date) =>
-  `${date.getUTCDate()} ${MONTHS_ENUM[date.getUTCMonth()]} ${date.getUTCFullYear()}`
+  `${date.getUTCDate()} ${MONTHS_ENUM[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 
-const addArticle = () => {
+const prepareImageElement = (element, photo) => {
+  if (photo instanceof File) {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      element.setAttribute('src', e.target.result);
+    };
+
+    reader.readAsDataURL(photo);
+  } else {
+    element.setAttribute('src', DEFAULT_IMAGE);
+  }
+
+  element.setAttribute('alt', 'Картинка-обложка статьи');
+};
+
+const addArticle = (data) => {
   const articleListElement = getElementByQuery(ARTICLE_LIST_QUERY);
   const templateElement = getElementById(ARTICLE_TEMPLATE_ID);
 
   const newArticle = templateElement.content.firstElementChild.cloneNode(true);
 
-  getElementByQuery(ARTICLE_TITLE_QUERY, newArticle).textContent = 'Новая статья';
-  getElementByQuery(ARTICLE_TEXT_QUERY, newArticle).textContent = 'Текст новой статьи';
+  getElementByQuery(ARTICLE_TITLE_QUERY, newArticle).textContent = data.title;
+  getElementByQuery(ARTICLE_TEXT_QUERY, newArticle).textContent = data.text;
 
   const date = new Date();
   const timePublishedElement = getElementByQuery(ARTICLE_TIME_PUBLISHED_QUERY, newArticle);
@@ -100,8 +117,7 @@ const addArticle = () => {
   timePublishedElement.textContent = toDateString(date);
 
   const imageElement = getElementByQuery(ARTICLE_IMAGE_QUERY, newArticle);
-  imageElement.setAttribute('src', 'assets/images/cover.avif');
-  imageElement.setAttribute('alt', 'Картинка-заглушка для статьи');
+  prepareImageElement(imageElement, data.photo);
 
   articleListElement.appendChild(newArticle);
 };
@@ -109,10 +125,11 @@ const addArticle = () => {
 const handleAddArticleSubmit = (e) => {
   e.preventDefault();
 
-  addArticle();
-  hideAddArticleSection();
+  const form = e.target;
+  const data = Object.fromEntries(new FormData(form));
+  addArticle(data);
 
-  e.target.reset();
+  form.reset();
 };
 
 const countArticles = () => {
