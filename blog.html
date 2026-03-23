@@ -29,6 +29,57 @@
             </nav>
         </div>
     </header>
+    <dialog
+        id="page-statistics"
+        aria-labelledby="page-statistics-name"
+        class="page-statistics"
+    >
+        <section class="card page-statistics__wrapper">
+            <div class="flex page-statistics__header">
+                <h3 id="page-statistics-name" class="title">
+                    Статистика страницы
+                </h3>
+                <button
+                    id="close-page-statistics"
+                    type="button"
+                    class="flex center page-statistics__button"
+                    title="Закрыть окно статистики страницы"
+                >
+                    <img src="assets/icons/xmark.svg" alt="Иконка закрытия" />
+                </button>
+            </div>
+            <div class="flex page-statistics__content">
+                <div class="page-statistic__element">
+                    <p>Всего статей:</p>
+                    <p id="total-articles">10</p>
+                </div>
+                <div class="page-statistic__element">
+                    <p>Комментарии:</p>
+                    <p id="total-comments">11</p>
+                </div>
+            </div>
+        </section>
+    </dialog>
+    <menu role="toolbar" class="toolbar">
+        <li>
+            <button
+                id="show-add-article-button"
+                title="Добавить статью"
+                class="toolbar__button flex center"
+            >
+                <img src="assets/icons/add_article.svg" alt="Иконка добавления статьи" />
+            </button>
+        </li>
+        <li>
+            <button
+                id="show-page-statistics-button"
+                title="Просмотр статистики"
+                class="toolbar__button flex center"
+            >
+                <img src="assets/icons/stats.svg" alt="Иконка просмотра статистики" />
+            </button>
+        </li>
+    </menu>
     <main class="card light main">
         <section>
             <h1 class="lead-title">Блог</h1>
@@ -39,18 +90,37 @@
         </section>
         <section>
             <h2 class="lead-title">Статьи</h2>
+            <template id="article-template">
+                <li>
+                    <article>
+                        <div class="article__content">
+                            <header class="article__header">
+                                <h3 class="article__title"></h3>
+                                <p>
+                                    Опубликовано:
+                                    <time class="article__time-published"></time>
+                                </p>
+                            </header>
+                            <p class="article__text"></p>
+                        </div>
+                        <img class="article__image" />
+                    </article>
+                </li>
+            </template>
             <ul class="article-list grid">
                 <li>
                     <article>
-                        <div class="article-content">
-                            <header class="article-header">
-                                <h3>Я уронил отварную сосиску</h3>
+                        <div class="article__content">
+                            <header class="article__header">
+                                <h3 class="article__title">Я уронил отварную сосиску</h3>
                                 <p>
                                     Опубликовано:
-                                    <time datetime="2026-03-05">5 марта 2026</time>
+                                    <time class="article__time-published" datetime="2026-03-05">
+                                        5 марта 2026
+                                    </time>
                                 </p>
                             </header>
-                            <p>
+                            <p class="article__text">
                                 <time datetime="2026-03-04T18:00+07:00">
                                     4 марта около шести часов вечера
                                 </time>
@@ -62,43 +132,49 @@
                             </p>
                         </div>
                         <img
-                                src="assets/images/cover.avif"
-                                alt="Картинка-заглушка для статьи"
+                            class="article__image"
+                            src="assets/images/cover.avif"
+                            alt="Картинка-заглушка для статьи"
                         />
                     </article>
                 </li>
                 <li>
                     <article>
-                        <div class="article-content">
-                            <header class="article-header">
-                                <h3>Перекат в вайб-кодинг</h3>
+                        <div class="article__content">
+                            <header class="article__header">
+                                <h3 class="article__title">Перекат в вайб-кодинг</h3>
                                 <p>
                                     Опубликовано:
-                                    <time datetime="2026-02-28">28 февраля  2026</time>
+                                    <time class="article__time-published" datetime="2026-02-28">
+                                        28 февраля  2026
+                                    </time>
                                 </p>
                             </header>
-                            <p>
+                            <p class="article__text">
                                 Размышлял над текущим своим положением дел. К сожалению, ведение блога продолжается.
                                 К хорошим новостям — теперь все статьи будет писать ИИ-агент.
                             </p>
                         </div>
                         <img
-                                src="assets/images/cover.avif"
-                                alt="Картинка-заглушка для статьи"
+                            class="article__image"
+                            src="assets/images/cover.avif"
+                            alt="Картинка-заглушка для статьи"
                         />
                     </article>
                 </li>
                 <li>
                     <article>
-                        <div class="article-content">
-                            <header class="article-header">
-                                <h3>Моей помощнице</h3>
+                        <div class="article__content">
+                            <header class="article__header">
+                                <h3 class="article__title">Моей помощнице</h3>
                                 <p>
                                     Опубликовано:
-                                    <time datetime="2026-02-24">24 февраля  2026</time>
+                                    <time class="article__time-published" datetime="2026-02-24">
+                                        24 февраля  2026
+                                    </time>
                                 </p>
                             </header>
-                            <p>
+                            <p class="article__text">
                                 Даяна,
                                 <time datetime="1989-02-24T11:30-07:00">
                                     сейчас 11:30, 24 февраля.
@@ -107,22 +183,25 @@
                             </p>
                         </div>
                         <img
-                                src="assets/images/cooper.avif"
-                                alt="Дейл Купер въезжает в город Твин Пикс, записывая в этот момент сообщение помощнице"
+                            class="article__image"
+                            src="assets/images/cooper.avif"
+                            alt="Дейл Купер въезжает в город Твин Пикс, записывая в этот момент сообщение помощнице"
                         />
                     </article>
                 </li>
                 <li>
                     <article>
-                        <div class="article-content">
-                            <header class="article-header">
-                                <h3>Я уронил отварную сосиску</h3>
+                        <div class="article__content">
+                            <header class="article__header">
+                                <h3 class="article__title">Я уронил отварную сосиску</h3>
                                 <p>
                                     Опубликовано:
-                                    <time datetime="2026-03-05">5 марта 2026</time>
+                                    <time class="article__time-published" datetime="2026-03-05">
+                                        5 марта 2026
+                                    </time>
                                 </p>
                             </header>
-                            <p>
+                            <p class="article__text">
                                 <time datetime="2026-03-04T18:00+07:00">
                                     4 марта около шести часов вечера
                                 </time>
@@ -134,43 +213,49 @@
                             </p>
                         </div>
                         <img
-                                src="assets/images/cover.avif"
-                                alt="Картинка-заглушка для статьи"
+                            class="article__image"
+                            src="assets/images/cover.avif"
+                            alt="Картинка-заглушка для статьи"
                         />
                     </article>
                 </li>
                 <li>
                     <article>
-                        <div class="article-content">
-                            <header class="article-header">
-                                <h3>Перекат в вайб-кодинг</h3>
+                        <div class="article__content">
+                            <header class="article__header">
+                                <h3 class="article__title">Перекат в вайб-кодинг</h3>
                                 <p>
                                     Опубликовано:
-                                    <time datetime="2026-02-28">28 февраля  2026</time>
+                                    <time class="article__time-published" datetime="2026-02-28">
+                                        28 февраля  2026
+                                    </time>
                                 </p>
                             </header>
-                            <p>
+                            <p class="article__text">
                                 Размышлял над текущим своим положением дел. К сожалению, ведение блога продолжается.
                                 К хорошим новостям — теперь все статьи будет писать ИИ-агент.
                             </p>
                         </div>
                         <img
-                                src="assets/images/cover.avif"
-                                alt="Картинка-заглушка для статьи"
+                            class="article__image"
+                            src="assets/images/cover.avif"
+                            alt="Картинка-заглушка для статьи"
                         />
                     </article>
                 </li>
                 <li>
                     <article>
-                        <div class="article-content">
-                            <header class="article-header">
-                                <h3>Моей помощнице</h3>
+                        <div class="article__content">
+                            <header class="article__header">
+                                <h3 class="article__title">Моей помощнице</h3>
                                 <p>
                                     Опубликовано:
-                                    <time datetime="2026-02-24">24 февраля  2026</time>
+                                    <time class="article__time-published" datetime="2026-02-24">
+                                        24 февраля  2026
+                                    </time>
                                 </p>
                             </header>
-                            <p>
+                            <p class="article__text">
                                 Даяна,
                                 <time datetime="1989-02-24T11:30-07:00">
                                     сейчас 11:30, 24 февраля.
@@ -179,16 +264,17 @@
                             </p>
                         </div>
                         <img
-                                src="assets/images/cooper.avif"
-                                alt="Дейл Купер въезжает в город Твин Пикс, записывая в этот момент сообщение помощнице"
+                            class="article__image"
+                            src="assets/images/cooper.avif"
+                            alt="Дейл Купер въезжает в город Твин Пикс, записывая в этот момент сообщение помощнице"
                         />
                     </article>
                 </li>
             </ul>
         </section>
-        <section>
-            <h2 class="lead-title">Создать статью</h2>
-            <form>
+        <section id="add-article-section" class="add-article-section">
+            <h2 class="lead-title">Добавить статью</h2>
+            <form id="add-article-form">
                 <p>
                     <label for="title-input">Заголовок<mark>*</mark>:</label>
                     <br />
@@ -227,7 +313,16 @@
                 <p>
                     <mark>*</mark> - поля, обязательные для заполнения
                 </p>
-                <button class="button" type="submit">Добавить</button>
+                <div>
+                    <button class="button" type="submit">Добавить</button>
+                    <button
+                        id="cancel-button"
+                        class="button"
+                        type="reset"
+                    >
+                        Отмена
+                    </button>
+                </div>
             </form>
         </section>
     </main>
@@ -250,18 +345,18 @@
                     <ul class="social-list flex">
                         <li>
                             <a
-                                    href="https://github.com/MiniScoob"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                href="https://github.com/MiniScoob"
+                                target="_blank"
+                                rel="noopener noreferrer"
                             >
                                 <img src="assets/icons/github.svg" alt="Иконка Github" />
                             </a>
                         </li>
                         <li>
                             <a
-                                    href="https://t.me"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                href="https://t.me"
+                                target="_blank"
+                                rel="noopener noreferrer"
                             >
                                 <img src="assets/icons/telegram.svg" alt="Иконка Telegram" />
                             </a>
@@ -274,24 +369,24 @@
                     <label for="contacts-email">Email</label>
                     <br />
                     <input
-                            id="contacts-email"
-                            type="email"
-                            name="contacts-email"
-                            inputmode="email"
-                            autocomplete="email"
-                            placeholder="Ваш email-адрес"
-                            required
+                        id="contacts-email"
+                        type="email"
+                        name="contacts-email"
+                        inputmode="email"
+                        autocomplete="email"
+                        placeholder="Ваш email-адрес"
+                        required
                     />
                 </p>
                 <p>
                     <label for="contacts-message">Сообщение</label>
                     <br />
                     <textarea
-                            id="contacts-message"
-                            name="contacts-message"
-                            placeholder="Ваше послание мне"
-                            rows="5"
-                            required
+                        id="contacts-message"
+                        name="contacts-message"
+                        placeholder="Ваше послание мне"
+                        rows="5"
+                        required
                     ></textarea>
                 </p>
                 <button class="button" type="submit">
@@ -300,5 +395,6 @@
             </form>
         </div>
     </footer>
+    <script src="scripts/blog.js" defer></script>
 </body>
 </html>
