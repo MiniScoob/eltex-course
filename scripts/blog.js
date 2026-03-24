@@ -17,6 +17,7 @@ const ARTICLE_TITLE_QUERY = '.article__title';
 const ARTICLE_TIME_PUBLISHED_QUERY = '.article__time-published';
 const ARTICLE_TEXT_QUERY = '.article__text';
 const ARTICLE_IMAGE_QUERY = '.article__image';
+const ARTICLE_REMOVE_BUTTON_QUERY = '.article__remove-button';
 
 const LONG_ANIMATION = 500;
 const DEFAULT_IMAGE = 'assets/images/cover.avif';
@@ -64,6 +65,10 @@ const showElement = (element) => {
   }
 };
 
+const removeElement = (element) => {
+  element.remove();
+};
+
 const showAddArticleSection = () => {
   const addArticleSection = getElementById(ADD_ARTICLE_ID);
 
@@ -75,6 +80,10 @@ const showAddArticleSection = () => {
 const hideAddArticleSection = () => {
   const addArticleSection = getElementById(ADD_ARTICLE_ID);
   hideElement(addArticleSection);
+};
+
+const prepareArticleRemoveButton = (article) => {
+  getElementByQuery(ARTICLE_REMOVE_BUTTON_QUERY, article).addEventListener('click', () => removeElement(article));
 };
 
 const pad = (num) =>
@@ -107,6 +116,8 @@ const addArticle = (data) => {
   const templateElement = getElementById(ARTICLE_TEMPLATE_ID);
 
   const newArticle = templateElement.content.firstElementChild.cloneNode(true);
+
+  prepareArticleRemoveButton(newArticle);
 
   getElementByQuery(ARTICLE_TITLE_QUERY, newArticle).textContent = data.title;
   getElementByQuery(ARTICLE_TEXT_QUERY, newArticle).textContent = data.text;
@@ -164,8 +175,18 @@ const prepareAndShowPageStatistics = () => {
   pageStatisticElement.showModal();
 };
 
+const prepareArticles = () => {
+  const articleListElement = getElementByQuery(ARTICLE_LIST_QUERY);
+
+  [...articleListElement.children].forEach((articleElement) => {
+    prepareArticleRemoveButton(articleElement);
+  });
+};
+
 const init = () => {
   hideAddArticleSection();
+
+  prepareArticles();
 
   const showAddArticleButton = getElementById(SHOW_ADD_ARTICLE_BUTTON_ID);
   showAddArticleButton.addEventListener('click', showAddArticleSection);

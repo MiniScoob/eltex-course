@@ -22,9 +22,18 @@ article {
     height: 36px;
     background-color: var(--color-white);
     border-radius: 50%;
+    visibility: hidden;
+    opacity: 0;
     cursor: pointer;
-    transition: border-color var(--animation-time),
+    transition: visibility var(--animation-time) ease-in-out,
+                opacity var(--animation-time) ease-in-out,
+                border-color var(--animation-time),
                 transform var(--animation-time) ease-in;
+}
+
+article:hover .article__remove-button {
+    visibility: visible;
+    opacity: 1;
 }
 
 .article__remove-button:hover,
