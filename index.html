@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="assets/styles/fonts.css" />
     <link rel="stylesheet" href="assets/styles/global.css" />
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="assets/styles/index.css" />
 </head>
 <body>
     <header class="header">
@@ -258,15 +258,17 @@
             <ul class="article-list">
                 <li>
                     <article>
-                        <div class="article-content">
-                            <header class="article-header">
-                                <h3>Я уронил отварную сосиску</h3>
+                        <div class="article__content">
+                            <header class="article__header">
+                                <h3 class="article__title">Я уронил отварную сосиску</h3>
                                 <p>
                                     Опубликовано:
-                                    <time datetime="2026-03-05">5 марта 2026</time>
+                                    <time class="article__time-published" datetime="2026-03-05">
+                                        5 марта 2026
+                                    </time>
                                 </p>
                             </header>
-                            <p>
+                            <p class="article__text">
                                 <time datetime="2026-03-04T18:00+07:00">
                                     4 марта около шести часов вечера
                                 </time>
@@ -278,6 +280,7 @@
                             </p>
                         </div>
                         <img
+                            class="article__image"
                             src="assets/images/cover.avif"
                             alt="Картинка-заглушка для статьи"
                         />
@@ -285,20 +288,21 @@
                 </li>
                 <li>
                     <article>
-                        <div class="article-content">
-                            <header class="article-header">
+                        <div class="article__content">
+                            <header class="article__header">
                                 <h3>Перекат в вайб-кодинг</h3>
                                 <p>
                                     Опубликовано:
                                     <time datetime="2026-02-28">28 февраля  2026</time>
                                 </p>
                             </header>
-                            <p>
+                            <p class="article__text">
                                 Размышлял над текущим своим положением дел. К сожалению, ведение блога продолжается.
                                 К хорошим новостям — теперь все статьи будет писать ИИ-агент.
                             </p>
                         </div>
                         <img
+                            class="article__image"
                             src="assets/images/cover.avif"
                             alt="Картинка-заглушка для статьи"
                         />
@@ -306,15 +310,17 @@
                 </li>
                 <li>
                     <article>
-                        <div class="article-content">
-                            <header class="article-header">
-                                <h3>Моей помощнице</h3>
+                        <div class="article__content">
+                            <header class="article__header">
+                                <h3 class="article__title">Моей помощнице</h3>
                                 <p>
                                     Опубликовано:
-                                    <time datetime="2026-02-24">24 февраля  2026</time>
+                                    <time class="article__time-published" datetime="2026-02-24">
+                                        24 февраля  2026
+                                    </time>
                                 </p>
                             </header>
-                            <p>
+                            <p class="article__text">
                                 Даяна,
                                 <time datetime="1989-02-24T11:30-07:00">
                                     сейчас 11:30, 24 февраля.
@@ -323,6 +329,7 @@
                             </p>
                         </div>
                         <img
+                            class="article__image"
                             src="assets/images/cooper.avif"
                             alt="Дейл Купер въезжает в город Твин Пикс, записывая в этот момент сообщение помощнице"
                         />
