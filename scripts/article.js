@@ -40,7 +40,7 @@ const toDateString = (date) =>
   `${date.getUTCDate()} ${MONTHS_ENUM[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 
 const prepareImageElement = (element, photo) => {
-  if (photo instanceof File) {
+  if (photo instanceof File && photo.size) {
     const reader = new FileReader();
 
     reader.onload = (e) => {

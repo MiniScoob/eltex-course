@@ -7,6 +7,8 @@ const ADD_ARTICLE_FORM_ID = 'add-article-form';
 const SHOW_ADD_ARTICLE_BUTTON_ID = 'show-add-article-button';
 const CANCEL_BUTTON_ID = 'cancel-button';
 
+const FORM_SUBMITTING_ATTRIBUTE = 'data-submitting';
+
 const LOADER_CONTAINER_ID = 'loader-wrapper';
 const ARTICLE_LIST_ID = 'article-list';
 const EMPTY_MESSAGE_ID = 'empty-message';
@@ -188,18 +190,46 @@ const hideAddArticleSection = () => {
   helpers.hideElement(addArticleSection);
 };
 
-const handleAddArticleSubmit = (e) => {
+const toggleButtons = (element, disabled) => {
+  const buttons = helpers.getAllElementsByQuery('button', element);
+
+  buttons.forEach(button => {
+    button.disabled = disabled;
+  })
+};
+
+const disableForm = (form) => {
+  form.setAttribute(FORM_SUBMITTING_ATTRIBUTE, 'true');
+  toggleButtons(form, true);
+};
+
+const activateForm = (form) => {
+  form.removeAttribute(FORM_SUBMITTING_ATTRIBUTE);
+  toggleButtons(form, false);
+};
+
+const handleAddArticleSubmit = async (e) => {
   e.preventDefault();
 
+
   const form = e.target;
+
+  if (form.hasAttribute(FORM_SUBMITTING_ATTRIBUTE)) {
+    return;
+  }
+
+  disableForm(form);
   const data = {
     ...Object.fromEntries(new FormData(form)),
     id: crypto.randomUUID(),
-  }
+  };
 
+  await sleep(1_500);
   addArticle(data);
 
   form.reset();
+
+  activateForm(form);
 };
 
 const init = () => {

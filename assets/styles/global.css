@@ -121,12 +121,18 @@ input[type="file"]:focus-within::-webkit-file-upload-button {
     color: var(--color-primary);
 }
 
-.button:active,
+.button:not(:disabled):active,
 input[type="file"]:active::file-selector-button,
 input[type="file"]:active::-webkit-file-upload-button {
     background-color: var(--color-primary);
     color: var(--color-white);
     transform: scale(0.97);
+}
+
+:is(.button, input, textarea):disabled {
+    border-color: var(--color-border);
+    color: var(--color-border-dark);
+    cursor: not-allowed;
 }
 
 .main {

@@ -4,6 +4,9 @@ export const getElementById = (id) =>
 export const getElementByQuery = (query, element = document) =>
   element.querySelector(query);
 
+export const getAllElementsByQuery = (query, element = document) =>
+  element.querySelectorAll(query);
+
 export const scrollIntoView = (element, behavior = 'smooth', block = 'center') =>
   element.scrollIntoView({
     behavior,
