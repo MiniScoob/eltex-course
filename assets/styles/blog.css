@@ -57,6 +57,7 @@ article:hover .article__remove-button {
     border-bottom-left-radius: 16px;
     background-color: var(--color-white);
     overflow: hidden;
+    z-index: 1;
 }
 
 .toolbar > :first-child {
