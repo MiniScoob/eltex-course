@@ -17,8 +17,10 @@ const ARTICLE_TITLE_QUERY = '.article__title';
 const ARTICLE_TIME_PUBLISHED_QUERY = '.article__time-published';
 const ARTICLE_TEXT_QUERY = '.article__text';
 const ARTICLE_IMAGE_QUERY = '.article__image';
+const ARTICLE_REMOVE_BUTTON_QUERY = '.article__remove-button';
 
 const LONG_ANIMATION = 500;
+const DEFAULT_IMAGE = 'assets/images/cover.avif';
 
 const MONTHS_ENUM = {
   0: 'января',
@@ -63,6 +65,10 @@ const showElement = (element) => {
   }
 };
 
+const removeElement = (element) => {
+  element.remove();
+};
+
 const showAddArticleSection = () => {
   const addArticleSection = getElementById(ADD_ARTICLE_ID);
 
@@ -76,6 +82,10 @@ const hideAddArticleSection = () => {
   hideElement(addArticleSection);
 };
 
+const prepareArticleRemoveButton = (article) => {
+  getElementByQuery(ARTICLE_REMOVE_BUTTON_QUERY, article).addEventListener('click', () => removeElement(article));
+};
+
 const pad = (num) =>
   String(num).padStart(2, '0');
 
@@ -83,16 +93,34 @@ const toDatetime = (date) =>
   `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}`;
 
 const toDateString = (date) =>
-  `${date.getUTCDate()} ${MONTHS_ENUM[date.getUTCMonth()]} ${date.getUTCFullYear()}`
+  `${date.getUTCDate()} ${MONTHS_ENUM[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 
-const addArticle = () => {
+const prepareImageElement = (element, photo) => {
+  if (photo instanceof File) {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      element.setAttribute('src', e.target.result);
+    };
+
+    reader.readAsDataURL(photo);
+  } else {
+    element.setAttribute('src', DEFAULT_IMAGE);
+  }
+
+  element.setAttribute('alt', 'Картинка-обложка статьи');
+};
+
+const addArticle = (data) => {
   const articleListElement = getElementByQuery(ARTICLE_LIST_QUERY);
   const templateElement = getElementById(ARTICLE_TEMPLATE_ID);
 
   const newArticle = templateElement.content.firstElementChild.cloneNode(true);
 
-  getElementByQuery(ARTICLE_TITLE_QUERY, newArticle).textContent = 'Новая статья';
-  getElementByQuery(ARTICLE_TEXT_QUERY, newArticle).textContent = 'Текст новой статьи';
+  prepareArticleRemoveButton(newArticle);
+
+  getElementByQuery(ARTICLE_TITLE_QUERY, newArticle).textContent = data.title;
+  getElementByQuery(ARTICLE_TEXT_QUERY, newArticle).textContent = data.text;
 
   const date = new Date();
   const timePublishedElement = getElementByQuery(ARTICLE_TIME_PUBLISHED_QUERY, newArticle);
@@ -100,8 +128,7 @@ const addArticle = () => {
   timePublishedElement.textContent = toDateString(date);
 
   const imageElement = getElementByQuery(ARTICLE_IMAGE_QUERY, newArticle);
-  imageElement.setAttribute('src', 'assets/images/cover.avif');
-  imageElement.setAttribute('alt', 'Картинка-заглушка для статьи');
+  prepareImageElement(imageElement, data.photo);
 
   articleListElement.appendChild(newArticle);
 };
@@ -109,10 +136,11 @@ const addArticle = () => {
 const handleAddArticleSubmit = (e) => {
   e.preventDefault();
 
-  addArticle();
-  hideAddArticleSection();
+  const form = e.target;
+  const data = Object.fromEntries(new FormData(form));
+  addArticle(data);
 
-  e.target.reset();
+  form.reset();
 };
 
 const countArticles = () => {
@@ -147,8 +175,18 @@ const prepareAndShowPageStatistics = () => {
   pageStatisticElement.showModal();
 };
 
+const prepareArticles = () => {
+  const articleListElement = getElementByQuery(ARTICLE_LIST_QUERY);
+
+  [...articleListElement.children].forEach((articleElement) => {
+    prepareArticleRemoveButton(articleElement);
+  });
+};
+
 const init = () => {
   hideAddArticleSection();
+
+  prepareArticles();
 
   const showAddArticleButton = getElementById(SHOW_ADD_ARTICLE_BUTTON_ID);
   showAddArticleButton.addEventListener('click', showAddArticleSection);
