@@ -1,449 +1,254 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Владислав Попов">
-    <title>Блог</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Владислав Попов">
+  <title>Блог</title>
 
-    <link rel="stylesheet" href="assets/styles/fonts.css" />
-    <link rel="stylesheet" href="assets/styles/global.css" />
-    <link rel="stylesheet" href="assets/styles/blog.css" />
+  <link rel="stylesheet" href="assets/styles/fonts.css" />
+  <link rel="stylesheet" href="assets/styles/global.css" />
+  <link rel="stylesheet" href="assets/styles/blog.css" />
 </head>
 <body>
-    <header class="header">
-        <div class="card light header-content flex">
-            <p class="title">MiniScoob.io</p>
-            <nav>
-                <ul class="flex">
-                    <li>
-                        <a href="./index.html">Главная</a>
-                    </li>
-                    <li>
-                        <a href="./blog.html">Блог</a>
-                    </li>
-                    <li>
-                        <a href="#contacts">Контакты</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <dialog
-        id="page-statistics"
-        aria-labelledby="page-statistics-name"
-        class="page-statistics"
+<header class="header">
+  <div class="card light header-content flex">
+    <p class="title">MiniScoob.io</p>
+    <nav>
+      <ul class="flex">
+        <li>
+          <a href="./index.html">Главная</a>
+        </li>
+        <li>
+          <a href="./blog.html">Блог</a>
+        </li>
+        <li>
+          <a href="#contacts">Контакты</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<dialog
+        id="blog-statistics"
+        aria-labelledby="blog-statistics-name"
+        class="blog-statistics"
+>
+  <section class="card blog-statistics__wrapper">
+    <div class="flex blog-statistics__header">
+      <h3 id="blog-statistics-name" class="title">
+        Статистика страницы
+      </h3>
+      <button
+              id="close-blog-statistics"
+              type="button"
+              class="flex center blog-statistics__button"
+              title="Закрыть окно статистики страницы"
+      >
+        <img src="assets/icons/xmark.svg" alt="Иконка закрытия" />
+      </button>
+    </div>
+    <div class="flex blog-statistics__content">
+      <div class="blog-statistic__element">
+        <p>Всего статей:</p>
+        <p id="total-articles"></p>
+      </div>
+      <div class="blog-statistic__element">
+        <p>Комментарии:</p>
+        <p id="total-comments"></p>
+      </div>
+    </div>
+  </section>
+</dialog>
+<menu role="toolbar" class="toolbar">
+  <li>
+    <button
+            id="show-add-article-button"
+            title="Добавить статью"
+            class="toolbar__button flex center"
     >
-        <section class="card page-statistics__wrapper">
-            <div class="flex page-statistics__header">
-                <h3 id="page-statistics-name" class="title">
-                    Статистика страницы
-                </h3>
-                <button
-                    id="close-page-statistics"
-                    type="button"
-                    class="flex center page-statistics__button"
-                    title="Закрыть окно статистики страницы"
-                >
-                    <img src="assets/icons/xmark.svg" alt="Иконка закрытия" />
-                </button>
-            </div>
-            <div class="flex page-statistics__content">
-                <div class="page-statistic__element">
-                    <p>Всего статей:</p>
-                    <p id="total-articles"></p>
-                </div>
-                <div class="page-statistic__element">
-                    <p>Комментарии:</p>
-                    <p id="total-comments"></p>
-                </div>
-            </div>
-        </section>
-    </dialog>
-    <menu role="toolbar" class="toolbar">
-        <li>
-            <button
-                id="show-add-article-button"
-                title="Добавить статью"
-                class="toolbar__button flex center"
+      <img src="assets/icons/add_article.svg" alt="Иконка добавления статьи" />
+    </button>
+  </li>
+  <li>
+    <button
+            id="show-blog-statistics-button"
+            title="Просмотр статистики"
+            class="toolbar__button flex center"
+    >
+      <img src="assets/icons/stats.svg" alt="Иконка просмотра статистики" />
+    </button>
+  </li>
+</menu>
+<main class="card light main">
+  <section>
+    <h1 class="lead-title">Блог</h1>
+    <p>
+      Добро пожаловать в хранилище <em>ценных</em> мюслей и <em>важных</em> новостей.
+      Читайте, запоминайте и мотайте на ус.
+    </p>
+  </section>
+  <section>
+    <h2 class="lead-title">Статьи</h2>
+    <template id="article-template">
+      <li>
+        <article>
+          <button
+                  type="button"
+                  class="flex center article__remove-button"
+                  title="Удалить статью"
+          >
+            <img src="assets/icons/trash_can.svg" alt="Иконка удаления в виде мусорной корзины" />
+          </button>
+          <div class="article__content">
+            <header class="article__header">
+              <h3 class="article__title"></h3>
+              <p>
+                Опубликовано:
+                <time class="article__time-published"></time>
+              </p>
+            </header>
+            <p class="article__text"></p>
+          </div>
+          <img class="article__image" />
+        </article>
+      </li>
+    </template>
+    <div id="loader-wrapper" class="flex center">
+      <div class="loader"></div>
+    </div>
+    <ul id="article-list" class="article-list grid">
+    </ul>
+    <p id="empty-message">Нет статей</p>
+    <p id="error-message">На странице произошла критическая ошибка :(</p>
+  </section>
+  <section id="add-article-section" class="add-article-section">
+    <h2 class="lead-title">Добавить статью</h2>
+    <form id="add-article-form">
+      <p>
+        <label for="title-input">Заголовок<mark>*</mark>:</label>
+        <br />
+        <input
+                id="title-input"
+                name="title"
+                type="text"
+                minlength="5"
+                size="40"
+                placeholder="Например, &quot;Крутая новость&quot;"
+                required
+        />
+      </p>
+      <p>
+        <label for="text-input">Текст статьи<mark>*</mark>:</label>
+        <br />
+        <textarea
+                id="text-input"
+                name="text"
+                rows="10"
+                cols="40"
+                placeholder="Сама новость..."
+                required
+        ></textarea>
+      </p>
+      <p>
+        <label for="photo-input">Прикрепить фото:</label>
+        <br />
+        <input
+                id="photo-input"
+                name="photo"
+                type="file"
+                accept="image/*"
+        />
+      </p>
+      <p>
+        <mark>*</mark> - поля, обязательные для заполнения
+      </p>
+      <div>
+        <button class="button" type="submit">Добавить</button>
+        <button
+                id="cancel-button"
+                class="button"
+                type="reset"
+        >
+          Отмена
+        </button>
+      </div>
+    </form>
+  </section>
+</main>
+<footer class="footer">
+  <div class="card light footer-content grid">
+    <div>
+      <section id="contacts">
+        <h2  class="lead-title">Контакты</h2>
+        <address>
+          <p>
+            Email: <a href="mailto:user@example.com">user@example.com</a>
+          </p>
+          <p>
+            Телефон: <a href="tel:+78005553535">+7 (800) 555-35-35</a>
+          </p>
+        </address>
+      </section>
+      <section>
+        <h2 class="lead-title">Социальные сети</h2>
+        <ul class="social-list flex">
+          <li>
+            <a
+                    href="https://github.com/MiniScoob"
+                    target="_blank"
+                    rel="noopener noreferrer"
             >
-                <img src="assets/icons/add_article.svg" alt="Иконка добавления статьи" />
-            </button>
-        </li>
-        <li>
-            <button
-                id="show-page-statistics-button"
-                title="Просмотр статистики"
-                class="toolbar__button flex center"
+              <img src="assets/icons/github.svg" alt="Иконка Github" />
+            </a>
+          </li>
+          <li>
+            <a
+                    href="https://t.me"
+                    target="_blank"
+                    rel="noopener noreferrer"
             >
-                <img src="assets/icons/stats.svg" alt="Иконка просмотра статистики" />
-            </button>
-        </li>
-    </menu>
-    <main class="card light main">
-        <section>
-            <h1 class="lead-title">Блог</h1>
-            <p>
-                Добро пожаловать в хранилище <em>ценных</em> мюслей и <em>важных</em> новостей.
-                Читайте, запоминайте и мотайте на ус.
-            </p>
-        </section>
-        <section>
-            <h2 class="lead-title">Статьи</h2>
-            <template id="article-template">
-                <li>
-                    <article>
-                        <button
-                            type="button"
-                            class="flex center article__remove-button"
-                            title="Удалить статью"
-                        >
-                            <img src="assets/icons/trash_can.svg" alt="Иконка удаления в виде мусорной корзины" />
-                        </button>
-                        <div class="article__content">
-                            <header class="article__header">
-                                <h3 class="article__title"></h3>
-                                <p>
-                                    Опубликовано:
-                                    <time class="article__time-published"></time>
-                                </p>
-                            </header>
-                            <p class="article__text"></p>
-                        </div>
-                        <img class="article__image" />
-                    </article>
-                </li>
-            </template>
-            <ul class="article-list grid">
-                <li>
-                    <article>
-                        <button
-                            type="button"
-                            class="flex center article__remove-button"
-                            title="Удалить статью"
-                        >
-                            <img src="assets/icons/trash_can.svg" alt="Иконка удаления в виде мусорной корзины" />
-                        </button>
-                        <div class="article__content">
-                            <header class="article__header">
-                                <h3 class="article__title">Я уронил отварную сосиску</h3>
-                                <p>
-                                    Опубликовано:
-                                    <time class="article__time-published" datetime="2026-03-05">
-                                        5 марта 2026
-                                    </time>
-                                </p>
-                            </header>
-                            <p class="article__text">
-                                <time datetime="2026-03-04T18:00+07:00">
-                                    4 марта около шести часов вечера
-                                </time>
-                                выпусник НГТУ, Владислав Попов,
-                                закончив отваривать молочную сосиску СПК, подцепил её кончиком вилки, чтобы
-                                переместить из кипятка в миску с отварным картофелем.
-                                <q>Я думал, что сосиска прочно держится на зубчиках вилки, но я ошибся...</q>
-                                вспоминаю я.
-                            </p>
-                        </div>
-                        <img
-                            class="article__image"
-                            src="assets/images/cover.avif"
-                            alt="Картинка-заглушка для статьи"
-                        />
-                    </article>
-                </li>
-                <li>
-                    <article>
-                        <button
-                            type="button"
-                            class="flex center article__remove-button"
-                            title="Удалить статью"
-                        >
-                            <img src="assets/icons/trash_can.svg" alt="Иконка удаления в виде мусорной корзины" />
-                        </button>
-                        <div class="article__content">
-                            <header class="article__header">
-                                <h3 class="article__title">Перекат в вайб-кодинг</h3>
-                                <p>
-                                    Опубликовано:
-                                    <time class="article__time-published" datetime="2026-02-28">
-                                        28 февраля  2026
-                                    </time>
-                                </p>
-                            </header>
-                            <p class="article__text">
-                                Размышлял над текущим своим положением дел. К сожалению, ведение блога продолжается.
-                                К хорошим новостям — теперь все статьи будет писать ИИ-агент.
-                            </p>
-                        </div>
-                        <img
-                            class="article__image"
-                            src="assets/images/cover.avif"
-                            alt="Картинка-заглушка для статьи"
-                        />
-                    </article>
-                </li>
-                <li>
-                    <article>
-                        <button
-                            type="button"
-                            class="flex center article__remove-button"
-                            title="Удалить статью"
-                        >
-                            <img src="assets/icons/trash_can.svg" alt="Иконка удаления в виде мусорной корзины" />
-                        </button>
-                        <div class="article__content">
-                            <header class="article__header">
-                                <h3 class="article__title">Моей помощнице</h3>
-                                <p>
-                                    Опубликовано:
-                                    <time class="article__time-published" datetime="2026-02-24">
-                                        24 февраля  2026
-                                    </time>
-                                </p>
-                            </header>
-                            <p class="article__text">
-                                Даяна,
-                                <time datetime="1989-02-24T11:30-07:00">
-                                    сейчас 11:30, 24 февраля.
-                                </time>
-                                Въезжаю в городок Твин Пикс
-                            </p>
-                        </div>
-                        <img
-                            class="article__image"
-                            src="assets/images/cooper.avif"
-                            alt="Дейл Купер въезжает в город Твин Пикс, записывая в этот момент сообщение помощнице"
-                        />
-                    </article>
-                </li>
-                <li>
-                    <article>
-                        <button
-                            type="button"
-                            class="flex center article__remove-button"
-                            title="Удалить статью"
-                        >
-                            <img src="assets/icons/trash_can.svg" alt="Иконка удаления в виде мусорной корзины" />
-                        </button>
-                        <div class="article__content">
-                            <header class="article__header">
-                                <h3 class="article__title">Я уронил отварную сосиску</h3>
-                                <p>
-                                    Опубликовано:
-                                    <time class="article__time-published" datetime="2026-03-05">
-                                        5 марта 2026
-                                    </time>
-                                </p>
-                            </header>
-                            <p class="article__text">
-                                <time datetime="2026-03-04T18:00+07:00">
-                                    4 марта около шести часов вечера
-                                </time>
-                                выпусник НГТУ, Владислав Попов,
-                                закончив отваривать молочную сосиску СПК, подцепил её кончиком вилки, чтобы
-                                переместить из кипятка в миску с отварным картофелем.
-                                <q>Я думал, что сосиска прочно держится на зубчиках вилки, но я ошибся...</q>
-                                вспоминаю я.
-                            </p>
-                        </div>
-                        <img
-                            class="article__image"
-                            src="assets/images/cover.avif"
-                            alt="Картинка-заглушка для статьи"
-                        />
-                    </article>
-                </li>
-                <li>
-                    <article>
-                        <button
-                            type="button"
-                            class="flex center article__remove-button"
-                            title="Удалить статью"
-                        >
-                            <img src="assets/icons/trash_can.svg" alt="Иконка удаления в виде мусорной корзины" />
-                        </button>
-                        <div class="article__content">
-                            <header class="article__header">
-                                <h3 class="article__title">Перекат в вайб-кодинг</h3>
-                                <p>
-                                    Опубликовано:
-                                    <time class="article__time-published" datetime="2026-02-28">
-                                        28 февраля  2026
-                                    </time>
-                                </p>
-                            </header>
-                            <p class="article__text">
-                                Размышлял над текущим своим положением дел. К сожалению, ведение блога продолжается.
-                                К хорошим новостям — теперь все статьи будет писать ИИ-агент.
-                            </p>
-                        </div>
-                        <img
-                            class="article__image"
-                            src="assets/images/cover.avif"
-                            alt="Картинка-заглушка для статьи"
-                        />
-                    </article>
-                </li>
-                <li>
-                    <article>
-                        <button
-                            type="button"
-                            class="flex center article__remove-button"
-                            title="Удалить статью"
-                        >
-                            <img src="assets/icons/trash_can.svg" alt="Иконка удаления в виде мусорной корзины" />
-                        </button>
-                        <div class="article__content">
-                            <header class="article__header">
-                                <h3 class="article__title">Моей помощнице</h3>
-                                <p>
-                                    Опубликовано:
-                                    <time class="article__time-published" datetime="2026-02-24">
-                                        24 февраля  2026
-                                    </time>
-                                </p>
-                            </header>
-                            <p class="article__text">
-                                Даяна,
-                                <time datetime="1989-02-24T11:30-07:00">
-                                    сейчас 11:30, 24 февраля.
-                                </time>
-                                Въезжаю в городок Твин Пикс
-                            </p>
-                        </div>
-                        <img
-                            class="article__image"
-                            src="assets/images/cooper.avif"
-                            alt="Дейл Купер въезжает в город Твин Пикс, записывая в этот момент сообщение помощнице"
-                        />
-                    </article>
-                </li>
-            </ul>
-        </section>
-        <section id="add-article-section" class="add-article-section">
-            <h2 class="lead-title">Добавить статью</h2>
-            <form id="add-article-form">
-                <p>
-                    <label for="title-input">Заголовок<mark>*</mark>:</label>
-                    <br />
-                    <input
-                        id="title-input"
-                        name="title"
-                        type="text"
-                        minlength="5"
-                        size="40"
-                        placeholder="Например, &quot;Крутая новость&quot;"
-                        required
-                    />
-                </p>
-                <p>
-                    <label for="text-input">Текст статьи<mark>*</mark>:</label>
-                    <br />
-                    <textarea
-                        id="text-input"
-                        name="text"
-                        rows="10"
-                        cols="40"
-                        placeholder="Сама новость..."
-                        required
-                    ></textarea>
-                </p>
-                <p>
-                    <label for="photo-input">Прикрепить фото:</label>
-                    <br />
-                    <input
-                        id="photo-input"
-                        name="photo"
-                        type="file"
-                        accept="image/*"
-                    />
-                </p>
-                <p>
-                    <mark>*</mark> - поля, обязательные для заполнения
-                </p>
-                <div>
-                    <button class="button" type="submit">Добавить</button>
-                    <button
-                        id="cancel-button"
-                        class="button"
-                        type="reset"
-                    >
-                        Отмена
-                    </button>
-                </div>
-            </form>
-        </section>
-    </main>
-    <footer class="footer">
-        <div class="card light footer-content grid">
-            <div>
-                <section id="contacts">
-                    <h2  class="lead-title">Контакты</h2>
-                    <address>
-                        <p>
-                            Email: <a href="mailto:user@example.com">user@example.com</a>
-                        </p>
-                        <p>
-                            Телефон: <a href="tel:+78005553535">+7 (800) 555-35-35</a>
-                        </p>
-                    </address>
-                </section>
-                <section>
-                    <h2 class="lead-title">Социальные сети</h2>
-                    <ul class="social-list flex">
-                        <li>
-                            <a
-                                href="https://github.com/MiniScoob"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <img src="assets/icons/github.svg" alt="Иконка Github" />
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="https://t.me"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <img src="assets/icons/telegram.svg" alt="Иконка Telegram" />
-                            </a>
-                        </li>
-                    </ul>
-                </section>
-            </div>
-            <form class="footer-form">
-                <p>
-                    <label for="contacts-email">Email</label>
-                    <br />
-                    <input
-                        id="contacts-email"
-                        type="email"
-                        name="contacts-email"
-                        inputmode="email"
-                        autocomplete="email"
-                        placeholder="Ваш email-адрес"
-                        required
-                    />
-                </p>
-                <p>
-                    <label for="contacts-message">Сообщение</label>
-                    <br />
-                    <textarea
-                        id="contacts-message"
-                        name="contacts-message"
-                        placeholder="Ваше послание мне"
-                        rows="5"
-                        required
-                    ></textarea>
-                </p>
-                <button class="button" type="submit">
-                    Отправить
-                </button>
-            </form>
-        </div>
-    </footer>
-    <script src="scripts/blog.js" defer></script>
+              <img src="assets/icons/telegram.svg" alt="Иконка Telegram" />
+            </a>
+          </li>
+        </ul>
+      </section>
+    </div>
+    <form class="footer-form">
+      <p>
+        <label for="contacts-email">Email</label>
+        <br />
+        <input
+                id="contacts-email"
+                type="email"
+                name="contacts-email"
+                inputmode="email"
+                autocomplete="email"
+                placeholder="Ваш email-адрес"
+                required
+        />
+      </p>
+      <p>
+        <label for="contacts-message">Сообщение</label>
+        <br />
+        <textarea
+                id="contacts-message"
+                name="contacts-message"
+                placeholder="Ваше послание мне"
+                rows="5"
+                required
+        ></textarea>
+      </p>
+      <button class="button" type="submit">
+        Отправить
+      </button>
+    </form>
+  </div>
+</footer>
+<script type="module" src="scripts/helpers.js" defer></script>
+<script type="module" src="scripts/StorageService.js" defer></script>
+<script type="module" src="scripts/article.js" defer></script>
+<script type="module" src="scripts/blogStatistics.js" defer></script>
+<script type="module" src="scripts/blog.js" defer></script>
 </body>
 </html>
