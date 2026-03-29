@@ -204,8 +204,8 @@ const hideAddArticleSection = () => {
   helpers.hideElement(addArticleSection);
 };
 
-const toggleButtons = (element, disabled) => {
-  const buttons = helpers.getAllElementsByQuery('button', element);
+const toggleElementsDisabledState = (element, query, disabled) => {
+  const buttons = helpers.getAllElementsByQuery(query, element);
 
   buttons.forEach(button => {
     button.disabled = disabled;
@@ -214,12 +214,16 @@ const toggleButtons = (element, disabled) => {
 
 const disableForm = (form) => {
   form.setAttribute(FORM_SUBMITTING_ATTRIBUTE, 'true');
-  toggleButtons(form, true);
+  toggleElementsDisabledState(form, 'button', true);
+  toggleElementsDisabledState(form, 'textarea', true);
+  toggleElementsDisabledState(form, 'input', true);
 };
 
 const activateForm = (form) => {
   form.removeAttribute(FORM_SUBMITTING_ATTRIBUTE);
-  toggleButtons(form, false);
+  toggleElementsDisabledState(form, 'button', false);
+  toggleElementsDisabledState(form, 'textarea', false);
+  toggleElementsDisabledState(form, 'input', false);
 };
 
 const handleAddArticleSubmit = async (e) => {
@@ -232,10 +236,11 @@ const handleAddArticleSubmit = async (e) => {
     return;
   }
 
-  disableForm(form);
   const data = prepareArticleData(new FormData(form));
 
-  await sleep(1_500);
+  disableForm(form);
+
+  await sleep(5_500);
   addArticle(data);
 
   form.reset();

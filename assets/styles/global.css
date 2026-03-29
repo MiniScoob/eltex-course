@@ -122,14 +122,16 @@ input[type="file"]:focus-within::-webkit-file-upload-button {
 }
 
 .button:not(:disabled):active,
-input[type="file"]:active::file-selector-button,
-input[type="file"]:active::-webkit-file-upload-button {
+input[type="file"]:not(:disabled):active::file-selector-button,
+input[type="file"]:not(:disabled):active::-webkit-file-upload-button {
     background-color: var(--color-primary);
     color: var(--color-white);
     transform: scale(0.97);
 }
 
-:is(.button, input, textarea):disabled {
+:is(.button, input, textarea):disabled,
+input[type="file"]:disabled::file-selector-button,
+input[type="file"]:disabled::-webkit-file-upload-button {
     border-color: var(--color-border);
     color: var(--color-border-dark);
     cursor: not-allowed;
