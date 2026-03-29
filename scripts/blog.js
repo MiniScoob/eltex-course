@@ -10,7 +10,6 @@ const ADD_ARTICLE_FORM_ID = 'add-article-form';
 const SHOW_ADD_ARTICLE_BUTTON_ID = 'show-add-article-button';
 const CANCEL_BUTTON_ID = 'cancel-button';
 
-const LOADER_CONTAINER_ID = 'loader-wrapper';
 const ARTICLE_LIST_ID = 'article-list';
 const EMPTY_MESSAGE_ID = 'empty-message';
 const ERROR_MESSAGE_ID = 'error-message';
@@ -26,13 +25,11 @@ const ARTICLES_KEY = 'articles';
 
 const articleTemplateElement = helpers.getElementById(ARTICLE_TEMPLATE_ID);
 
-const loader = helpers.getElementById(LOADER_CONTAINER_ID);
 const articleList = helpers.getElementById(ARTICLE_LIST_ID);
 const emptyMessage = helpers.getElementById(EMPTY_MESSAGE_ID);
 const errorMessage = helpers.getElementById(ERROR_MESSAGE_ID);
 
 const STATE = {
-  LOADING: 'loading',
   EMPTY: 'empty',
   SUCCESS: 'success',
   ERROR: 'error',
@@ -50,14 +47,11 @@ const setState = (state) => {
 };
 
 const updateUI = () => {
-  [loader, articleList, emptyMessage, errorMessage].forEach((element) =>
+  [articleList, emptyMessage, errorMessage].forEach((element) =>
     helpers.hideElement(element, 'hidden-remove')
   );
 
   switch (store.state) {
-    case STATE.LOADING:
-      helpers.showElement(loader, 'hidden-remove');
-      break;
     case STATE.SUCCESS:
       helpers.showElement(articleList, 'hidden-remove');
       break;
@@ -122,14 +116,6 @@ const appendArticleElements = (...element) => {
   articleList.append(...element);
 };
 
-const renderArticleList = () => {
-  clearArticleList();
-
-  const articleElements = store.articles.map((value) => value.createElement(articleTemplateElement));
-
-  appendArticleElements(...articleElements);
-};
-
 /* Работа со списком статей (UI + данные) */
 
 const removeArticle = (element) => {
@@ -165,14 +151,16 @@ const addArticle = (data) => {
   }
 };
 
-const loadArticles = async () => {
-  setState(STATE.LOADING);
-  updateUI();
+const renderArticleList = () => {
+  clearArticleList();
 
+  const articleElements = store.articles.map((value) => value.createElement(articleTemplateElement));
+
+  appendArticleElements(...articleElements);
+};
+
+const loadArticles = () => {
   try {
-    /* Иммитация загрузки */
-    await sleep(2_000);
-
     const result = getArticlesFromStorage();
 
     if (result.length > 0) {
@@ -222,7 +210,7 @@ const activateForm = (form) => {
   toggleButtons(form, false);
 };
 
-const handleAddArticleSubmit = async (e) => {
+const handleAddArticleSubmit = (e) => {
   e.preventDefault();
 
 
@@ -235,7 +223,6 @@ const handleAddArticleSubmit = async (e) => {
   disableForm(form);
   const data = prepareArticleData(new FormData(form));
 
-  await sleep(1_500);
   addArticle(data);
 
   form.reset();
@@ -278,8 +265,4 @@ init();
 
 function showError(message) {
   console.error(message);
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
