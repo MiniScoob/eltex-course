@@ -1,22 +1,28 @@
 import * as helpers from './helpers.js';
 import { StorageService } from './StorageService.js';
-import { createArticleElement } from './article.js';
+import { Article } from './Article.js';
 
+const ARTICLE_TEMPLATE_ID = 'article-template';
 const ADD_ARTICLE_ID = 'add-article-section';
 const ADD_ARTICLE_FORM_ID = 'add-article-form';
 const SHOW_ADD_ARTICLE_BUTTON_ID = 'show-add-article-button';
 const CANCEL_BUTTON_ID = 'cancel-button';
-
-const FORM_SUBMITTING_ATTRIBUTE = 'data-submitting';
 
 const LOADER_CONTAINER_ID = 'loader-wrapper';
 const ARTICLE_LIST_ID = 'article-list';
 const EMPTY_MESSAGE_ID = 'empty-message';
 const ERROR_MESSAGE_ID = 'error-message';
 
+const ARTICLE_CONTAINER_QUERY = '.article__container';
+const REMOVE_ARTICLE_BUTTON_QUERY = '.article__remove-button';
+
+const FORM_SUBMITTING_ATTRIBUTE = 'data-submitting';
+
 const LONG_ANIMATION = 500;
 
 const ARTICLES_KEY = 'articles';
+
+const articleTemplateElement = helpers.getElementById(ARTICLE_TEMPLATE_ID);
 
 const loader = helpers.getElementById(LOADER_CONTAINER_ID);
 const articleList = helpers.getElementById(ARTICLE_LIST_ID);
@@ -38,7 +44,7 @@ const store = {
 /* Работа с состоянием экрана */
 
 const setState = (state) => {
-   store.state = state;
+  store.state = state;
 };
 
 const updateUI = () => {
@@ -65,22 +71,19 @@ const updateUI = () => {
 
 /* Работа с хранилищем статей (store + localStorage) */
 
-const removePhoto = (data) => {
-  const { photo, ...restData } = data;
-
-  return restData;
-};
-
 const saveArticle = (data) => {
-  const restData = removePhoto(data);
-  StorageService.set(ARTICLES_KEY, [...store.articles, restData]);
-  store.articles = [...store.articles, data];
+  const newArticle = new Article(data);
+
+  StorageService.set(ARTICLES_KEY, [...store.articles, newArticle]);
+  store.articles = [...store.articles, newArticle];
+
+  return newArticle;
 };
 
 const deleteArticleById = (id) => {
   const filtered = store.articles.filter(article => article.id !== id);
 
-  StorageService.set(ARTICLES_KEY, filtered.map((data) => removePhoto(data)));
+  StorageService.set(ARTICLES_KEY, filtered);
 
   store.articles = [...filtered];
 };
@@ -88,16 +91,16 @@ const deleteArticleById = (id) => {
 const getArticlesFromStorage = () => {
   const articles = StorageService.get(ARTICLES_KEY);
 
-  if (!articles) {
+  if (!Array.isArray(articles)) {
     store.articles = [];
-    return [];
+  } else {
+    store.articles = articles.map((data) => new Article(data));
   }
 
-  store.articles = [...articles];
-  return articles;
+  return store.articles;
 };
 
-/* Работа со списком статей (UI + данные) */
+/* Работа с UI статей */
 
 const clearArticleList = () => {
   articleList.replaceChildren();
@@ -105,13 +108,19 @@ const clearArticleList = () => {
 
 const removeArticleElement = (element) => {
   element.remove();
-}
+};
 
-const removeArticle = (id, element) => {
+const appendArticleElements = (...element) => {
+  articleList.append(...element);
+};
+
+/* Работа со списком статей (UI + данные) */
+
+const removeArticle = (element) => {
   const wouldEmpty = store.articles.length === 1;
 
   try {
-    deleteArticleById(id);
+    deleteArticleById(element.dataset.id);
     removeArticleElement(element);
 
     if (wouldEmpty) {
@@ -123,16 +132,12 @@ const removeArticle = (id, element) => {
   }
 };
 
-const appendArticleElements = (...element) => {
-  articleList.append(...element);
-};
-
 const addArticle = (data) => {
   const wasEmpty = store.articles.length === 0;
 
   try {
-    saveArticle(data);
-    const articleElement = createArticleElement(data, removeArticle);
+    const newArticle = saveArticle(data);
+    const articleElement = newArticle.createElement(articleTemplateElement);
     appendArticleElements(articleElement);
 
     if (wasEmpty) {
@@ -147,7 +152,7 @@ const addArticle = (data) => {
 const renderArticleList = () => {
   clearArticleList();
 
-  const articleElements = store.articles.map((data) => createArticleElement(data, removeArticle));
+  const articleElements = store.articles.map((value) => value.createElement(articleTemplateElement));
 
   appendArticleElements(...articleElements);
 };
@@ -222,6 +227,7 @@ const handleAddArticleSubmit = async (e) => {
   const data = {
     ...Object.fromEntries(new FormData(form)),
     id: crypto.randomUUID(),
+    createdAt: new Date().toISOString(),
   };
 
   await sleep(1_500);
@@ -232,10 +238,24 @@ const handleAddArticleSubmit = async (e) => {
   activateForm(form);
 };
 
+const handleRemoveArticle = (e) => {
+  const deleteButton = e.target.closest(REMOVE_ARTICLE_BUTTON_QUERY);
+
+  if (!deleteButton) {
+    return;
+  }
+
+  const deletedArticle = deleteButton.closest(ARTICLE_CONTAINER_QUERY);
+
+  removeArticle(deletedArticle);
+};
+
 const init = () => {
   loadArticles(); // не дожидаемся выполнения
 
   hideAddArticleSection();
+
+  articleList.addEventListener('click', handleRemoveArticle);
 
   const showAddArticleButton = helpers.getElementById(SHOW_ADD_ARTICLE_BUTTON_ID);
   showAddArticleButton.addEventListener('click', showAddArticleSection);
