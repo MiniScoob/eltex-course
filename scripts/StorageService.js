@@ -1,3 +1,5 @@
+'use strict';
+
 const ERROR_MESSAGES = {
   SET: 'Ошибка записи',
   GET: 'Ошибка чтения',

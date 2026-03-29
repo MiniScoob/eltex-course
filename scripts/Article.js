@@ -1,3 +1,5 @@
+'use strict';
+
 import { getElementByQuery } from './helpers.js';
 
 const ARTICLE_TITLE_QUERY = '.article__title';

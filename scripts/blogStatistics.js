@@ -1,3 +1,5 @@
+'use strict';
+
 import { getElementById, getElementByQuery } from './helpers.js';
 
 const ARTICLE_LIST_QUERY = '.article-list';

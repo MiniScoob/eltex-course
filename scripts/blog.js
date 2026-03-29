@@ -1,3 +1,5 @@
+'use strict';
+
 import * as helpers from './helpers.js';
 import { StorageService } from './StorageService.js';
 import { Article } from './Article.js';
