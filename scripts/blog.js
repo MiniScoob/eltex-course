@@ -240,7 +240,7 @@ const handleAddArticleSubmit = async (e) => {
 
   disableForm(form);
 
-  await sleep(5_500);
+  await sleep(1_500);
   addArticle(data);
 
   form.reset();
