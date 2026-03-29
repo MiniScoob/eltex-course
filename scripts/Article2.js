@@ -22,14 +22,11 @@ const MONTHS_ENUM = [
   'декабря',
 ];
 
-const toDatetime = (date) =>
-  date.split('T')[0];
-
 const toDateString = (date) =>
   `${date.getUTCDate()} ${MONTHS_ENUM[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 
 const notEmptyFile = (value) =>
-  value instanceof File && value.size;
+  value instanceof File && !!value.size;
 
 export class Article {
   #id;
@@ -61,14 +58,14 @@ export class Article {
 
   createElement(templateElement) {
     const newArticle = templateElement.content.firstElementChild.cloneNode(true);
-    newArticle.id = this.#id;
+    newArticle.dataset.id = this.#id;
 
     getElementByQuery(ARTICLE_TITLE_QUERY, newArticle).textContent = this.#title;
     getElementByQuery(ARTICLE_TEXT_QUERY, newArticle).textContent = this.#text;
 
     const date = new Date(this.#createdAt);
     const timePublishedElement = getElementByQuery(ARTICLE_TIME_PUBLISHED_QUERY, newArticle);
-    timePublishedElement.setAttribute('datetime', toDatetime(this.#createdAt));
+    timePublishedElement.setAttribute('datetime', this.#createdAt);
     timePublishedElement.textContent = toDateString(date);
 
     const imageElement = getElementByQuery(ARTICLE_IMAGE_QUERY, newArticle);

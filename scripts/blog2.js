@@ -93,11 +93,11 @@ const getArticlesFromStorage = () => {
 
   if (!Array.isArray(articles)) {
     store.articles = [];
-    return [];
+  } else {
+    store.articles = articles.map((data) => new Article(data));
   }
 
-  store.articles = articles.map((data) => new Article(data));
-  return articles;
+  return store.articles;
 };
 
 /* Работа с UI статей */
@@ -120,7 +120,7 @@ const removeArticle = (element) => {
   const wouldEmpty = store.articles.length === 1;
 
   try {
-    deleteArticleById(element.id);
+    deleteArticleById(element.dataset.id);
     removeArticleElement(element);
 
     if (wouldEmpty) {
