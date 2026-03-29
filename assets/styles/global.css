@@ -122,14 +122,16 @@ input[type="file"]:focus-within::-webkit-file-upload-button {
 }
 
 .button:not(:disabled):active,
-input[type="file"]:active::file-selector-button,
-input[type="file"]:active::-webkit-file-upload-button {
+input[type="file"]:not(:disabled):active::file-selector-button,
+input[type="file"]:not(:disabled):active::-webkit-file-upload-button {
     background-color: var(--color-primary);
     color: var(--color-white);
     transform: scale(0.97);
 }
 
-:is(.button, input, textarea):disabled {
+:is(.button, input, textarea):disabled,
+input[type="file"]:disabled::file-selector-button,
+input[type="file"]:disabled::-webkit-file-upload-button {
     border-color: var(--color-border);
     color: var(--color-border-dark);
     cursor: not-allowed;
@@ -333,6 +335,35 @@ article {
 
 .social-list img {
     object-fit: contain;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    position: relative;
+    animation: rotate 1s linear infinite
+}
+.loader::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 5px solid var(--color-primary);
+    animation: spinner 2s linear infinite ;
+}
+
+@keyframes rotate {
+    100%   {transform: rotate(360deg)}
+}
+
+@keyframes spinner {
+    0%   { clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0) }
+    25%  { clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0) }
+    50%  { clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%) }
+    75%  { clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%) }
+    100% { clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0) }
 }
 
 @container (min-width: 898px) {
