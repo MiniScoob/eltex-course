@@ -1,0 +1,16 @@
+<header class="container">
+    <div class="content">
+        <p class="title">MiniScoob.io</p>
+        <nav>
+            <ul class="list">
+                @for (link of navLinks; track $index) {
+                    <li>
+                        <a class="link" [href]="link.href">
+                            {{ link.label }}
+                        </a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</header>

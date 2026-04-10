@@ -1,0 +1,40 @@
+@use "placeholders";
+@use "mixins";
+
+.container {
+    top: 0;
+    position: sticky;
+    margin-bottom: 2rem;
+    z-index: 20;
+}
+
+.content {
+    @extend %content;
+    @include mixins.card;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.6rem
+}
+
+.title {
+    font-size: 2.1rem;
+    font-weight: 500;
+}
+
+.list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 1.6rem;
+}
+
+.link {
+    transition: color var(--animation-time);
+
+    &:hover {
+        color: var(--color-primary);
+    }
+}

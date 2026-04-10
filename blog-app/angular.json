@@ -37,6 +37,11 @@
             },
             "ssr": {
               "entry": "src/server.ts"
+            },
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/styles"
+              ]
             }
           },
           "configurations": {
