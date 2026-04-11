@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { HobbyCard } from '../../components';
+
 import {
   ACHIEVEMENTS,
   ARTICLES,
@@ -11,7 +13,7 @@ import {
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [HobbyCard],
   templateUrl: './home.html',
   styleUrl: './home.module.scss',
 })

@@ -98,15 +98,8 @@
       <h2 class="lead-title">Мои хобби</h2>
       <ul class="home__hobby-list">
         @for (item of hobbies; track $index) {
-          <li class="home__hobby-card">
-            <img
-              [src]="item.src"
-              [alt]="item.alt"
-            />
-            <section class="home__hobby-card-content">
-              <h3>{{ item.title }}</h3>
-              <p>{{ item.description }}</p>
-            </section>
+          <li>
+            <hobby-card class="home__hobby-card" [value]="item" />
           </li>
         }
       </ul>

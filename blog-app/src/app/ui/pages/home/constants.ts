@@ -77,34 +77,44 @@ export const SKILLS: Skill[] = [
 type Hobby = {
   title: string;
   description: string;
-  src: string;
-  alt: string;
+  image: {
+    src: string;
+    alt: string;
+  };
 };
 
 export const HOBBIES: Hobby[] = [
   {
     title: 'Ретро',
     description: 'Старые консоли, пузатые телевизоры, фильмы на болванках',
-    src: 'images/retro.avif',
-    alt: 'Изображение в эстетике киберпанка 80-ых',
+    image: {
+      src: 'images/retro.avif',
+      alt: 'Изображение в эстетике киберпанка 80-ых',
+    },
   },
   {
     title: 'Прогулки',
     description: 'Пройти с десяток киллометров, заглянуть в каждый уголок города',
-    src: 'images/park.avif',
-    alt: 'Изображение парка летом',
+    image: {
+      src: 'images/park.avif',
+      alt: 'Изображение парка летом',
+    },
   },
   {
     title: 'Absolute Cinema',
     description: 'Просмотр классических ужастиков',
-    src: 'images/cinema.avif',
-    alt: 'Absolute cinema',
+    image: {
+      src: 'images/cinema.avif',
+      alt: 'Absolute cinema',
+    },
   },
   {
     title: 'Absolute Cinema',
     description: 'Творчество Линча и мемы по нему',
-    src: 'images/lynch.avif',
-    alt: 'Режиссер Дэвид Линч сидит в чёрном вигваме',
+    image: {
+      src: 'images/lynch.avif',
+      alt: 'Режиссер Дэвид Линч сидит в чёрном вигваме',
+    },
   },
 ];
 
