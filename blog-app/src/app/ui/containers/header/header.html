@@ -1,11 +1,11 @@
-<header class="container">
-    <div class="content">
-        <p class="title">MiniScoob.io</p>
+<header class="header">
+    <div class="header__content">
+        <p class="header__title">MiniScoob.io</p>
         <nav>
-            <ul class="list">
+            <ul class="header__list">
                 @for (link of navLinks; track $index) {
                     <li>
-                        <a class="link" [href]="link.href">
+                        <a class="header__link" [href]="link.href">
                             {{ link.label }}
                         </a>
                     </li>

@@ -1,40 +1,40 @@
 @use "placeholders";
+@use "variables";
 @use "mixins";
 
-.container {
+.header {
     top: 0;
     position: sticky;
     margin-bottom: 2rem;
     z-index: 20;
 }
 
-.content {
+.header__content {
     @extend %content;
+
+    @include mixins.flexbox($justify: space-between);
     @include mixins.card;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     flex-wrap: wrap;
     gap: 1.6rem
 }
 
-.title {
+.header__title {
     font-size: 2.1rem;
     font-weight: 500;
 }
 
-.list {
-    display: flex;
-    align-items: center;
-    list-style: none;
+.header__list {
+    @include mixins.flexbox($justify: space-between);
+
     gap: 1.6rem;
+    list-style: none;
 }
 
-.link {
-    transition: color var(--animation-time);
+.header__link {
+    transition: color variables.$animation-time;
 
     &:hover {
-        color: var(--color-primary);
+        color: variables.$color-primary;
     }
 }

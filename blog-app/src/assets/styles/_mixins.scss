@@ -1,6 +1,19 @@
 @use "./variables";
 
-@mixin card($theme: 'light') {
+$default-flexbox-align: center;
+$default-flexbox-justify: center;
+$default-flexbox-direction: row;
+
+@mixin flexbox($align: $default-flexbox-align, $justify: $default-flexbox-justify, $direction: $default-flexbox-direction) {
+    display: flex;
+    flex-direction: $direction;
+    align-items: $align;
+    justify-content: $justify;
+}
+
+$default-card-theme: 'light';
+
+@mixin card($theme: $default-card-theme) {
     border: 1px solid variables.$color-border;
     padding: 2.4rem;
     border-radius: 16px;
@@ -12,12 +25,11 @@
     }
 }
 
-@mixin content {
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 4rem;
-  padding-right: 4rem;
-  padding-top: 1.6rem;
-  padding-bottom: 1.6rem;
-  max-width: 1440px;
+$default-grid-columns: repeat(4, 1fr);
+$default-grid-rows: 1;
+
+@mixin grid($columns: $default-grid-columns, $rows: $default-grid-rows) {
+    display: grid;
+    grid-template-columns: $columns;
+    grid-auto-rows: $rows;
 }

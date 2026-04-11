@@ -54,3 +54,111 @@ a:visited {
     text-decoration: none;
     color: inherit;
 }
+
+.lead-title {
+    margin-bottom: 2.2rem;
+    border-left: 4px solid variables.$color-primary;
+    padding-left: 1rem;
+    font-size: 3.4rem;
+}
+
+.title {
+    margin-bottom: 1.6rem;
+    font-size: 2.1rem;
+}
+
+.subtitle {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.lead-title, .title, .subtitle {
+    color: variables.$color-text-lead;
+}
+
+.button,
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="file"]::file-selector-button,
+input[type="file"]::-webkit-file-upload-button,
+textarea {
+    border: 1px solid variables.$color-border-dark;
+    padding: 1em 1.5em;
+    border-radius: 7px;
+    font-size: 1.6rem;
+    font-family: "Inter", sans-serif;
+    color: variables.$color-text;
+}
+
+input,
+textarea {
+    width: 100%;
+}
+
+input[type="file"] {
+    width: fit-content;
+}
+
+:is(.button, input, textarea):focus-within,
+:is(.button, input, textarea):hover,
+input[type="file"]:hover::file-selector-button,
+input[type="file"]:hover::-webkit-file-upload-button,
+input[type="file"]:focus-within::file-selector-button,
+input[type="file"]:focus-within::-webkit-file-upload-button {
+    border-color: variables.$color-primary;
+}
+
+.button,
+input[type="file"]::file-selector-button,
+input[type="file"]::-webkit-file-upload-button {
+    display: inline-block;
+    background-color: variables.$color-white;
+    cursor: pointer;
+    transition: all variables.$animation-time ease-in-out;
+}
+
+.button:hover,
+input[type="file"]:hover::file-selector-button,
+input[type="file"]:hover::-webkit-file-upload-button,
+.button:focus,
+input[type="file"]:focus-within::file-selector-button,
+input[type="file"]:focus-within::-webkit-file-upload-button {
+    color: variables.$color-primary;
+}
+
+.button:not(:disabled):active,
+input[type="file"]:not(:disabled):active::file-selector-button,
+input[type="file"]:not(:disabled):active::-webkit-file-upload-button {
+    background-color: variables.$color-primary;
+    color: variables.$color-white;
+    transform: scale(0.97);
+}
+
+:is(.button, input, textarea):disabled,
+input[type="file"]:disabled::file-selector-button,
+input[type="file"]:disabled::-webkit-file-upload-button {
+    border-color: variables.$color-border;
+    color: variables.$color-border-dark;
+    cursor: not-allowed;
+}
+
+.list {
+    list-style: none;
+}
+
+.list > li {
+    border-bottom: 1px solid variables.$color-border-dark;
+
+    &:last-child {
+        border-bottom: none;
+
+        > .list__content {
+            padding-bottom: 0;
+        }
+    }
+}
+
+.list__content {
+    padding: 1.6rem;
+}
