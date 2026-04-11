@@ -1,0 +1,145 @@
+<main class="home">
+  <section class="home__about-me">
+    <div>
+      <h1 class="lead-title">Обо мне</h1>
+      <p>
+        Любитель конфет и сладких ракет.<br />
+        Последние несколько лет подрабатываю веб-разработчиком, специализируюсь на интеграции с блокчейном.<br />
+        В этом бложике делюсь своими ценными мюслями, интересными практиками и важными новостями.
+      </p>
+    </div>
+    <img
+      src="/images/twinpeaks.jpg"
+      alt="Фотография меня с чашечкой чертовски хорошего кофе. Позади монитор с фотографией Лоры Палмер"
+    />
+  </section>
+  <section>
+    <h2 class="lead-title">Моя карьера</h2>
+    <div class="home__block-wrapper">
+      <section class="home__block">
+        <h3 class="title">Текущая должность</h3>
+        <p>Frontend-разработчик, фриланс (2022 — по настоящее время)</p>
+        <p>
+          Разработка клиентской части веб-приложений на стеке Next, SCSS, Strapi<br />
+          Работал с большими перерывами, в сумме участвовал в 8 проектах, которые были доведены
+          до продакшена или уровня MVP.
+        </p>
+      </section>
+      <section class="home__block">
+        <h3 class="title">Мои проекты:</h3>
+        <ul class="list home__projects-list">
+          @for (item of projects; track $index) {
+            <li>
+              <section class="list__content home__project">
+                <div class="home__project-icon">
+                  <img [src]="item.icon" [alt]="item.alt" />
+                </div>
+                <div>
+                  <h4 class="subtitle">{{ item.title }}</h4>
+                  <p>{{ item.description }}</p>
+                </div>
+              </section>
+            </li>
+          }
+        </ul>
+      </section>
+      <section class="home__block">
+        <h3 class="title">Маленькие победы:</h3>
+        <ul class="home__achievement-list">
+          @for (item of achievements; track $index) {
+            <li> {{ item }}</li>
+          }
+        </ul>
+      </section>
+    </div>
+  </section>
+  <section>
+    <h2 class="lead-title">Моё развитие</h2>
+    <div class="home__block-wrapper">
+      <section class="home__block">
+        <h3 class="title">Образование:</h3>
+        <ul class="list">
+          <li>
+            <section class="list__content">
+              <h4 class="subtitle">
+                Новосибирский государственный технический университет, 2023-2025
+              </h4>
+              <p>Информатика и вычислительная техника (магистр техники и технологии)</p>
+            </section>
+          </li>
+          <li>
+            <section class="list__content">
+              <h4 class="subtitle">
+                Сибирский государственный университет путей сообщения, 2019-2023
+              </h4>
+              <p>Информационные системы и технологии (инженер)</p>
+            </section>
+          </li>
+        </ul>
+      </section>
+      <section class="home__block">
+        <h3 class="title">Навыки:</h3>
+        <ul class="home__skill-list">
+          @for (item of skills; track $index) {
+            <li>
+              <span class="subtitle">{{ item.field }}</span>
+              <ul class="home__skill-sublist">
+                @for (subitem of item.values; track $index) {
+                  <li>{{ subitem }}</li>
+                }
+              </ul>
+            </li>
+          }
+        </ul>
+      </section>
+    </div>
+  </section>
+  <section>
+      <h2 class="lead-title">Мои хобби</h2>
+      <ul class="home__hobby-list">
+        @for (item of hobbies; track $index) {
+          <li class="home__hobby-card">
+            <img
+              [src]="item.src"
+              [alt]="item.alt"
+            />
+            <section class="home__hobby-card-content">
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.description }}</p>
+            </section>
+          </li>
+        }
+      </ul>
+    </section>
+    <section>
+      <h2 class="lead-title">Последние статьи</h2>
+      <ul class="home__article-list">
+        @for (item of articles; track $index) {
+          <li>
+            <article class="home__article">
+              <div class="home__article-content">
+                <header class="home__article-header">
+                  <h3 class="home__article-title">{{ item.title }}</h3>
+                  <p>
+                    Опубликовано:
+                    <time class="home__article-time-published" [attr.datetime]="item.createdAt">
+                      {{ this.toDateString(item.createdAt) }}
+                    </time>
+                  </p>
+                </header>
+                <p class="home__article-text">{{ item.text }}</p>
+              </div>
+              <img
+                class="home__article-image"
+                [src]="item.cover.src"
+                [alt]="item.cover.alt"
+              />
+            </article>
+          </li>
+        }
+      </ul>
+      <a class="button" href="#">
+        Посмотреть все статьи
+      </a>
+    </section>
+</main>

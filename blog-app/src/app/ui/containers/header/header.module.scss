@@ -1,0 +1,40 @@
+@use "placeholders";
+@use "variables";
+@use "mixins";
+
+.header {
+    top: 0;
+    position: sticky;
+    margin-bottom: 2rem;
+    z-index: 20;
+}
+
+.header__content {
+    @extend %content;
+
+    @include mixins.flexbox($justify: space-between);
+    @include mixins.card;
+
+    flex-wrap: wrap;
+    gap: 1.6rem
+}
+
+.header__title {
+    font-size: 2.1rem;
+    font-weight: 500;
+}
+
+.header__list {
+    @include mixins.flexbox($justify: space-between);
+
+    gap: 1.6rem;
+    list-style: none;
+}
+
+.header__link {
+    transition: color variables.$animation-time;
+
+    &:hover {
+        color: variables.$color-primary;
+    }
+}
