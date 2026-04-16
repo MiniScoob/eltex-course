@@ -98,8 +98,8 @@
       <h2 class="lead-title">Мои хобби</h2>
       <ul class="home__hobby-list">
         @for (item of hobbies; track $index) {
-          <li>
-            <hobby-card class="home__hobby-card" [value]="item" />
+          <li class="home__hobby-card">
+            <hobby-card [value]="item" />
           </li>
         }
       </ul>
