@@ -1,0 +1,20 @@
+<article class="blog-article" [class.edit]="mode() === 'edit'">
+  <button
+    type="button"
+    class="flex center blog-article__remove-button"
+    title="Удалить статью"
+  >
+    <img src="icons/trash_can.svg" alt="Иконка удаления в виде мусорной корзины" />
+  </button>
+  <div class="blog-article__content">
+    <header class="blog-article__header">
+      <h3 class="blog-article__title">{{ value().title }}</h3>
+      <p>
+        Опубликовано:
+        <time class="blog-article__time-published">{{ createdAt() }}</time>
+      </p>
+    </header>
+    <p class="blog-article__text">{{ value().text }}</p>
+  </div>
+  <img class="blog-article__image" [src]="photo()" />
+</article>

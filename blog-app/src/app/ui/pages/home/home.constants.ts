@@ -1,3 +1,6 @@
+import { BlogArticleElement } from '../../../models';
+import type { Hobby } from '../../components/hobby-card';
+
 type Project = {
   title: string;
   description: string;
@@ -74,15 +77,6 @@ export const SKILLS: Skill[] = [
   },
 ];
 
-type Hobby = {
-  title: string;
-  description: string;
-  image: {
-    src: string;
-    alt: string;
-  };
-};
-
 export const HOBBIES: Hobby[] = [
   {
     title: 'Ретро',
@@ -118,61 +112,27 @@ export const HOBBIES: Hobby[] = [
   },
 ];
 
-type Article = {
-  title: string;
-  text: string;
-  createdAt: string;
-  cover: {
-    src: string;
-    alt: string;
-  };
-};
-
-export const ARTICLES: Article[] = [
+export const ARTICLES: BlogArticleElement[] = [
   {
+    id: 1,
     title: 'Я уронил отварную сосиску',
     text: '4 марта около шести часов вечера выпусник НГТУ, Владислав Попов, '
       + 'закончив отваривать молочную сосиску СПК, подцепил её кончиком вилки, чтобы '
       + 'переместить из кипятка в миску с отварным картофелем. '
       + 'Я думал, что сосиска прочно держится на зубчиках вилки, но я ошибся... вспоминаю я.',
     createdAt: '2026-03-05',
-    cover: {
-      src: 'images/cover.avif',
-      alt: 'Картинка-заглушка для статьи',
-    },
   },
   {
+    id: 2,
     title: 'Перекат в вайб-кодинг',
     text: 'Размышлял над текущим своим положением дел. К сожалению, ведение блога продолжается. '
       + 'К хорошим новостям — теперь все статьи будет писать ИИ-агент.',
     createdAt: '2026-02-28',
-    cover: {
-      src: 'images/cover.avif',
-      alt: 'Картинка-заглушка для статьи',
-    },
   },
   {
+    id: 3,
     title: 'Моей помощнице',
     text: 'Даяна, сейчас 11:30, 24 февраля. Въезжаю в городок Твин Пикс',
     createdAt: '2026-02-24',
-    cover: {
-      src: 'images/cooper.avif',
-      alt: 'Дейл Купер въезжает в город Твин Пикс, записывая в этот момент сообщение помощнице',
-    },
   },
-];
-
-export const MONTHS_ENUM = [
-  'января',
-  'февраля',
-  'марта',
-  'апреля',
-  'мая',
-  'июня',
-  'июля',
-  'августа',
-  'сентября',
-  'октября',
-  'ноября',
-  'декабря',
 ];

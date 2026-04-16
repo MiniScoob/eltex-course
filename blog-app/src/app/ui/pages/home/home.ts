@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
 
-import { HobbyCard } from '../../components';
+import { BlogArticle, HobbyCard } from '../../components';
 
 import {
   ACHIEVEMENTS,
   ARTICLES,
   HOBBIES,
-  MONTHS_ENUM,
   PROJECTS,
   SKILLS
 } from './home.constants';
 
 @Component({
   selector: 'app-home',
-  imports: [HobbyCard],
+  imports: [BlogArticle, HobbyCard],
   templateUrl: './home.html',
   styleUrl: './home.module.scss',
 })
@@ -23,10 +22,4 @@ export class Home {
   public readonly hobbies = HOBBIES;
   public readonly projects = PROJECTS;
   public readonly skills = SKILLS;
-
-  public toDateString(datetime: string) {
-    const date = new Date(datetime);
-
-    return `${date.getUTCDate()} ${MONTHS_ENUM[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
-  }
 }

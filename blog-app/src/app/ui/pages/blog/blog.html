@@ -1,0 +1,19 @@
+<main class="blog">
+  <section>
+    <h1 class="lead-title">Блог</h1>
+    <p>
+      Добро пожаловать в хранилище <em>ценных</em> мюслей и <em>важных</em> новостей.
+      Читайте, запоминайте и мотайте на ус.
+    </p>
+  </section>
+  <section>
+    <h2 class="lead-title">Статьи</h2>
+    <ul class="blog__article-list">
+      @for (item of blogArticles(); track item.id) {
+        <li>
+          <blog-article [value]="item" [mode]="'edit'" />
+        </li>
+      }
+    </ul>
+  </section>
+</main>

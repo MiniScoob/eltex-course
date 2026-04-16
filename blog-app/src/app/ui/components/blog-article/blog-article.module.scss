@@ -1,0 +1,98 @@
+@use "variables";
+@use "mixins";
+
+.blog-article {
+    @include mixins.flexbox($align: stretch, $justify: normal, $direction: column-reverse);
+
+    border: 1px solid variables.$color-border-dark;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.edit {
+    position: relative;
+
+    &:hover .blog-article__remove-button {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+.blog-article__content {
+    padding: 2.4rem;
+    height: 100%;
+}
+
+.blog-article__text {
+    font-size: 1.8rem;
+}
+
+.blog-article__header {
+    margin-bottom: 4rem;
+
+    > p {
+        font-size: 1.4rem;
+        color: variables.$color-text-secondary;
+    }
+}
+
+.blog-article__title {
+    margin-bottom: 0.5rem;
+    font-size: 2.4rem;
+}
+
+.blog-article__time-published {
+    font-style: italic;
+}
+
+.blog-article__image {
+    max-height: 380px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.blog-article__remove-button {
+    @include mixins.flexbox;
+
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    border: 1px solid variables.$color-border-dark;
+    width: 36px;
+    height: 36px;
+    background-color: variables.$color-white;
+    border-radius: 50%;
+    visibility: hidden;
+    opacity: 0;
+    cursor: pointer;
+    transition: visibility variables.$animation-time ease-in-out,
+                opacity variables.$animation-time ease-in-out,
+                border-color variables.$animation-time,
+                transform variables.$animation-time ease-in;
+
+    &:hover,
+    &:focus {
+        border-color: variables.$color-primary;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+@container (min-width: 898px) {
+    .blog-article {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: 1fr;
+        grid-column-gap: 24px;
+    }
+
+    .blog-article__image {
+        grid-area: 1 / 2 / 2 / 4;
+        max-height: unset;
+    }
+}
