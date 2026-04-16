@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NAV_LINKS } from './constants';
+import { NAV_LINKS } from './header.constants';
 
 @Component({
   selector: 'app-header',

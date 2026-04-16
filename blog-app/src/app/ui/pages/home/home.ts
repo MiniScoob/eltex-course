@@ -9,7 +9,7 @@ import {
   MONTHS_ENUM,
   PROJECTS,
   SKILLS
-} from './constants';
+} from './home.constants';
 
 @Component({
   selector: 'app-home',
