@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NAV_LINKS } from './constants';
+import { NAV_LINKS } from './header.constants';
 
 @Component({
   selector: 'app-header',
@@ -9,5 +9,5 @@ import { NAV_LINKS } from './constants';
   styleUrl: './header.module.scss',
 })
 export class Header {
-  public readonly navLinks = NAV_LINKS;
+  protected readonly navLinks = NAV_LINKS;
 }

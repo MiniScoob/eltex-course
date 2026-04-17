@@ -115,67 +115,6 @@
     list-style: none;
 }
 
-.home__hobby-card {
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-
-    > img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: filter variables.$animation-time ease,
-                    transform variables.$animation-time ease;
-    }
-
-    &:hover > img {
-        filter: blur(4px) brightness(0.7);
-        transform: scale(1.05);
-    }
-
-    &:hover > .home__hobby-card-content {
-        opacity: 1;
-        visibility: visible;
-
-        > h3, p {
-            transform: translateY(0);
-        }
-    }
-}
-
-.home__hobby-card-content {
-    @include mixins.flexbox($direction: column);
-
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 2rem;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(2px);
-    text-align: center;
-    color: variables.$color-white;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity variables.$animation-time ease,
-                visibility variables.$animation-time ease;
-
-    > h3, p {
-        transform: translateY(20px);
-        transition: transform variables.$long-animation-time ease;
-    }
-
-    > h3 {
-        margin-bottom: 1rem;
-        font-size: 4rem;
-    }
-
-    > p {
-        font-size: 1.8rem;
-    }
-}
-
 .home__article-list {
     @include mixins.flexbox($align: stretch, $direction: column);
 
@@ -232,7 +171,7 @@
     object-fit: cover;
 }
 
-@media screen and (min-width: 768px) {
+@include mixins.tablet {
     .home__about-me {
         flex-direction: row;
     }

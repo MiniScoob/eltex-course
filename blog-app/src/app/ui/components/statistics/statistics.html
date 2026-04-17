@@ -1,0 +1,33 @@
+<dialog
+  #modal
+  aria-labelledby="statistics-name"
+  class="statistics"
+>
+<div class="statistics__backdrop" (click)="handleBackDropClick($event)">
+  <section class="statistics__wrapper">
+    <div class="statistics__header">
+      <h3 id="statistics-name" class="title">
+        Статистика страницы
+      </h3>
+      <button
+        type="button"
+        class="statistics__button"
+        title="Закрыть окно статистики страницы"
+        (click)="handleClose()"
+      >
+        <img src="icons/xmark.svg" alt="Иконка закрытия" />
+      </button>
+    </div>
+    <div class="statistics__content">
+      <div class="statistic__element">
+        <p>Всего статей:</p>
+        <p>{{ blogArticlesCount() }}</p>
+      </div>
+      <div class="statistic__element">
+        <p>Комментарии:</p>
+        <p> {{ blogCommentsCount() }}</p>
+      </div>
+    </div>
+  </section>
+</div>
+</dialog>

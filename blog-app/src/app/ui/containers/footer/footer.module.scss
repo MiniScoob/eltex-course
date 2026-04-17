@@ -54,7 +54,7 @@
     gap: 1rem;
 }
 
-@media screen and (min-width: 768px) {
+@include mixins.tablet {
     .footer__content {
         grid-template-columns: repeat(2, 1fr);
     }

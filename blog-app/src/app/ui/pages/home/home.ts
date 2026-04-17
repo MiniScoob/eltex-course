@@ -1,30 +1,25 @@
 import { Component } from '@angular/core';
 
+import { BlogArticle, HobbyCard } from '../../components';
+
 import {
   ACHIEVEMENTS,
   ARTICLES,
   HOBBIES,
-  MONTHS_ENUM,
   PROJECTS,
   SKILLS
-} from './constants';
+} from './home.constants';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [BlogArticle, HobbyCard],
   templateUrl: './home.html',
   styleUrl: './home.module.scss',
 })
 export class Home {
-  public readonly achievements = ACHIEVEMENTS;
-  public readonly articles = ARTICLES;
-  public readonly hobbies = HOBBIES;
-  public readonly projects = PROJECTS;
-  public readonly skills = SKILLS;
-
-  public toDateString(datetime: string) {
-    const date = new Date(datetime);
-
-    return `${date.getUTCDate()} ${MONTHS_ENUM[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
-  }
+  protected readonly achievements = ACHIEVEMENTS;
+  protected readonly articles = ARTICLES;
+  protected readonly hobbies = HOBBIES;
+  protected readonly projects = PROJECTS;
+  protected readonly skills = SKILLS;
 }

@@ -1,0 +1,41 @@
+@use "placeholders";
+@use "variables";
+@use "mixins";
+
+.blog {
+  @extend %content;
+
+  @include mixins.card;
+  @include mixins.flexbox($align: stretch, $direction: column);
+
+  gap: 4rem;
+  margin-bottom: 2.4rem;
+}
+
+.blog__article-list {
+  @include mixins.grid($columns: 1fr, $rows: auto);
+
+  gap: 16px 24px;
+  list-style: none;
+}
+
+.blog__add-section {
+    max-height: 600px;
+    overflow: hidden;
+    transition: max-height var(--long-animation-time);
+}
+
+.hidden-collapse {
+    max-height: 0;
+}
+
+@include mixins.tablet-mid {
+    .blog__article-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .blog__article-list > li:first-child {
+        grid-area: 1 / 1 / 2 / 3;
+        container-type: inline-size;
+    }
+}

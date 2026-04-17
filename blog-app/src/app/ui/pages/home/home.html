@@ -99,14 +99,7 @@
       <ul class="home__hobby-list">
         @for (item of hobbies; track $index) {
           <li class="home__hobby-card">
-            <img
-              [src]="item.src"
-              [alt]="item.alt"
-            />
-            <section class="home__hobby-card-content">
-              <h3>{{ item.title }}</h3>
-              <p>{{ item.description }}</p>
-            </section>
+            <hobby-card [value]="item" />
           </li>
         }
       </ul>
@@ -116,29 +109,11 @@
       <ul class="home__article-list">
         @for (item of articles; track $index) {
           <li>
-            <article class="home__article">
-              <div class="home__article-content">
-                <header class="home__article-header">
-                  <h3 class="home__article-title">{{ item.title }}</h3>
-                  <p>
-                    Опубликовано:
-                    <time class="home__article-time-published" [attr.datetime]="item.createdAt">
-                      {{ this.toDateString(item.createdAt) }}
-                    </time>
-                  </p>
-                </header>
-                <p class="home__article-text">{{ item.text }}</p>
-              </div>
-              <img
-                class="home__article-image"
-                [src]="item.cover.src"
-                [alt]="item.cover.alt"
-              />
-            </article>
+            <blog-article [value]="item" />
           </li>
         }
       </ul>
-      <a class="button" href="#">
+      <a class="button" href="/blog">
         Посмотреть все статьи
       </a>
     </section>

@@ -1,0 +1,34 @@
+<blog-statistics
+  [isOpen]="isStatisticsOpen()"
+  [blogArticlesCount]="blogArticles().length"
+  [blogCommentsCount]="0"
+  (close)="closeStatistics()"
+/>
+<blog-toolbar (showAddForm)="showFrom()" (showStatistic)="showStatistics()" />
+<main class="blog">
+  <section>
+    <h1 class="lead-title">Блог</h1>
+    <p>
+      Добро пожаловать в хранилище <em>ценных</em> мюслей и <em>важных</em> новостей.
+      Читайте, запоминайте и мотайте на ус.
+    </p>
+  </section>
+  <section>
+    <h2 class="lead-title">Статьи</h2>
+    <ul class="blog__article-list">
+      @for (item of blogArticles(); track item.id) {
+        <li>
+          <blog-article
+            [value]="item"
+            [mode]="'edit'"
+            (delete)="onDeleteBlogArticle($event)"
+          />
+        </li>
+      }
+    </ul>
+  </section>
+  <section class="blog__add-section" [class.hidden-collapse]="isAddFormHidden()">
+    <h2 class="lead-title">Добавить статью</h2>
+    <blog-article-upsert (addBlogArticle)="onAddBlogArticle($event)" />
+  </section>
+</main>
