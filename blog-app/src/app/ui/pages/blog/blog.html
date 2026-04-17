@@ -1,3 +1,4 @@
+<blog-toolbar (showAddForm)="showFrom()" />
 <main class="blog">
   <section>
     <h1 class="lead-title">Блог</h1>
@@ -16,7 +17,8 @@
       }
     </ul>
   </section>
-  <section>
+  <section class="blog__add-section" [class.hidden-collapse]="isAddFormHidden()">
+    <h2 class="lead-title">Добавить статью</h2>
     <blog-article-upsert (addBlogArticle)="onAddBlogArticle($event)" />
   </section>
 </main>

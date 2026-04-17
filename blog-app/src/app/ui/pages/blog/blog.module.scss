@@ -19,6 +19,16 @@
   list-style: none;
 }
 
+.blog__add-section {
+    max-height: 600px;
+    overflow: hidden;
+    transition: max-height var(--long-animation-time);
+}
+
+.hidden-collapse {
+    max-height: 0;
+}
+
 @include mixins.tablet-mid {
     .blog__article-list {
         grid-template-columns: repeat(2, 1fr);
