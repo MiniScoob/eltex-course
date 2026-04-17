@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormSubmittedEvent, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, output } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { filter } from 'rxjs';
-
+import type { BlogArticleRaw } from '../../../models';
 import { FileValueAccessor } from '../../directives';
 
 @Component({
@@ -20,9 +19,17 @@ export class BlogArticleUpsert {
     photo: [null],
   });
 
-  constructor() {
-    this.blogArticleForm.events
-      .pipe(filter((e) => e instanceof FormSubmittedEvent))
-      .subscribe((e) => console.log('Status: ', e.source.value));
+  public addBlogArticle = output<BlogArticleRaw>();
+
+  protected onSubmit() {
+    const value: BlogArticleRaw = {
+      title: this.blogArticleForm.value.title ?? '',
+      text: this.blogArticleForm.value.text ?? '',
+      photo: this.blogArticleForm.value.photo ?? null,
+    };
+
+    this.blogArticleForm.reset();
+
+    this.addBlogArticle.emit(value);
   }
 }

@@ -7,6 +7,8 @@ export interface BlogArticleData {
   createdAt: string;
 }
 
+export type BlogArticleRaw = Omit<BlogArticleElement, 'id' | 'createdAt'>;
+
 export interface BlogArticleElement extends BlogArticleData {
-  photo?: File;
+  photo?: File | null;
 }

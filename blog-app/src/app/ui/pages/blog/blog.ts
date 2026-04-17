@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import type { BlogArticleElement } from '../../../models';
+import type { BlogArticleElement, BlogArticleRaw } from '../../../models';
 import { BlogArticleUpsert } from '../../containers';
 import { BlogArticle } from '../../components';
 
@@ -37,4 +37,15 @@ const ARTICLES: BlogArticleElement[] = [
 })
 export class Blog {
   protected blogArticles = signal<BlogArticleElement[]>([...ARTICLES]);
+
+  protected onAddBlogArticle(value: BlogArticleRaw) {
+    console.log('blog', value);
+    const newBlogArticle = {
+      ...value,
+      id: crypto.randomUUID(),
+      createdAt: new Date().toISOString(),
+    }
+
+    this.blogArticles().push(newBlogArticle);
+  }
 }
