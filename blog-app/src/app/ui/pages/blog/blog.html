@@ -1,4 +1,10 @@
-<blog-toolbar (showAddForm)="showFrom()" />
+<blog-statistics
+  [isOpen]="isStatisticsOpen()"
+  [blogArticlesCount]="blogArticles().length"
+  [blogCommentsCount]="0"
+  (close)="closeStatistics()"
+/>
+<blog-toolbar (showAddForm)="showFrom()" (showStatistic)="showStatistics()" />
 <main class="blog">
   <section>
     <h1 class="lead-title">Блог</h1>

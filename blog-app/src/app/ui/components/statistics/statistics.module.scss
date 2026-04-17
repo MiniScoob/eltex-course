@@ -1,0 +1,73 @@
+@use "variables";
+@use "mixins";
+
+.statistics {
+  border: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  color: variables.$color-text;
+}
+
+.statistics__backdrop {
+  @include mixins.flexbox;
+
+  width: 100%;
+  height: 100%;
+}
+
+.statistics__wrapper {
+  @include mixins.card;
+
+  background-color: variables.$color-white;
+}
+
+.statistics__header {
+  @include mixins.flexbox($justify: space-between);
+
+  margin-bottom: 1.6rem;
+
+  > h3 {
+    margin-bottom: 0;
+  }
+}
+
+.statistics__button {
+  @include mixins.flexbox;
+
+  border: 1px solid transparent;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+
+  > img {
+    width: 12px;
+    height: 12px;
+  }
+
+  &:hover {
+    border-color: variables.$color-primary;
+  }
+}
+
+.statistics__content {
+  @include mixins.flexbox($align: stretch, $justify: normal);
+
+  gap: 2rem;
+}
+
+.statistic__element {
+  flex-shrink: 0;
+  border: 1px solid variables.$color-border;
+  padding: 1.2rem 1.6rem;
+  border-radius: variables.$border-radius;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.25);
+
+  > p:last-child {
+    margin-top: 1rem;
+    font-size: 3rem;
+    color: variables.$color-primary;
+  }
+}

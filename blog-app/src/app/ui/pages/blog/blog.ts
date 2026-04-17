@@ -2,17 +2,18 @@ import { Component, signal } from '@angular/core';
 
 import type { BlogArticleElement, BlogArticleRaw } from '../../../models';
 import { BlogArticleUpsert } from '../../containers';
-import { BlogArticle, Toolbar } from '../../components';
+import { BlogArticle, Statistics, Toolbar } from '../../components';
 import { INITIAL_ARTICLES } from './blog.constants';
 
 @Component({
   selector: 'app-blog',
-  imports: [BlogArticle, BlogArticleUpsert, Toolbar],
+  imports: [BlogArticle, BlogArticleUpsert, Statistics, Toolbar],
   templateUrl: './blog.html',
   styleUrl: './blog.module.scss',
 })
 export class Blog {
   protected blogArticles = signal<BlogArticleElement[]>([...INITIAL_ARTICLES]);
+  protected isStatisticsOpen = signal<boolean>(false);
   protected isAddFormHidden = signal<boolean>(true);
 
   protected onAddBlogArticle(value: BlogArticleRaw) {
@@ -39,5 +40,21 @@ export class Blog {
     }
 
     this.isAddFormHidden.set(true);
+  }
+
+  protected showStatistics() {
+    if (this.isStatisticsOpen()) {
+      return;
+    }
+
+    this.isStatisticsOpen.set(true);
+  }
+
+  protected closeStatistics() {
+    if (!this.isStatisticsOpen()) {
+      return;
+    }
+
+    this.isStatisticsOpen.set(false);
   }
 }
