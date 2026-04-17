@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 
 import type { BlogArticleElement } from '../../../models';
+import { BlogArticleUpsert } from '../../containers';
 import { BlogArticle } from '../../components';
 
 const ARTICLES: BlogArticleElement[] = [
@@ -30,7 +31,7 @@ const ARTICLES: BlogArticleElement[] = [
 
 @Component({
   selector: 'app-blog',
-  imports: [BlogArticle],
+  imports: [BlogArticle, BlogArticleUpsert],
   templateUrl: './blog.html',
   styleUrl: './blog.module.scss',
 })

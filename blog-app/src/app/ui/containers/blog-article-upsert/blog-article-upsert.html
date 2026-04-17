@@ -1,0 +1,42 @@
+<form [formGroup]="blogArticleForm" class="blog-article-upsert">
+  <p>
+    <label for="title-input">Заголовок (обязательно):</label>
+    <br />
+    <input
+      id="title-input"
+      name="title"
+      formControlName="title"
+      type="text"
+      minlength="15"
+      size="40"
+      placeholder="Например, &quot;Крутая новость&quot;"
+      required
+    />
+  </p>
+  <p>
+    <label for="text-input">Текст статьи (обязательно):</label>
+    <br />
+    <textarea
+      id="text-input"
+      name="text"
+      formControlName="text"
+      minlength="20"
+      rows="10"
+      cols="40"
+      placeholder="Сама новость..."
+      required
+    ></textarea>
+  </p>
+  <p>
+    <label for="photo-input">Прикрепить фото:</label>
+    <br />
+    <input
+      id="photo-input"
+      name="photo"
+      formControlName="photo"
+      type="file"
+      accept="image/*"
+    />
+  </p>
+  <button class="button" type="submit">Сохранить</button>
+</form>
