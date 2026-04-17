@@ -9,5 +9,5 @@ import { Hobby } from './hobby-card.model';
   styleUrl: './hobby-card.module.scss',
 })
 export class HobbyCard {
-  public value = input.required<Hobby>();
+  protected value = input.required<Hobby>();
 }

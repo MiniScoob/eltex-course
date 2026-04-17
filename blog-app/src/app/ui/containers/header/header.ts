@@ -9,5 +9,5 @@ import { NAV_LINKS } from './header.constants';
   styleUrl: './header.module.scss',
 })
 export class Header {
-  public readonly navLinks = NAV_LINKS;
+  protected readonly navLinks = NAV_LINKS;
 }

@@ -9,9 +9,9 @@ import { afterRenderEffect, Component, ElementRef, input, output, ViewChild } fr
 export class Statistics {
   @ViewChild('modal') modalRef!: ElementRef<HTMLDialogElement>;
 
-  public isOpen = input<boolean>(false);
-  public blogArticlesCount = input.required<number>();
-  public blogCommentsCount = input.required<number>();
+  protected isOpen = input<boolean>(false);
+  protected blogArticlesCount = input.required<number>();
+  protected blogCommentsCount = input.required<number>();
 
   protected close = output<void>();
 

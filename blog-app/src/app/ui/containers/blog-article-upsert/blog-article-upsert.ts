@@ -19,7 +19,7 @@ export class BlogArticleUpsert {
     photo: [null],
   });
 
-  public addBlogArticle = output<BlogArticleRaw>();
+  protected addBlogArticle = output<BlogArticleRaw>();
 
   protected onSubmit() {
     const value: BlogArticleRaw = {

@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import type { BlogArticleElement, BlogArticleRaw } from '../../../models';
+import type { BlogArticleElement, BlogArticleRaw, Id } from '../../../models';
 import { BlogArticleUpsert } from '../../containers';
 import { BlogArticle, Statistics, Toolbar } from '../../components';
 import { INITIAL_ARTICLES } from './blog.constants';
@@ -24,6 +24,10 @@ export class Blog {
     }
 
     this.blogArticles.update((arr) => [...arr, newBlogArticle]);
+  }
+
+  protected onDeleteBlogArticle(id: Id) {
+    this.blogArticles.update((arr) => arr.filter((v) => v.id !== id));
   }
 
   protected showFrom() {

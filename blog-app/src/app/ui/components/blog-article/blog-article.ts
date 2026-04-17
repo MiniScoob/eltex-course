@@ -1,6 +1,6 @@
-import { Component, computed, input, OnDestroy } from '@angular/core';
+import { Component, computed, input, OnDestroy, output } from '@angular/core';
 
-import type { BlogArticleElement } from '../../../models';
+import type { BlogArticleElement, Id } from '../../../models';
 import type { Mode } from './blog-article.model';
 import { DEFAULT_IMAGE } from './blog-article.constants';
 import { notEmptyFile, toDateString } from './blog-article.utils';
@@ -33,9 +33,15 @@ export class BlogArticle implements OnDestroy {
     return DEFAULT_IMAGE;
   });
 
+  protected delete = output<Id>();
+
   ngOnDestroy() {
     if (this._objectUrl) {
       URL.revokeObjectURL(this._objectUrl);
     }
+  }
+
+  protected handleDelete() {
+    this.delete.emit(this.value().id);
   }
 }

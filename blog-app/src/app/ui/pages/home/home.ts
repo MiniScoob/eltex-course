@@ -17,9 +17,9 @@ import {
   styleUrl: './home.module.scss',
 })
 export class Home {
-  public readonly achievements = ACHIEVEMENTS;
-  public readonly articles = ARTICLES;
-  public readonly hobbies = HOBBIES;
-  public readonly projects = PROJECTS;
-  public readonly skills = SKILLS;
+  protected readonly achievements = ACHIEVEMENTS;
+  protected readonly articles = ARTICLES;
+  protected readonly hobbies = HOBBIES;
+  protected readonly projects = PROJECTS;
+  protected readonly skills = SKILLS;
 }

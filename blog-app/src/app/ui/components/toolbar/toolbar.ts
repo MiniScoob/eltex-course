@@ -7,8 +7,8 @@ import { Component, output } from '@angular/core';
   styleUrl: './toolbar.module.scss',
 })
 export class Toolbar {
-  public showAddForm = output<void>();
-  public showStatistic = output<void>();
+  protected showAddForm = output<void>();
+  protected showStatistic = output<void>();
 
   protected handleShowAddFormClick() {
     this.showAddForm.emit();

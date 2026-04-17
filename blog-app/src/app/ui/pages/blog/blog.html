@@ -18,7 +18,11 @@
     <ul class="blog__article-list">
       @for (item of blogArticles(); track item.id) {
         <li>
-          <blog-article [value]="item" [mode]="'edit'" />
+          <blog-article
+            [value]="item"
+            [mode]="'edit'"
+            (delete)="onDeleteBlogArticle($event)"
+          />
         </li>
       }
     </ul>
