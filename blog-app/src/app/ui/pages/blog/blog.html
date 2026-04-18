@@ -22,6 +22,7 @@
             [value]="item"
             [mode]="'edit'"
             (delete)="onDeleteBlogArticle($event)"
+            (edit)="onEditBlogArticle($event)"
           />
         </li>
       }
@@ -29,6 +30,9 @@
   </section>
   <section class="blog__add-section" [class.hidden-collapse]="isAddFormHidden()">
     <h2 class="lead-title">Добавить статью</h2>
-    <blog-article-upsert (addBlogArticle)="onAddBlogArticle($event)" />
+    <blog-article-upsert
+      [initialValue]="editingBlogArticle()"
+      (addBlogArticle)="onAddBlogArticle($event)"
+    />
   </section>
 </main>

@@ -13,6 +13,7 @@ import { INITIAL_ARTICLES } from './blog.constants';
 })
 export class Blog {
   protected blogArticles = signal<BlogArticleElement[]>([...INITIAL_ARTICLES]);
+  protected editingBlogArticle = signal<BlogArticleElement | null>(null);
   protected isStatisticsOpen = signal<boolean>(false);
   protected isAddFormHidden = signal<boolean>(true);
 
@@ -28,6 +29,11 @@ export class Blog {
 
   protected onDeleteBlogArticle(id: Id) {
     this.blogArticles.update((arr) => arr.filter((v) => v.id !== id));
+  }
+
+  protected onEditBlogArticle(value: BlogArticleElement) {
+    this.editingBlogArticle.set(value);
+    this.showFrom();
   }
 
   protected showFrom() {

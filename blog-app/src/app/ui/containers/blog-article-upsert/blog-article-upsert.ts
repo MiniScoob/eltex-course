@@ -1,4 +1,4 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import type { BlogArticleRaw } from '../../../models';
@@ -13,11 +13,30 @@ import { FileValueAccessor } from '../../directives';
 export class BlogArticleUpsert {
   private formBuilder = inject(FormBuilder);
 
+  public initialValue = input<BlogArticleRaw | null>();
+
   protected blogArticleForm = this.formBuilder.group({
-    title: ['', Validators.required],
-    text: [''],
-    photo: [null],
+    title: [this.initialValue()?.title ?? '', Validators.required],
+    text: [this.initialValue()?.text ?? ''],
+    photo: [this.initialValue()?.photo ?? null],
   });
+
+  constructor() {
+    effect(() => {
+      console.log('effect');
+      const blogArticle = this.initialValue();
+
+      if (blogArticle) {
+        this.blogArticleForm.patchValue({
+          title: blogArticle.title,
+          text: blogArticle.text,
+          photo: blogArticle?.photo,
+        });
+      } else {
+        this.blogArticleForm.reset();
+      }
+    });
+  }
 
   protected addBlogArticle = output<BlogArticleRaw>();
 
