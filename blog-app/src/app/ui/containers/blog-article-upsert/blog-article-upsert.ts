@@ -23,7 +23,6 @@ export class BlogArticleUpsert {
 
   constructor() {
     effect(() => {
-      console.log('effect');
       const blogArticle = this.initialValue();
 
       if (blogArticle) {
@@ -38,9 +37,9 @@ export class BlogArticleUpsert {
     });
   }
 
-  protected addBlogArticle = output<BlogArticleRaw>();
+  protected submit = output<BlogArticleRaw>();
 
-  protected onSubmit() {
+  protected handleSubmit() {
     const value: BlogArticleRaw = {
       title: this.blogArticleForm.value.title ?? '',
       text: this.blogArticleForm.value.text ?? '',
@@ -49,6 +48,6 @@ export class BlogArticleUpsert {
 
     this.blogArticleForm.reset();
 
-    this.addBlogArticle.emit(value);
+    this.submit.emit(value);
   }
 }

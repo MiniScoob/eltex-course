@@ -32,7 +32,7 @@
     <h2 class="lead-title">Добавить статью</h2>
     <blog-article-upsert
       [initialValue]="editingBlogArticle()"
-      (addBlogArticle)="onAddBlogArticle($event)"
+      (submit)="onSubmit($event)"
     />
   </section>
 </main>

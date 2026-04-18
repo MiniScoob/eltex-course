@@ -17,17 +17,32 @@ export class Blog {
   protected isStatisticsOpen = signal<boolean>(false);
   protected isAddFormHidden = signal<boolean>(true);
 
-  protected onAddBlogArticle(value: BlogArticleRaw) {
-    const newBlogArticle = {
-      ...value,
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-    }
+  protected onSubmit(value: BlogArticleRaw) {
+    const editing = this.editingBlogArticle();
 
-    this.blogArticles.update((arr) => [...arr, newBlogArticle]);
+    if (editing) {
+      this.blogArticles.update((arr) => arr.map((v) => v.id === editing.id
+        ? { ...v, ...value }
+        : v
+      ));
+
+      this.editingBlogArticle.set(null);
+    } else {
+      const newBlogArticle = {
+        ...value,
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+      };
+
+      this.blogArticles.update((arr) => [...arr, newBlogArticle]);
+    }
   }
 
   protected onDeleteBlogArticle(id: Id) {
+    if (this.editingBlogArticle()?.id === id) {
+      this.editingBlogArticle.set(null);
+    }
+
     this.blogArticles.update((arr) => arr.filter((v) => v.id !== id));
   }
 
