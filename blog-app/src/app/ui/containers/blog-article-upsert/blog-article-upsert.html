@@ -1,4 +1,4 @@
-<form [formGroup]="blogArticleForm" (ngSubmit)="onSubmit()" class="blog-article-upsert">
+<form [formGroup]="blogArticleForm" (ngSubmit)="handleSubmit()" class="blog-article-upsert">
   <p>
     <label for="title-input">Заголовок (обязательно):</label>
     <br />
@@ -7,11 +7,15 @@
       name="title"
       formControlName="title"
       type="text"
-      minlength="15"
+      minlength="25"
       size="40"
       placeholder="Например, &quot;Крутая новость&quot;"
+      [class.blog-article-upsert__invalid]="isInvalid('title')"
       required
     />
+    @if (getError('title')) {
+      <span class="blog-article-upsert__error-message">{{ getError('title') }}</span>
+    }
   </p>
   <p>
     <label for="text-input">Текст статьи (обязательно):</label>
@@ -24,8 +28,12 @@
       rows="10"
       cols="40"
       placeholder="Сама новость..."
+      [class.blog-article-upsert__invalid]="isInvalid('text')"
       required
     ></textarea>
+    @if (getError('text')) {
+      <span class="blog-article-upsert__error-message">{{ getError('text') }}</span>
+    }
   </p>
   <p>
     <label for="photo-input">Прикрепить фото:</label>
@@ -38,5 +46,20 @@
       accept="image/*"
     />
   </p>
-  <button class="button" type="submit">Сохранить</button>
+  <div class="blog-article-upsert__footer">
+    <button
+      class="button"
+      type="submit"
+      [disabled]="blogArticleForm.invalid"
+    >
+      Сохранить
+    </button>
+    <button
+      class="button"
+      type="reset"
+      (click)="handleCancel()"
+    >
+      Отмена
+    </button>
+  </div>
 </form>

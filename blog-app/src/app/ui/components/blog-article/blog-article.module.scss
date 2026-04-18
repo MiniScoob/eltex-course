@@ -14,9 +14,44 @@
 .edit {
     position: relative;
 
-    &:hover .blog-article__remove-button {
+    &:hover .blog-article__menu {
         visibility: visible;
         opacity: 1;
+    }
+}
+
+.blog-article__menu {
+    @include mixins.flexbox;
+
+    gap: 1rem;
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility variables.$animation-time ease-in-out,
+                opacity variables.$animation-time ease-in-out,
+}
+
+.blog-article__button {
+    @include mixins.flexbox;
+
+    border: 1px solid variables.$color-border-dark;
+    width: 36px;
+    height: 36px;
+    background-color: variables.$color-white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: border-color variables.$animation-time,
+                transform variables.$animation-time ease-in;
+
+    &:hover,
+    &:focus {
+        border-color: variables.$color-primary;
+    }
+
+    &:active {
+        transform: scale(0.95);
     }
 }
 
@@ -52,35 +87,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
-.blog-article__remove-button {
-    @include mixins.flexbox;
-
-    position: absolute;
-    top: 1.2rem;
-    right: 1.2rem;
-    border: 1px solid variables.$color-border-dark;
-    width: 36px;
-    height: 36px;
-    background-color: variables.$color-white;
-    border-radius: 50%;
-    visibility: hidden;
-    opacity: 0;
-    cursor: pointer;
-    transition: visibility variables.$animation-time ease-in-out,
-                opacity variables.$animation-time ease-in-out,
-                border-color variables.$animation-time,
-                transform variables.$animation-time ease-in;
-
-    &:hover,
-    &:focus {
-        border-color: variables.$color-primary;
-    }
-
-    &:active {
-        transform: scale(0.95);
-    }
 }
 
 @container (min-width: 898px) {
