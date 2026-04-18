@@ -127,50 +127,6 @@
     }
 }
 
-.home__article {
-    @include mixins.flexbox($align: stretch, $justify: normal, $direction: column-reverse);
-
-    border: 1px solid variables.$color-border-dark;
-    width: 100%;
-    height: 100%;
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-.home__article-content {
-    padding: 2.4rem;
-    height: 100%;
-}
-
-.home__article-text {
-    font-size: 1.8rem;
-}
-
-.home__article-header {
-    margin-bottom: 4rem;
-
-    > p {
-        font-size: 1.4rem;
-        color: variables.$color-text-secondary;
-    }
-}
-
-.home__article-title {
-    margin-bottom: 0.5rem;
-    font-size: 2.4rem;
-}
-
-.home__article-time-published {
-    font-style: italic;
-}
-
-.home__article-image {
-    max-height: 380px;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
 @include mixins.tablet {
     .home__about-me {
         flex-direction: row;

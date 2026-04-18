@@ -39,9 +39,7 @@
               "entry": "src/server.ts"
             },
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/assets/styles"
-              ]
+              "includePaths": ["src/assets/styles"]
             }
           },
           "configurations": {
@@ -82,6 +80,9 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
