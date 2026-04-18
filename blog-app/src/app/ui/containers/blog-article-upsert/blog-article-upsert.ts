@@ -3,7 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import type { BlogArticleRaw } from '../../../models';
 import { FileValueAccessor } from '../../directives';
-import { COMMON_ERRORS, ERROR_PRIORITY } from './blog-article-upsert.constants';
+import { COMMON_ERRORS } from './blog-article-upsert.constants';
 
 @Component({
   selector: 'blog-article-upsert',
@@ -38,7 +38,7 @@ export class BlogArticleUpsert {
     });
   }
 
-  protected submit = output<BlogArticleRaw>();
+  protected save = output<BlogArticleRaw>();
   protected cancel = output<void>();
 
   protected handleSubmit() {
@@ -50,7 +50,7 @@ export class BlogArticleUpsert {
 
     this.blogArticleForm.reset();
 
-    this.submit.emit(value);
+    this.save.emit(value);
   }
 
   protected handleCancel() {

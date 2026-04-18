@@ -17,7 +17,7 @@ export class Blog {
   protected isStatisticsOpen = signal<boolean>(false);
   protected isAddFormHidden = signal<boolean>(true);
 
-  protected onSubmit(value: BlogArticleRaw) {
+  protected onSave(value: BlogArticleRaw) {
     const editing = this.editingBlogArticle();
 
     if (editing) {
