@@ -34,6 +34,7 @@ export class BlogArticle implements OnDestroy {
   });
 
   protected delete = output<Id>();
+  protected edit = output<Id>();
 
   ngOnDestroy() {
     if (this._objectUrl) {
@@ -42,6 +43,10 @@ export class BlogArticle implements OnDestroy {
   }
 
   protected handleDelete() {
+    this.delete.emit(this.value().id);
+  }
+
+  protected handleEdit() {
     this.delete.emit(this.value().id);
   }
 }

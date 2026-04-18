@@ -2,14 +2,24 @@
 
 <article class="blog-article" [class.edit]="isEditMode">
   @if (isEditMode) {
-    <button
-      type="button"
-      class="flex center blog-article__remove-button"
-      title="Удалить статью"
-      (click)="handleDelete()"
-    >
-      <img src="icons/trash_can.svg" alt="Иконка удаления в виде мусорной корзины" />
-    </button>
+    <div class="blog-article__menu">
+       <button
+        type="button"
+        class="blog-article__button"
+        title="Редактировать статью"
+        (click)="handleEdit()"
+      >
+        <img src="icons/edit_article.svg" alt="Иконка редактирования в виде ручки и бумаги" />
+      </button>
+      <button
+        type="button"
+        class="blog-article__button"
+        title="Удалить статью"
+        (click)="handleDelete()"
+      >
+        <img src="icons/trash_can.svg" alt="Иконка удаления в виде мусорной корзины" />
+      </button>
+    </div>
   }
   <div class="blog-article__content">
     <header class="blog-article__header">
