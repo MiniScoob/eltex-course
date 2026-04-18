@@ -28,11 +28,18 @@
       }
     </ul>
   </section>
-  <section class="blog__add-section" [class.hidden-collapse]="isAddFormHidden()">
-    <h2 class="lead-title">Добавить статью</h2>
+  <section class="blog__form-section" [class.hidden-collapse]="isAddFormHidden()">
+    <h2 class="lead-title">
+      @if (editingBlogArticle()) {
+        Редактировать статью
+      } @else {
+        Добавить статью
+      }
+    </h2>
     <blog-article-upsert
       [initialValue]="editingBlogArticle()"
       (submit)="onSubmit($event)"
+      (cancel)="onCancel()"
     />
   </section>
 </main>

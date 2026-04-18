@@ -38,6 +38,14 @@ export class Blog {
     }
   }
 
+  protected onCancel() {
+    if (this.editingBlogArticle()) {
+      this.editingBlogArticle.set(null);
+    }
+
+    this.hideFrom();
+  }
+
   protected onDeleteBlogArticle(id: Id) {
     if (this.editingBlogArticle()?.id === id) {
       this.editingBlogArticle.set(null);

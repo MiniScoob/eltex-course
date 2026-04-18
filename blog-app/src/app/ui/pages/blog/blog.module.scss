@@ -19,10 +19,10 @@
   list-style: none;
 }
 
-.blog__add-section {
+.blog__form-section {
     max-height: 600px;
     overflow: hidden;
-    transition: max-height var(--long-animation-time);
+    transition: max-height variables.$long-animation-time;
 }
 
 .hidden-collapse {
