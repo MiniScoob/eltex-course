@@ -1,0 +1,6 @@
+{
+  "routes": {
+    "/eltex-course": {},
+    "/eltex-course/blog": {}
+  }
+}
