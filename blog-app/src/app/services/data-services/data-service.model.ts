@@ -17,4 +17,4 @@ export interface DataStorage {
   getArticles: (page: number) => Observable<StorageResult>;
 }
 
-export const DATA_STORAGE_TOKEN = new InjectionToken<DataStorage>('DATA_STORAGE_TOKEN');
+export const DATA_STORAGE_TOKEN = new InjectionToken<DataStorage>('DataStorage');
