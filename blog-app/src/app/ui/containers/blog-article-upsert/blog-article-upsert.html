@@ -1,3 +1,6 @@
+@let titleErrorMessage = getError('title');
+@let textErrorMessage = getError('text');
+
 <form [formGroup]="blogArticleForm" (ngSubmit)="handleSubmit()" class="blog-article-upsert">
   <p>
     <label for="title-input">Заголовок (обязательно):</label>
@@ -13,8 +16,8 @@
       [class.blog-article-upsert__invalid]="isInvalid('title')"
       required
     />
-    @if (getError('title')) {
-      <span class="blog-article-upsert__error-message">{{ getError('title') }}</span>
+    @if (titleErrorMessage) {
+      <span class="blog-article-upsert__error-message">{{ titleErrorMessage }}</span>
     }
   </p>
   <p>
@@ -31,8 +34,8 @@
       [class.blog-article-upsert__invalid]="isInvalid('text')"
       required
     ></textarea>
-    @if (getError('text')) {
-      <span class="blog-article-upsert__error-message">{{ getError('text') }}</span>
+    @if (textErrorMessage) {
+      <span class="blog-article-upsert__error-message">{{ textErrorMessage }}</span>
     }
   </p>
   <p>

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import {Component, computed, signal} from '@angular/core';
 
 import type { BlogArticleElement, BlogArticleRaw, Id } from '../../../models';
 import { BlogArticleUpsert } from '../../containers';
@@ -16,6 +16,11 @@ export class Blog {
   protected editingBlogArticle = signal<BlogArticleElement | null>(null);
   protected isStatisticsOpen = signal<boolean>(false);
   protected isAddFormHidden = signal<boolean>(true);
+
+  protected formTitle = computed(() => this.editingBlogArticle()
+    ? 'Редактировать статью'
+    : 'Добавить статью'
+  );
 
   protected onSave(value: BlogArticleRaw) {
     const editing = this.editingBlogArticle();
