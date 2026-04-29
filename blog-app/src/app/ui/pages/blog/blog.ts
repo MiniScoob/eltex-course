@@ -1,7 +1,8 @@
-import {Component, computed, inject, signal} from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 
 import type { BlogArticleElement, BlogArticleRaw, Id } from '../../../models';
-import { DATA_STORAGE_TOKEN, DataService } from '../../../services/data-services';
+import { DATA_STORAGE_TOKEN } from '../../../services/data-service';
+import { STORE_TOKEN } from '../../../services/store-service';
 import { BlogArticleUpsert } from '../../containers';
 import { BlogArticle, Statistics, Toolbar } from '../../components';
 import { INITIAL_ARTICLES } from './blog.constants';
@@ -9,12 +10,12 @@ import { INITIAL_ARTICLES } from './blog.constants';
 @Component({
   selector: 'app-blog',
   imports: [BlogArticle, BlogArticleUpsert, Statistics, Toolbar],
-  providers: [{ provide: DATA_STORAGE_TOKEN, useClass: DataService}],
   templateUrl: './blog.html',
   styleUrl: './blog.module.scss',
 })
 export class Blog {
   private dataService = inject(DATA_STORAGE_TOKEN);
+  private storeService = inject(STORE_TOKEN);
 
   protected blogArticles = signal<BlogArticleElement[]>([...INITIAL_ARTICLES]);
   protected editingBlogArticle = signal<BlogArticleElement | null>(null);

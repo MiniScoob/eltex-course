@@ -6,9 +6,7 @@ import type { BlogArticleData, Id } from '../../models';
 import type { DataStorage, StorageResult } from './data-service.model';
 import { PAGE_SIZE, STORAGE_KEY } from './data-service.constants';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class DataService implements DataStorage {
   private readonly _storageKey = STORAGE_KEY;
 

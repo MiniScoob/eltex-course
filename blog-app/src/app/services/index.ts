@@ -1,1 +1,2 @@
-export { DataService } from './data-services';
+export { DataService } from './data-service';
+export { StoreService } from './store-service';
