@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 
 import type { BlogArticleData, Id } from '../../models';
-import type { DataStorage, StorageResult } from './data-service.model';
-import { PAGE_SIZE, STORAGE_KEY } from './data-service.constants';
+import type { ArticlesStorage, ArticlesStorageResult } from './articles-storage-service.model';
+import { PAGE_SIZE, STORAGE_KEY } from './articles-storage-service.constants';
 
 @Injectable()
-export class DataService implements DataStorage {
+export class ArticlesStorageService implements ArticlesStorage {
   private readonly _storageKey = STORAGE_KEY;
 
   public addArticle(value: BlogArticleData, page: number) {
@@ -38,7 +38,7 @@ export class DataService implements DataStorage {
     return of(result);
   }
 
-  private prepareData(values: BlogArticleData[], page: number, pageSize = PAGE_SIZE): StorageResult {
+  private prepareData(values: BlogArticleData[], page: number, pageSize = PAGE_SIZE): ArticlesStorageResult {
     const articles = values.slice((page - 1) * pageSize, page * pageSize);
     const totalPages = Math.ceil(values.length / pageSize);
 

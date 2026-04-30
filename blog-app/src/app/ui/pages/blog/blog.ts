@@ -1,11 +1,10 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import {Component, computed, inject, OnInit, signal} from '@angular/core';
 
-import type { BlogArticleElement, BlogArticleRaw, Id } from '../../../models';
-import { DATA_STORAGE_TOKEN } from '../../../services/data-service';
-import { STORE_TOKEN } from '../../../services/store-service';
+import type { BlogArticleData, BlogArticleElement, BlogArticleRaw, Id } from '../../../models';
+import { ARTICLES_STORAGE_TOKEN, type ArticlesStorageResult } from '../../../services/articles-storage-service';
+import { ARTICLE_STORE_TOKEN } from '../../../services/articles-store-service';
 import { BlogArticleUpsert } from '../../containers';
 import { BlogArticle, Statistics, Toolbar } from '../../components';
-import { INITIAL_ARTICLES } from './blog.constants';
 
 @Component({
   selector: 'app-blog',
@@ -13,38 +12,47 @@ import { INITIAL_ARTICLES } from './blog.constants';
   templateUrl: './blog.html',
   styleUrl: './blog.module.scss',
 })
-export class Blog {
-  private dataService = inject(DATA_STORAGE_TOKEN);
-  private storeService = inject(STORE_TOKEN);
+export class Blog implements OnInit {
+  private storage = inject(ARTICLES_STORAGE_TOKEN);
+  protected store = inject(ARTICLE_STORE_TOKEN);
 
-  protected blogArticles = signal<BlogArticleElement[]>([...INITIAL_ARTICLES]);
-  protected editingBlogArticle = signal<BlogArticleElement | null>(null);
+  protected editingBlogArticle = signal<BlogArticleData | null>(null);
   protected isStatisticsOpen = signal<boolean>(false);
   protected isAddFormHidden = signal<boolean>(true);
 
+  protected blogArticles = computed<BlogArticleData[]>(() => this.store.articles());
+  protected page = computed<number>(() => this.store.page());
   protected formTitle = computed(() => this.editingBlogArticle()
     ? 'Редактировать статью'
     : 'Добавить статью'
   );
 
+  public ngOnInit(){
+    if (!this.store.isLoaded()) {
+      this.loadArticles();
+    }
+  }
+
   protected onSave(value: BlogArticleRaw) {
     const editing = this.editingBlogArticle();
+    const { photo, ...rest } = value;
 
     if (editing) {
-      this.blogArticles.update((arr) => arr.map((v) => v.id === editing.id
-        ? { ...v, ...value }
-        : v
-      ));
+      this.storage.updateArticle({ ...editing, ...rest}, this.page()).subscribe((result) => {
+        this.updateStore(result.articles, result.total);
+      });
 
       this.editingBlogArticle.set(null);
     } else {
       const newBlogArticle = {
-        ...value,
+        ...rest,
         id: crypto.randomUUID(),
         createdAt: new Date().toISOString(),
       };
 
-      this.blogArticles.update((arr) => [...arr, newBlogArticle]);
+      this.storage.addArticle(newBlogArticle, this.page()).subscribe((result) => {
+        this.updateStore(result.articles, result.total);
+      });
     }
   }
 
@@ -61,7 +69,9 @@ export class Blog {
       this.editingBlogArticle.set(null);
     }
 
-    this.blogArticles.update((arr) => arr.filter((v) => v.id !== id));
+    this.storage.deleteArticle(id, this.page()).subscribe((result) => {
+      this.updateStore(result.articles, result.total);
+    });
   }
 
   protected onEditBlogArticle(value: BlogArticleElement) {
@@ -99,5 +109,17 @@ export class Blog {
     }
 
     this.isStatisticsOpen.set(false);
+  }
+
+  private loadArticles() {
+    this.storage.getArticles(this.store.page()).subscribe((result) => {
+      this.updateStore(result.articles, result.total);
+      this.store.setLoaded(true);
+    });
+  }
+
+  private updateStore(articles: BlogArticleData[], total: number) {
+    this.store.setArticles(articles);
+    this.store.setTotalArticles(total);
   }
 }

@@ -1,6 +1,8 @@
+@let articles = blogArticles();
+
 <blog-statistics
   [isOpen]="isStatisticsOpen()"
-  [blogArticlesCount]="blogArticles().length"
+  [blogArticlesCount]="articles.length"
   [blogCommentsCount]="0"
   (close)="closeStatistics()"
 />
@@ -16,7 +18,7 @@
   <section>
     <h2 class="lead-title">Статьи</h2>
     <ul class="blog__article-list">
-      @for (item of blogArticles(); track item.id) {
+      @for (item of articles; track item.id) {
         <li>
           <blog-article
             [value]="item"
