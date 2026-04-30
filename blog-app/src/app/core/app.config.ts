@@ -1,9 +1,11 @@
-import { type ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { type ApplicationConfig, PLATFORM_ID, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { provideRouter } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 
 import { ARTICLES_STORAGE_TOKEN, ArticlesStorageService } from '../services/articles-storage-service';
 import { ARTICLE_STORE_TOKEN, ArticlesStoreService } from '../services/articles-store-service';
+import { STORAGE_ENGINE_TOKEN, BrowserStorageEngineService, ServerStorageEngineService } from '../services/storage-engine-service';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -13,5 +15,12 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     { provide: ARTICLES_STORAGE_TOKEN, useClass: ArticlesStorageService },
     { provide: ARTICLE_STORE_TOKEN, useClass: ArticlesStoreService },
+    {
+      provide: STORAGE_ENGINE_TOKEN,
+      useFactory: (platformId: Object) => isPlatformBrowser(platformId)
+        ? new BrowserStorageEngineService()
+        : new ServerStorageEngineService(),
+      deps: [PLATFORM_ID],
+    },
   ],
 };
