@@ -13,42 +13,42 @@ export class ArticlesStorageService implements ArticlesStorage {
 
   private readonly _storageKey = STORAGE_KEY;
 
-  public addArticle(value: BlogArticleData, page: number) {
+  public addArticle(value: BlogArticleData, page: number, pageSize?: number) {
     const updated = this.addArticleToStorage(value);
-    const result = this.prepareData(updated, page);
+    const result = this.prepareData(updated, page, pageSize);
 
     return of(result);
   }
 
-  public deleteArticle(id: Id, page: number) {
+  public deleteArticle(id: Id, page: number, pageSize?: number) {
     const updated = this.removeArticlesFromStorage(id);
-    const result = this.prepareData(updated, page);
+    const result = this.prepareData(updated, page, pageSize);
 
     return of(result);
   }
 
-  public updateArticle(value: BlogArticleData, page: number) {
+  public updateArticle(value: BlogArticleData, page: number, pageSize?: number) {
     const updated = this.updateArticleInStorage(value);
-    const result = this.prepareData(updated, page);
+    const result = this.prepareData(updated, page, pageSize);
 
     return of(result);
   }
 
-  public getArticles(page: number) {
+  public getArticles(page: number, pageSize?: number) {
     const values = this.getArticlesFromStorage();
-    const result = this.prepareData(values, page);
+    const result = this.prepareData(values, page, pageSize);
 
     return of(result);
   }
 
   private prepareData(values: BlogArticleData[], page: number, pageSize = PAGE_SIZE): ArticlesStorageResult {
-    const articles = values.slice((page - 1) * pageSize, page * pageSize);
     const totalPages = Math.ceil(values.length / pageSize);
+    const realPage = this.getRealPage(page, totalPages);
+    const articles = values.slice((realPage - 1) * pageSize, realPage * pageSize);
 
     return {
       articles,
       total: values.length,
-      totalPages,
     };
   }
 
@@ -91,5 +91,17 @@ export class ArticlesStorageService implements ArticlesStorage {
 
   private saveArticlesToStorage(values: BlogArticleData[]) {
     this.engine.setItem(this._storageKey, JSON.stringify(values));
+  }
+
+  private getRealPage(page: number, totalPages: number) {
+    if (page <= 0 ) {
+      return 1;
+    }
+
+    if (page > totalPages) {
+      return totalPages;
+    }
+
+    return page;
   }
 }

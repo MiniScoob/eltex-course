@@ -1,8 +1,7 @@
-import {Component, computed, inject, OnInit, signal} from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 
 import type { BlogArticleData, BlogArticleElement, BlogArticleRaw, Id } from '../../../models';
-import { ARTICLES_STORAGE_TOKEN, type ArticlesStorageResult } from '../../../services/articles-storage-service';
-import { ARTICLE_STORE_TOKEN } from '../../../services/articles-store-service';
+import { ARTICLES_FACADE_TOKEN } from '../../../services/articles-facade-service';
 import { BlogArticleUpsert } from '../../containers';
 import { BlogArticle, Statistics, Toolbar } from '../../components';
 
@@ -13,15 +12,16 @@ import { BlogArticle, Statistics, Toolbar } from '../../components';
   styleUrl: './blog.module.scss',
 })
 export class Blog implements OnInit {
-  private storage = inject(ARTICLES_STORAGE_TOKEN);
-  protected store = inject(ARTICLE_STORE_TOKEN);
+  protected store = inject(ARTICLES_FACADE_TOKEN);
 
   protected editingBlogArticle = signal<BlogArticleData | null>(null);
   protected isStatisticsOpen = signal<boolean>(false);
   protected isAddFormHidden = signal<boolean>(true);
 
-  protected blogArticles = computed<BlogArticleData[]>(() => this.store.articles());
-  protected page = computed<number>(() => this.store.page());
+  protected totalPages = computed(() => this.store.totalArticles() > 0
+    ? Math.ceil(this.store.totalArticles() / this.store.pageSize())
+    : 1,
+  );
   protected formTitle = computed(() => this.editingBlogArticle()
     ? 'Редактировать статью'
     : 'Добавить статью'
@@ -38,21 +38,11 @@ export class Blog implements OnInit {
     const { photo, ...rest } = value;
 
     if (editing) {
-      this.storage.updateArticle({ ...editing, ...rest}, this.page()).subscribe((result) => {
-        this.updateStore(result.articles, result.total);
-      });
+      this.store.updateArticle(editing, value);
 
       this.editingBlogArticle.set(null);
     } else {
-      const newBlogArticle = {
-        ...rest,
-        id: crypto.randomUUID(),
-        createdAt: new Date().toISOString(),
-      };
-
-      this.storage.addArticle(newBlogArticle, this.page()).subscribe((result) => {
-        this.updateStore(result.articles, result.total);
-      });
+      this.store.addArticle(value);
     }
   }
 
@@ -69,9 +59,7 @@ export class Blog implements OnInit {
       this.editingBlogArticle.set(null);
     }
 
-    this.storage.deleteArticle(id, this.page()).subscribe((result) => {
-      this.updateStore(result.articles, result.total);
-    });
+    this.store.deleteArticle(id);
   }
 
   protected onEditBlogArticle(value: BlogArticleElement) {
@@ -112,14 +100,6 @@ export class Blog implements OnInit {
   }
 
   private loadArticles() {
-    this.storage.getArticles(this.store.page()).subscribe((result) => {
-      this.updateStore(result.articles, result.total);
-      this.store.setLoaded(true);
-    });
-  }
-
-  private updateStore(articles: BlogArticleData[], total: number) {
-    this.store.setArticles(articles);
-    this.store.setTotalArticles(total);
+    this.store.loadArticles();
   }
 }

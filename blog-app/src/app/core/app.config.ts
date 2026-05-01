@@ -3,9 +3,14 @@ import { isPlatformBrowser } from '@angular/common';
 import { provideRouter } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 
+import {
+  STORAGE_ENGINE_TOKEN,
+  BrowserStorageEngineService,
+  ServerStorageEngineService
+} from '../services/storage-engine-service';
 import { ARTICLES_STORAGE_TOKEN, ArticlesStorageService } from '../services/articles-storage-service';
 import { ARTICLE_STORE_TOKEN, ArticlesStoreService } from '../services/articles-store-service';
-import { STORAGE_ENGINE_TOKEN, BrowserStorageEngineService, ServerStorageEngineService } from '../services/storage-engine-service';
+import { ARTICLES_FACADE_TOKEN, ArticlesFacadeService } from '../services/articles-facade-service';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -13,8 +18,6 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    { provide: ARTICLES_STORAGE_TOKEN, useClass: ArticlesStorageService },
-    { provide: ARTICLE_STORE_TOKEN, useClass: ArticlesStoreService },
     {
       provide: STORAGE_ENGINE_TOKEN,
       useFactory: (platformId: Object) => isPlatformBrowser(platformId)
@@ -22,5 +25,8 @@ export const appConfig: ApplicationConfig = {
         : new ServerStorageEngineService(),
       deps: [PLATFORM_ID],
     },
+    { provide: ARTICLES_STORAGE_TOKEN, useClass: ArticlesStorageService },
+    { provide: ARTICLE_STORE_TOKEN, useClass: ArticlesStoreService },
+    { provide: ARTICLES_FACADE_TOKEN, useClass: ArticlesFacadeService },
   ],
 };
