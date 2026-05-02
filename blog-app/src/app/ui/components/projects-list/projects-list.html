@@ -1,0 +1,15 @@
+<ul class="list projects-list">
+  @for (item of projects(); track $index) {
+    <li>
+      <section class="list__content projects-list__project">
+        <div class="projects-list__project-icon">
+          <img [src]="item.icon" [alt]="item.alt" />
+        </div>
+        <div>
+          <h4 class="subtitle">{{ item.title }}</h4>
+          <p>{{ item.description }}</p>
+        </div>
+      </section>
+    </li>
+  }
+</ul>

@@ -1,18 +1,7 @@
+@let articles = store.articles();
+
 <main class="home">
-  <section class="home__about-me">
-    <div>
-      <h1 class="lead-title">Обо мне</h1>
-      <p>
-        Любитель конфет и сладких ракет.<br />
-        Последние несколько лет подрабатываю веб-разработчиком, специализируюсь на интеграции с блокчейном.<br />
-        В этом бложике делюсь своими ценными мюслями, интересными практиками и важными новостями.
-      </p>
-    </div>
-    <img
-      src="images/twinpeaks.jpg"
-      alt="Фотография меня с чашечкой чертовски хорошего кофе. Позади монитор с фотографией Лоры Палмер"
-    />
-  </section>
+  <home-about-me />
   <section>
     <h2 class="lead-title">Моя карьера</h2>
     <div class="home__block-wrapper">
@@ -27,29 +16,11 @@
       </section>
       <section class="home__block">
         <h3 class="title">Мои проекты:</h3>
-        <ul class="list home__projects-list">
-          @for (item of projects; track $index) {
-            <li>
-              <section class="list__content home__project">
-                <div class="home__project-icon">
-                  <img [src]="item.icon" [alt]="item.alt" />
-                </div>
-                <div>
-                  <h4 class="subtitle">{{ item.title }}</h4>
-                  <p>{{ item.description }}</p>
-                </div>
-              </section>
-            </li>
-          }
-        </ul>
+        <home-projects-list [projects]="projects" />
       </section>
       <section class="home__block">
         <h3 class="title">Маленькие победы:</h3>
-        <ul class="home__achievement-list">
-          @for (item of achievements; track $index) {
-            <li> {{ item }}</li>
-          }
-        </ul>
+        <home-achievements-list [achievements]="achievements" />
       </section>
     </div>
   </section>
@@ -58,39 +29,11 @@
     <div class="home__block-wrapper">
       <section class="home__block">
         <h3 class="title">Образование:</h3>
-        <ul class="list">
-          <li>
-            <section class="list__content">
-              <h4 class="subtitle">
-                Новосибирский государственный технический университет, 2023-2025
-              </h4>
-              <p>Информатика и вычислительная техника (магистр техники и технологии)</p>
-            </section>
-          </li>
-          <li>
-            <section class="list__content">
-              <h4 class="subtitle">
-                Сибирский государственный университет путей сообщения, 2019-2023
-              </h4>
-              <p>Информационные системы и технологии (инженер)</p>
-            </section>
-          </li>
-        </ul>
+        <home-educations-list [educationItems]="educations"/>
       </section>
       <section class="home__block">
         <h3 class="title">Навыки:</h3>
-        <ul class="home__skill-list">
-          @for (item of skills; track $index) {
-            <li>
-              <span class="subtitle">{{ item.field }}</span>
-              <ul class="home__skill-sublist">
-                @for (subitem of item.values; track $index) {
-                  <li>{{ subitem }}</li>
-                }
-              </ul>
-            </li>
-          }
-        </ul>
+        <home-skills-list [skills]="skills" />
       </section>
     </div>
   </section>
@@ -104,17 +47,19 @@
         }
       </ul>
     </section>
-    <section>
-      <h2 class="lead-title">Последние статьи</h2>
-      <ul class="home__article-list">
-        @for (item of articles; track $index) {
-          <li>
-            <blog-article [value]="item" />
-          </li>
-        }
-      </ul>
-      <a class="button" href="/blog">
-        Посмотреть все статьи
-      </a>
-    </section>
+    @if (articles.length > 0) {
+      <section>
+        <h2 class="lead-title">Последние статьи</h2>
+        <ul class="home__article-list">
+          @for (item of articles.slice(0, 2); track $index) {
+            <li>
+              <blog-article [value]="item" />
+            </li>
+          }
+        </ul>
+        <a class="button" href="/blog">
+          Посмотреть все статьи
+        </a>
+      </section>
+    }
 </main>

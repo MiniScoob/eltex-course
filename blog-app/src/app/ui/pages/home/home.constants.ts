@@ -1,12 +1,7 @@
-import { BlogArticleElement } from '../../../models';
+import type { Education } from '../../components/educations-list';
+import type { Project } from '../../components/projects-list';
+import type { Skill } from '../../components/skills-list';
 import type { Hobby } from '../../components/hobby-card';
-
-type Project = {
-  title: string;
-  description: string;
-  icon: string;
-  alt: string;
-};
 
 export const PROJECTS: Project[] = [
   {
@@ -57,10 +52,16 @@ export const ACHIEVEMENTS = [
   'Сделал свой помоДора таймер (помодоро с Дорой).',
 ];
 
-type Skill = {
-  field: string;
-  values: string[];
-};
+export const EDUCATIONS: Education[] = [
+  {
+    institution: 'Новосибирский государственный технический университет, 2023-2025',
+    direction: 'Информатика и вычислительная техника (магистр техники и технологии)',
+  },
+  {
+    institution: 'Сибирский государственный университет путей сообщения, 2019-2023',
+    direction: 'Информационные системы и технологии (инженер)',
+  },
+];
 
 export const SKILLS: Skill[] = [
   {
@@ -109,30 +110,5 @@ export const HOBBIES: Hobby[] = [
       src: 'images/lynch.avif',
       alt: 'Режиссер Дэвид Линч сидит в чёрном вигваме',
     },
-  },
-];
-
-export const ARTICLES: BlogArticleElement[] = [
-  {
-    id: 1,
-    title: 'Я уронил отварную сосиску',
-    text: '4 марта около шести часов вечера выпусник НГТУ, Владислав Попов, '
-      + 'закончив отваривать молочную сосиску СПК, подцепил её кончиком вилки, чтобы '
-      + 'переместить из кипятка в миску с отварным картофелем. '
-      + 'Я думал, что сосиска прочно держится на зубчиках вилки, но я ошибся... вспоминаю я.',
-    createdAt: '2026-03-05',
-  },
-  {
-    id: 2,
-    title: 'Перекат в вайб-кодинг',
-    text: 'Размышлял над текущим своим положением дел. К сожалению, ведение блога продолжается. '
-      + 'К хорошим новостям — теперь все статьи будет писать ИИ-агент.',
-    createdAt: '2026-02-28',
-  },
-  {
-    id: 3,
-    title: 'Моей помощнице',
-    text: 'Даяна, сейчас 11:30, 24 февраля. Въезжаю в городок Твин Пикс',
-    createdAt: '2026-02-24',
   },
 ];

@@ -1,0 +1,17 @@
+@use "mixins";
+
+.about-me {
+  @include mixins.flexbox($align: stretch, $justify: space-between, $direction: column);
+
+  gap: 2rem;
+
+  > img {
+    border-radius: 16px;
+  }
+}
+
+@include mixins.tablet {
+  .about-me {
+    flex-direction: row;
+  }
+}

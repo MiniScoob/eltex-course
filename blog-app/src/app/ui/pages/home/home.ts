@@ -1,10 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
-import { BlogArticle, HobbyCard } from '../../components';
+import { ARTICLES_FACADE_TOKEN } from '../../../services/articles-facade-service';
+import {
+  AboutMe,
+  AchievementsList,
+  BlogArticle,
+  EducationsList,
+  HobbyCard,
+  ProjectsList,
+  SkillsList
+} from '../../components';
 
 import {
   ACHIEVEMENTS,
-  ARTICLES,
+  EDUCATIONS,
   HOBBIES,
   PROJECTS,
   SKILLS
@@ -12,14 +21,16 @@ import {
 
 @Component({
   selector: 'app-home',
-  imports: [BlogArticle, HobbyCard],
+  imports: [AboutMe, BlogArticle, HobbyCard, EducationsList, SkillsList, ProjectsList, AchievementsList],
   templateUrl: './home.html',
   styleUrl: './home.module.scss',
 })
 export class Home {
+  protected readonly store = inject(ARTICLES_FACADE_TOKEN);
+
   protected readonly achievements = ACHIEVEMENTS;
-  protected readonly articles = ARTICLES;
   protected readonly hobbies = HOBBIES;
   protected readonly projects = PROJECTS;
+  protected readonly educations = EDUCATIONS;
   protected readonly skills = SKILLS;
 }

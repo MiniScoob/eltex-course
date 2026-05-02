@@ -1,40 +1,63 @@
-import { Component, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 
-import type { BlogArticleElement, BlogArticleRaw, Id } from '../../../models';
+import type {
+  BlogArticleData,
+  BlogArticleElement,
+  BlogArticleRaw,
+  Id,
+} from '../../../models';
+import { ARTICLES_FACADE_TOKEN } from '../../../services/articles-facade-service';
 import { BlogArticleUpsert } from '../../containers';
-import { BlogArticle, Statistics, Toolbar } from '../../components';
-import { INITIAL_ARTICLES } from './blog.constants';
+import {
+  BlogArticle,
+  Pagination,
+  Spinner,
+  Statistics,
+  Toolbar,
+} from '../../components';
 
 @Component({
   selector: 'app-blog',
-  imports: [BlogArticle, BlogArticleUpsert, Statistics, Toolbar],
+  imports: [BlogArticle, BlogArticleUpsert, Statistics, Toolbar, Pagination, Spinner],
   templateUrl: './blog.html',
   styleUrl: './blog.module.scss',
 })
-export class Blog {
-  protected blogArticles = signal<BlogArticleElement[]>([...INITIAL_ARTICLES]);
-  protected editingBlogArticle = signal<BlogArticleElement | null>(null);
+export class Blog implements OnInit {
+  protected store = inject(ARTICLES_FACADE_TOKEN);
+
+  protected editingBlogArticle = signal<BlogArticleData | null>(null);
   protected isStatisticsOpen = signal<boolean>(false);
   protected isAddFormHidden = signal<boolean>(true);
+
+  protected totalPages = computed(() => this.store.totalArticles() > 0
+    ? Math.ceil(this.store.totalArticles() / this.store.pageSize())
+    : 1,
+  );
+  protected formTitle = computed(() => this.editingBlogArticle()
+    ? 'Редактировать статью'
+    : 'Добавить статью'
+  );
+
+  public ngOnInit(){
+    this.store.loadArticles();
+    console.log(this.store.articles());
+  }
 
   protected onSave(value: BlogArticleRaw) {
     const editing = this.editingBlogArticle();
 
     if (editing) {
-      this.blogArticles.update((arr) => arr.map((v) => v.id === editing.id
-        ? { ...v, ...value }
-        : v
-      ));
+      this.store.updateArticle(editing, value);
 
       this.editingBlogArticle.set(null);
     } else {
-      const newBlogArticle = {
-        ...value,
-        id: crypto.randomUUID(),
-        createdAt: new Date().toISOString(),
-      };
-
-      this.blogArticles.update((arr) => [...arr, newBlogArticle]);
+      this.store.addArticle(value);
     }
   }
 
@@ -51,7 +74,7 @@ export class Blog {
       this.editingBlogArticle.set(null);
     }
 
-    this.blogArticles.update((arr) => arr.filter((v) => v.id !== id));
+    this.store.deleteArticle(id);
   }
 
   protected onEditBlogArticle(value: BlogArticleElement) {
@@ -89,5 +112,9 @@ export class Blog {
     }
 
     this.isStatisticsOpen.set(false);
+  }
+
+  protected onPageChanged(page: number) {
+    this.store.changePage(page);
   }
 }

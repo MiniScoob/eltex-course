@@ -12,11 +12,31 @@
   margin-bottom: 2.4rem;
 }
 
-.blog__article-list {
+.blog__articles-header {
+  @include mixins.flexbox($justify: space-between);
+
+  margin-bottom: 2.2rem;
+
+  > h2 {
+    margin-bottom: 0;
+  }
+}
+
+.blog__articles-controls {
+  @include mixins.flexbox;
+  gap: 1rem;
+}
+
+.blog__articles-list {
   @include mixins.grid($columns: 1fr, $rows: auto);
 
-  gap: 16px 24px;
+  gap: 1.6rem 2.4rem;
   list-style: none;
+}
+
+.blog__pagination {
+  display: block;
+  margin-top: 2.4rem;
 }
 
 .blog__form-section {
@@ -30,12 +50,12 @@
 }
 
 @include mixins.tablet-mid {
-    .blog__article-list {
+    .blog__articles-list {
         grid-template-columns: repeat(2, 1fr);
-    }
 
-    .blog__article-list > li:first-child {
+      > li:first-child {
         grid-area: 1 / 1 / 2 / 3;
         container-type: inline-size;
+      }
     }
 }

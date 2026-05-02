@@ -5,7 +5,7 @@
             <ul class="header__list">
                 @for (link of navLinks; track $index) {
                     <li>
-                        <a class="header__link" [href]="link.href">
+                        <a class="header__link" [routerLink]="link.href">
                             {{ link.label }}
                         </a>
                     </li>
