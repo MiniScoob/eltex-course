@@ -1,0 +1,38 @@
+@use "variables";
+@use "mixins";
+
+.projects-list {
+  @include mixins.flexbox($align: stretch, $direction: column);
+
+  gap: 1.6rem;
+}
+
+.projects-list__project {
+  @include mixins.flexbox($direction: column);
+
+  gap: 1.6rem;
+  text-align: center;
+}
+
+.projects-list__project-icon {
+  @include mixins.flexbox;
+
+  flex-shrink: 0;
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 8px;
+  background: variables.$color-primary;
+
+  > img {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+}
+
+@include mixins.tablet {
+  .projects-list__project {
+    @include mixins.flexbox($align: stretch, $justify: normal);
+
+    text-align: unset;
+  }
+}

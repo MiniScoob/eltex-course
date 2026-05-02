@@ -1,0 +1,12 @@
+<ul class="skills-list">
+  @for (item of skills(); track $index) {
+    <li>
+      <span class="subtitle">{{ item.field }}</span>
+      <ul class="skills-list__sublist">
+        @for (subitem of item.values; track $index) {
+          <li>{{ subitem }}</li>
+        }
+      </ul>
+    </li>
+  }
+</ul>

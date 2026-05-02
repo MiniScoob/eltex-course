@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 
 import { ARTICLES_FACADE_TOKEN } from '../../../services/articles-facade-service';
-import { AboutMe, BlogArticle, HobbyCard } from '../../components';
+import {AboutMe, BlogArticle, EducationsList, HobbyCard, ProjectsList, SkillsList} from '../../components';
 
 import {
   ACHIEVEMENTS,
@@ -10,11 +10,10 @@ import {
   PROJECTS,
   SKILLS
 } from './home.constants';
-import {EducationBlock} from '../../components/education-block';
 
 @Component({
   selector: 'app-home',
-  imports: [AboutMe, BlogArticle, HobbyCard, EducationBlock],
+  imports: [AboutMe, BlogArticle, HobbyCard, EducationsList, SkillsList, ProjectsList],
   templateUrl: './home.html',
   styleUrl: './home.module.scss',
 })

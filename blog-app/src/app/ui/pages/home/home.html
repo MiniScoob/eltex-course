@@ -16,21 +16,7 @@
       </section>
       <section class="home__block">
         <h3 class="title">Мои проекты:</h3>
-        <ul class="list home__projects-list">
-          @for (item of projects; track $index) {
-            <li>
-              <section class="list__content home__project">
-                <div class="home__project-icon">
-                  <img [src]="item.icon" [alt]="item.alt" />
-                </div>
-                <div>
-                  <h4 class="subtitle">{{ item.title }}</h4>
-                  <p>{{ item.description }}</p>
-                </div>
-              </section>
-            </li>
-          }
-        </ul>
+        <home-projects-list [projects]="projects" />
       </section>
       <section class="home__block">
         <h3 class="title">Маленькие победы:</h3>
@@ -45,24 +31,13 @@
   <section>
     <h2 class="lead-title">Моё развитие</h2>
     <div class="home__block-wrapper">
-      <home-education-block
-        class="home__block"
-        [educationItems]="educations"
-      />
+      <section class="home__block">
+        <h3 class="title">Образование:</h3>
+        <home-educations-list [educationItems]="educations"/>
+      </section>
       <section class="home__block">
         <h3 class="title">Навыки:</h3>
-        <ul class="home__skill-list">
-          @for (item of skills; track $index) {
-            <li>
-              <span class="subtitle">{{ item.field }}</span>
-              <ul class="home__skill-sublist">
-                @for (subitem of item.values; track $index) {
-                  <li>{{ subitem }}</li>
-                }
-              </ul>
-            </li>
-          }
-        </ul>
+        <home-skills-list [skills]="skills" />
       </section>
     </div>
   </section>

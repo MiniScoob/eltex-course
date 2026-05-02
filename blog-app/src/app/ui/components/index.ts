@@ -5,3 +5,6 @@ export { Toolbar } from './toolbar';
 export { Pagination } from './pagination';
 export { Spinner } from './spinner';
 export { AboutMe } from './about-me';
+export { EducationsList } from './educations-list';
+export { SkillsList } from './skills-list';
+export { ProjectsList } from './projects-list';

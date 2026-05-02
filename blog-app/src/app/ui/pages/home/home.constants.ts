@@ -1,12 +1,7 @@
-import type { Education } from '../../components/education-block';
+import type { Education } from '../../components/educations-list';
+import type { Project } from '../../components/projects-list';
+import type { Skill } from '../../components/skills-list';
 import type { Hobby } from '../../components/hobby-card';
-
-type Project = {
-  title: string;
-  description: string;
-  icon: string;
-  alt: string;
-};
 
 export const PROJECTS: Project[] = [
   {
@@ -67,11 +62,6 @@ export const EDUCATIONS: Education[] = [
     direction: 'Информационные системы и технологии (инженер)',
   },
 ];
-
-type Skill = {
-  field: string;
-  values: string[];
-};
 
 export const SKILLS: Skill[] = [
   {
