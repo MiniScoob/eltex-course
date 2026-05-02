@@ -45,7 +45,7 @@ export class Blog implements OnInit {
   );
 
   public ngOnInit(){
-    this.loadArticles();
+    this.store.loadArticles();
   }
 
   protected onSave(value: BlogArticleRaw) {
@@ -116,9 +116,5 @@ export class Blog implements OnInit {
 
   protected onPageChanged(page: number) {
     this.store.changePage(page);
-  }
-
-  private loadArticles() {
-    this.store.loadArticles();
   }
 }

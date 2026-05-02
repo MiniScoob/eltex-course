@@ -15,6 +15,10 @@ export interface ArticlesFacade {
   changePage: (page: number) => void;
   setPageSize: (page: number) => void;
   loadArticles: () => void;
+
+  // for testing purposes
+  generateArticles: () => void;
+  clearArticles: () => void;
 }
 
 export const ARTICLES_FACADE_TOKEN = new InjectionToken<ArticlesFacade>('ArticlesFacade')
