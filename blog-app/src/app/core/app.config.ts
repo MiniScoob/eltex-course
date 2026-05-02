@@ -25,8 +25,8 @@ export const appConfig: ApplicationConfig = {
         : new ServerStorageEngineService(),
       deps: [PLATFORM_ID],
     },
-    { provide: ARTICLES_STORAGE_TOKEN, useClass: ArticlesStorageService },
-    { provide: ARTICLE_STORE_TOKEN, useClass: ArticlesStoreService },
+    { provide: ARTICLES_STORAGE_TOKEN, useExisting: ArticlesStorageService },
+    { provide: ARTICLE_STORE_TOKEN, useExisting: ArticlesStoreService },
     { provide: ARTICLES_FACADE_TOKEN, useClass: ArticlesFacadeService },
   ],
 };

@@ -83,8 +83,10 @@ export class ArticlesFacadeService implements ArticlesFacade {
   }
 
   public clearArticles() {
-    this.getArticles();
-    const copy = [...this.articles()];
+    let copy: BlogArticleData[] =[];
+    this.storage.getArticles(1, this.totalArticles()).subscribe((result) => {
+      copy = [...result.articles];
+    });
 
     copy.forEach((article) => {
       this.storage.deleteArticle(article.id, this.page(), this.pageSize());

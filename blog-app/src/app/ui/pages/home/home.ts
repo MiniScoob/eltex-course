@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
+import { ARTICLES_FACADE_TOKEN } from '../../../services/articles-facade-service';
 import { BlogArticle, HobbyCard } from '../../components';
 
 import {
   ACHIEVEMENTS,
-  ARTICLES,
   HOBBIES,
   PROJECTS,
   SKILLS
@@ -17,8 +17,9 @@ import {
   styleUrl: './home.module.scss',
 })
 export class Home {
+  protected readonly store = inject(ARTICLES_FACADE_TOKEN);
+
   protected readonly achievements = ACHIEVEMENTS;
-  protected readonly articles = ARTICLES;
   protected readonly hobbies = HOBBIES;
   protected readonly projects = PROJECTS;
   protected readonly skills = SKILLS;

@@ -1,3 +1,5 @@
+@let articles = store.articles();
+
 <main class="home">
   <section class="home__about-me">
     <div>
@@ -106,13 +108,17 @@
     </section>
     <section>
       <h2 class="lead-title">Последние статьи</h2>
-      <ul class="home__article-list">
-        @for (item of articles; track $index) {
-          <li>
-            <blog-article [value]="item" />
-          </li>
-        }
-      </ul>
+      @if (articles.length > 0) {
+        <ul class="home__article-list">
+          @for (item of articles.slice(0, 2); track $index) {
+            <li>
+              <blog-article [value]="item" />
+            </li>
+          }
+        </ul>
+      } @else {
+        <p>Нет статей</p>
+      }
       <a class="button" href="/blog">
         Посмотреть все статьи
       </a>

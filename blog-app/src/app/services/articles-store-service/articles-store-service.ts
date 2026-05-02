@@ -4,7 +4,7 @@ import type { BlogArticleData } from '../../models';
 import type { ArticleStore } from './articles-store-service.model';
 import { DEFAULT_PAGE } from './articles-store-service.constants';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ArticlesStoreService implements ArticleStore {
   private _articles = signal<BlogArticleData[]>([]);
   private _page = signal<number>(DEFAULT_PAGE);

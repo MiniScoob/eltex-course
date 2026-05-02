@@ -7,7 +7,7 @@ import { STORAGE_ENGINE_TOKEN } from '../storage-engine-service';
 import type { ArticlesStorage, ArticlesStorageResult } from './articles-storage-service.model';
 import { PAGE_SIZE, STORAGE_KEY } from './articles-storage-service.constants';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ArticlesStorageService implements ArticlesStorage {
   private engine = inject(STORAGE_ENGINE_TOKEN);
 

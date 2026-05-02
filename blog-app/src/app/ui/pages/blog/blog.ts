@@ -46,6 +46,7 @@ export class Blog implements OnInit {
 
   public ngOnInit(){
     this.store.loadArticles();
+    console.log(this.store.articles());
   }
 
   protected onSave(value: BlogArticleRaw) {
