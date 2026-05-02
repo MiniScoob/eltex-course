@@ -20,11 +20,7 @@
       </section>
       <section class="home__block">
         <h3 class="title">Маленькие победы:</h3>
-        <ul class="home__achievement-list">
-          @for (item of achievements; track $index) {
-            <li> {{ item }}</li>
-          }
-        </ul>
+        <home-achievements-list [achievements]="achievements" />
       </section>
     </div>
   </section>

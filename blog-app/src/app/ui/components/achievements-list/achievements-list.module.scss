@@ -1,0 +1,15 @@
+achievement-list {
+  list-style-position: inside;
+
+  > li{
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &::marker {
+      content: "\1F3C6 ";
+    }
+  }
+}

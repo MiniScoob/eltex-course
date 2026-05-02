@@ -6,7 +6,7 @@ import type { Education } from './educations-list.model';
   selector: 'home-educations-list',
   imports: [],
   templateUrl: './educations-list.html',
-  styleUrl: './educations-list.scss',
+  styleUrl: './educations-list.module.scss',
 })
 export class EducationsList {
   public educationItems = input.required<Education[]>();

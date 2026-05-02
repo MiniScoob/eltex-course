@@ -6,7 +6,7 @@ import type { Skill } from './skills-list.model';
   selector: 'home-skills-list',
   imports: [],
   templateUrl: './skills-list.html',
-  styleUrl: './skills-list.scss',
+  styleUrl: './skills-list.module.scss',
 })
 export class SkillsList {
   skills = input.required<Skill[]>();

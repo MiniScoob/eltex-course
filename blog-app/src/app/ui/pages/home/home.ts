@@ -1,7 +1,15 @@
 import { Component, inject } from '@angular/core';
 
 import { ARTICLES_FACADE_TOKEN } from '../../../services/articles-facade-service';
-import {AboutMe, BlogArticle, EducationsList, HobbyCard, ProjectsList, SkillsList} from '../../components';
+import {
+  AboutMe,
+  AchievementsList,
+  BlogArticle,
+  EducationsList,
+  HobbyCard,
+  ProjectsList,
+  SkillsList
+} from '../../components';
 
 import {
   ACHIEVEMENTS,
@@ -13,7 +21,7 @@ import {
 
 @Component({
   selector: 'app-home',
-  imports: [AboutMe, BlogArticle, HobbyCard, EducationsList, SkillsList, ProjectsList],
+  imports: [AboutMe, BlogArticle, HobbyCard, EducationsList, SkillsList, ProjectsList, AchievementsList],
   templateUrl: './home.html',
   styleUrl: './home.module.scss',
 })

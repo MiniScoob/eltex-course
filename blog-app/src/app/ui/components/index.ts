@@ -8,3 +8,4 @@ export { AboutMe } from './about-me';
 export { EducationsList } from './educations-list';
 export { SkillsList } from './skills-list';
 export { ProjectsList } from './projects-list';
+export { AchievementsList } from './achievements-list';

@@ -6,7 +6,7 @@ import type { Project } from './projects-list.model';
   selector: 'home-projects-list',
   imports: [],
   templateUrl: './projects-list.html',
-  styleUrl: './projects-list.scss',
+  styleUrl: './projects-list.module.scss',
 })
 export class ProjectsList {
   projects = input.required<Project[]>();
