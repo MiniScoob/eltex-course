@@ -33,6 +33,7 @@
         }
       </ul>
       <list-pagination
+        class="blog__pagination"
         [currentPage]="store.page()"
         [totalPages]="totalPages()"
         (pageChange)="onPageChanged($event)"

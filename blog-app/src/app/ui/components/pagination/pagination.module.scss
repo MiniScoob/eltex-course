@@ -2,9 +2,9 @@
 @use "mixins";
 
 .pagination {
-  @include mixins.flexbox($justify: normal);
+  @include mixins.flexbox;
 
-  gap: 10px;
+  gap: 1rem;
 }
 
 .pagination__button {
@@ -38,10 +38,15 @@
   background-color: variables.$color-border-dark;
   color: variables.$color-white;
   cursor: not-allowed;
+  transform: none;
+}
+
+.pagination__arrow {
+  padding-bottom: 3px;
 }
 
 .pagination__dots {
-  padding-bottom: 9px;
+  padding-bottom: 0.9rem;
 }
 
 .pagination__button,

@@ -1,7 +1,7 @@
 @if (pageItems().length > 0) {
   <div class="pagination">
     <button
-      class="pagination__button"
+      class="pagination__button pagination__arrow"
       [disabled]="currentPage() <= 1"
       (click)="updatePage(currentPage() - 1)"
       aria-label="Предыдущая страница"
@@ -25,7 +25,7 @@
       }
     }
     <button
-      class="pagination__button"
+      class="pagination__button pagination__arrow"
       [disabled]="currentPage() >= totalPages()"
       (click)="updatePage(currentPage() + 1)"
       aria-label="Следующая страница"
