@@ -106,9 +106,9 @@
         }
       </ul>
     </section>
-    <section>
-      <h2 class="lead-title">Последние статьи</h2>
-      @if (articles.length > 0) {
+    @if (articles.length > 0) {
+      <section>
+        <h2 class="lead-title">Последние статьи</h2>
         <ul class="home__article-list">
           @for (item of articles.slice(0, 2); track $index) {
             <li>
@@ -116,11 +116,9 @@
             </li>
           }
         </ul>
-      } @else {
-        <p>Нет статей</p>
-      }
-      <a class="button" href="/blog">
-        Посмотреть все статьи
-      </a>
-    </section>
+        <a class="button" href="/blog">
+          Посмотреть все статьи
+        </a>
+      </section>
+    }
 </main>
