@@ -51,7 +51,6 @@ export class Blog implements OnInit {
 
   protected onSave(value: BlogArticleRaw) {
     const editing = this.editingBlogArticle();
-    const { photo, ...rest } = value;
 
     if (editing) {
       this.store.updateArticle(editing, value);

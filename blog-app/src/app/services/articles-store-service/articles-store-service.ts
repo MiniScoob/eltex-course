@@ -1,4 +1,4 @@
-import {Injectable, Signal, signal} from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 import type { BlogArticleData } from '../../models';
 import type { ArticleStore } from './articles-store-service.model';
