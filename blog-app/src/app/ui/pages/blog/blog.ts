@@ -1,13 +1,24 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnInit,
+  signal
+} from '@angular/core';
 
-import type { BlogArticleData, BlogArticleElement, BlogArticleRaw, Id } from '../../../models';
+import type {
+  BlogArticleData,
+  BlogArticleElement,
+  BlogArticleRaw,
+  Id
+} from '../../../models';
 import { ARTICLES_FACADE_TOKEN } from '../../../services/articles-facade-service';
 import { BlogArticleUpsert } from '../../containers';
-import { BlogArticle, Statistics, Toolbar } from '../../components';
+import { BlogArticle, Pagination, Statistics, Toolbar } from '../../components';
 
 @Component({
   selector: 'app-blog',
-  imports: [BlogArticle, BlogArticleUpsert, Statistics, Toolbar],
+  imports: [BlogArticle, BlogArticleUpsert, Statistics, Toolbar, Pagination],
   templateUrl: './blog.html',
   styleUrl: './blog.module.scss',
 })
@@ -97,6 +108,10 @@ export class Blog implements OnInit {
     }
 
     this.isStatisticsOpen.set(false);
+  }
+
+  protected onPageChanged(page: number) {
+    this.store.changePage(page);
   }
 
   private loadArticles() {

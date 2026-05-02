@@ -29,6 +29,11 @@
         </li>
       }
     </ul>
+    <list-pagination
+      [currentPage]="store.page()"
+      [totalPages]="totalPages()"
+      (pageChange)="onPageChanged($event)"
+    />
   </section>
   <section class="blog__form-section" [class.hidden-collapse]="isAddFormHidden()">
     <h2 class="lead-title">{{ formTitle() }}</h2>

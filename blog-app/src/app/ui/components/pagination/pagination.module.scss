@@ -1,0 +1,50 @@
+@use "variables";
+@use "mixins";
+
+.pagination {
+  @include mixins.flexbox($justify: normal);
+
+  gap: 10px;
+}
+
+.pagination__button {
+  flex: 1;
+  aspect-ratio: 1;
+  border: 1px solid variables.$color-primary;
+  max-width: 48px;
+  max-height: 48px;
+  border-radius: variables.$border-radius-small;
+  background-color: variables.$color-white;
+  color: variables.$color-primary;
+  cursor: pointer;
+  transition: transform variables.$animation-time;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+.pagination__button-active {
+  background-color: variables.$color-primary;
+  color: variables.$color-white;
+}
+
+.pagination__button:disabled {
+  border-color: variables.$color-border-dark;
+  background-color: variables.$color-border-dark;
+  color: variables.$color-white;
+  cursor: not-allowed;
+}
+
+.pagination__dots {
+  padding-bottom: 9px;
+}
+
+.pagination__button,
+.pagination__dots {
+  font-size: 1.6rem;
+}

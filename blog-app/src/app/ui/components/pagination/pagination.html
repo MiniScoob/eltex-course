@@ -1,0 +1,36 @@
+@if (pageItems().length > 0) {
+  <div class="pagination">
+    <button
+      class="pagination__button"
+      [disabled]="currentPage() <= 1"
+      (click)="updatePage(currentPage() - 1)"
+      aria-label="Предыдущая страница"
+    >
+      ←
+    </button>
+    @for (item of pageItems(); track item.value) {
+      @switch (item.type) {
+        @case ('page') {
+          <button
+            class="pagination__button"
+            [class.pagination__button-active]="item.value === currentPage()"
+            (click)="item.value && updatePage(item.value)"
+          >
+            {{ item.value }}
+          </button>
+        }
+        @case ('ellipsis') {
+          <span class="pagination__dots">...</span>
+        }
+      }
+    }
+    <button
+      class="pagination__button"
+      [disabled]="currentPage() >= totalPages()"
+      (click)="updatePage(currentPage() + 1)"
+      aria-label="Следующая страница"
+    >
+      →
+    </button>
+  </div>
+}
