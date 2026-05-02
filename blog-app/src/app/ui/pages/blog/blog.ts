@@ -3,22 +3,28 @@ import {
   computed,
   inject,
   OnInit,
-  signal
+  signal,
 } from '@angular/core';
 
 import type {
   BlogArticleData,
   BlogArticleElement,
   BlogArticleRaw,
-  Id
+  Id,
 } from '../../../models';
 import { ARTICLES_FACADE_TOKEN } from '../../../services/articles-facade-service';
 import { BlogArticleUpsert } from '../../containers';
-import { BlogArticle, Pagination, Statistics, Toolbar } from '../../components';
+import {
+  BlogArticle,
+  Pagination,
+  Spinner,
+  Statistics,
+  Toolbar,
+} from '../../components';
 
 @Component({
   selector: 'app-blog',
-  imports: [BlogArticle, BlogArticleUpsert, Statistics, Toolbar, Pagination],
+  imports: [BlogArticle, BlogArticleUpsert, Statistics, Toolbar, Pagination, Spinner],
   templateUrl: './blog.html',
   styleUrl: './blog.module.scss',
 })
@@ -39,9 +45,7 @@ export class Blog implements OnInit {
   );
 
   public ngOnInit(){
-    if (!this.store.isLoaded()) {
-      this.loadArticles();
-    }
+    this.loadArticles();
   }
 
   protected onSave(value: BlogArticleRaw) {

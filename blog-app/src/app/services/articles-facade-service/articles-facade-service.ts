@@ -61,7 +61,11 @@ export class ArticlesFacadeService implements ArticlesFacade {
   }
 
   public loadArticles() {
+    this.store.setLoaded(false);
+
     this.getArticles();
+
+    this.store.setLoaded(true);
   }
 
   private getArticles() {

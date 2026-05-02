@@ -17,23 +17,29 @@
   </section>
   <section>
     <h2 class="lead-title">Статьи</h2>
-    <ul class="blog__article-list">
-      @for (item of articles; track item.id) {
-        <li>
-          <blog-article
-            [value]="item"
-            [mode]="'edit'"
-            (delete)="onDeleteBlogArticle($event)"
-            (edit)="onEditBlogArticle($event)"
-          />
-        </li>
-      }
-    </ul>
-    <list-pagination
-      [currentPage]="store.page()"
-      [totalPages]="totalPages()"
-      (pageChange)="onPageChanged($event)"
-    />
+    @if (!store.isLoaded()) {
+      <app-spinner />
+    } @else if (articles.length > 0) {
+      <ul class="blog__article-list">
+        @for (item of articles; track item.id) {
+          <li>
+            <blog-article
+              [value]="item"
+              [mode]="'edit'"
+              (delete)="onDeleteBlogArticle($event)"
+              (edit)="onEditBlogArticle($event)"
+            />
+          </li>
+        }
+      </ul>
+      <list-pagination
+        [currentPage]="store.page()"
+        [totalPages]="totalPages()"
+        (pageChange)="onPageChanged($event)"
+      />
+    } @else {
+      <p>Нет статей</p>
+    }
   </section>
   <section class="blog__form-section" [class.hidden-collapse]="isAddFormHidden()">
     <h2 class="lead-title">{{ formTitle() }}</h2>
