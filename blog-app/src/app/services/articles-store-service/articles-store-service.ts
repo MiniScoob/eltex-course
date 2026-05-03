@@ -1,12 +1,12 @@
 import { Injectable, signal } from '@angular/core';
 
-import type { BlogArticleData } from '../../models';
-import type { ArticleStore } from './articles-store-service.model';
+import type { ArticlePreview } from '../../models';
+import type { ArticlesStore } from './articles-store-service.model';
 import { DEFAULT_PAGE } from './articles-store-service.constants';
 
 @Injectable({ providedIn: 'root' })
-export class ArticlesStoreService implements ArticleStore {
-  private _articles = signal<BlogArticleData[]>([]);
+export class ArticlesStoreService implements ArticlesStore {
+  private _articles = signal<ArticlePreview[]>([]);
   private _page = signal<number>(DEFAULT_PAGE);
   private _totalArticles = signal<number>(0);
   private _isLoaded = signal<boolean>(false);
@@ -16,7 +16,7 @@ export class ArticlesStoreService implements ArticleStore {
   public readonly totalArticles = this._totalArticles.asReadonly();
   public readonly isLoaded = this._isLoaded.asReadonly();
 
-  public setArticles(articles: BlogArticleData[]) {
+  public setArticles(articles: ArticlePreview[]) {
     this._articles.set(articles);
   }
 

@@ -4,7 +4,7 @@ import { ARTICLES_FACADE_TOKEN } from '../../../services/articles-facade-service
 import {
   AboutMe,
   AchievementsList,
-  BlogArticle,
+  BlogArticlePreview,
   EducationsList,
   HobbyCard,
   ProjectsList,
@@ -21,7 +21,15 @@ import {
 
 @Component({
   selector: 'app-home',
-  imports: [AboutMe, BlogArticle, HobbyCard, EducationsList, SkillsList, ProjectsList, AchievementsList],
+  imports: [
+    AboutMe,
+    BlogArticlePreview,
+    HobbyCard,
+    EducationsList,
+    SkillsList,
+    ProjectsList,
+    AchievementsList
+  ],
   templateUrl: './home.html',
   styleUrl: './home.module.scss',
 })

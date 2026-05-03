@@ -2,17 +2,17 @@ import { InjectionToken } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import type { BlogArticleData, Id } from '../../models';
+import { ArticlePreview, Id } from '../../models';
 
 export type ArticlesStorageResult = {
-  articles: BlogArticleData[];
+  articles: ArticlePreview[];
   total: number;
 };
 
 export interface ArticlesStorage {
-  addArticle: (value: BlogArticleData, page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
+  addArticle: (value: ArticlePreview, page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
   deleteArticle: (id: Id, page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
-  updateArticle: (value: BlogArticleData, page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
+  updateArticle: (value: ArticlePreview, page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
   getArticles: (page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
 }
 

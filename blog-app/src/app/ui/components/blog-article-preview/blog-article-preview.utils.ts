@@ -1,4 +1,4 @@
-import { MONTHS_ENUM } from './blog-article.constants';
+import { MONTHS_ENUM } from './blog-article-preview.constants';
 
 export const toDateString = (date: Date) =>
   `${date.getUTCDate()} ${MONTHS_ENUM[date.getUTCMonth()]} ${date.getUTCFullYear()}`;

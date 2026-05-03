@@ -1,4 +1,4 @@
-export { BlogArticle } from './blog-article';
+export { BlogArticlePreview } from './blog-article-preview';
 export { HobbyCard } from './hobby-card';
 export { Statistics } from './statistics';
 export { Toolbar } from './toolbar';

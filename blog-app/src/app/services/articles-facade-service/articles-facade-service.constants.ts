@@ -1,8 +1,8 @@
-import type { BlogArticleRaw } from '../../models';
+import type { ArticleRaw } from '../../models';
 
 export const DEFAULT_PAGE_SIZE = 7;
 
-export const INITIAL_ARTICLES: BlogArticleRaw[] = [
+export const INITIAL_ARTICLES: ArticleRaw[] = [
   {
     title: 'Я уронил отварную сосиску',
     text: '4 марта около шести часов вечера выпусник НГТУ, Владислав Попов, '

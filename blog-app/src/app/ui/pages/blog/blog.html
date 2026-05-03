@@ -33,7 +33,7 @@
       <ul class="blog__articles-list">
         @for (item of articles; track item.id) {
           <li>
-            <blog-article
+            <blog-article-preview
               [value]="item"
               [mode]="'edit'"
               (delete)="onDeleteBlogArticle($event)"

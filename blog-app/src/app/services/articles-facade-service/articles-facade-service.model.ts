@@ -1,17 +1,17 @@
 import { InjectionToken, type Signal } from '@angular/core';
 
-import type { BlogArticleData, BlogArticleRaw, Id } from '../../models';
+import type { ArticlePreview, ArticleRaw, Id } from '../../models';
 
 export interface ArticlesFacade {
-  articles: Signal<BlogArticleData[]>;
+  articles: Signal<ArticlePreview[]>;
   page: Signal<number>;
   totalArticles: Signal<number>;
   pageSize: Signal<number>;
   isLoaded: Signal<boolean>;
 
-  addArticle: (value: BlogArticleRaw) => void;
+  addArticle: (value: ArticleRaw) => void;
   deleteArticle: (id: Id) => void;
-  updateArticle: (initial: BlogArticleData, data: BlogArticleRaw) => void;
+  updateArticle: (initial: ArticlePreview, data: ArticleRaw) => void;
   changePage: (page: number) => void;
   setPageSize: (page: number) => void;
   loadArticles: () => void;
