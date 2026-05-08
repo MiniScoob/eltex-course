@@ -1,9 +1,9 @@
 import { Component, computed, input, OnDestroy, output } from '@angular/core';
 
 import type { ArticlePreviewElement, Id } from '../../../models';
+import { notEmptyFile, toDateString } from '../../../utils';
 import type { Mode } from './blog-article-preview.model';
 import { DEFAULT_IMAGE } from './blog-article-preview.constants';
-import { notEmptyFile, toDateString } from './blog-article-preview.utils';
 
 @Component({
   selector: 'blog-article-preview',

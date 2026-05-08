@@ -4,12 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import type { Id } from '../../../models';
 import { ARTICLE_DETAILS_FACADE_TOKEN } from '../../../services/article-details-facade-service';
 import { CommentForm } from '../../containers';
-import { Spinner } from '../../components';
+import {ArticleComment, Spinner} from '../../components';
 import { DEFAULT_IMAGE } from './article.constants';
 
 @Component({
   selector: 'app-article',
-  imports: [CommentForm, Spinner],
+  imports: [CommentForm, Spinner, ArticleComment],
   templateUrl: './article.html',
   styleUrl: './article.module.scss',
 })

@@ -15,6 +15,16 @@
       <h2 class="title">Добавить комментарий</h2>
       <article-comment-form />
     </section>
+    <section>
+      <h2 class="title">Комментарии:</h2>
+      <ul class="article__comments-list">
+        @for (item of [{ id: 1, author: 'Bob', text: 'test', createdAt: '2025-03-03', rating: 0 }]; track $index) {
+          <li>
+            <article-comment [data]="item" />
+          </li>
+        }
+      </ul>
+    </section>
   </main>
 } @else {
   <div class="article">
