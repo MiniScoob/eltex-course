@@ -8,6 +8,8 @@ export interface Comment {
   rating: number;
 }
 
+export type CommentRaw = Pick<Comment, 'author' | 'text'>;
+
 export interface ArticleDetails {
   id: Id;
   title: string;

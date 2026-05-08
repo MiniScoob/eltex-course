@@ -1,0 +1,23 @@
+@let article = store.article();
+
+@if (!store.isLoaded()) {
+  <div class="article">
+    <app-spinner />
+  </div>
+} @else if (article !== null) {
+  <main class="article">
+    <div>
+      <h1 class="lead-title">{{ article.title }}</h1>
+      <p class="article__text">{{ article.text }}</p>
+      <img class="article__image" [src]="photo" alt="Article cover" />
+    </div>
+    <section>
+      <h2 class="title">Добавить комментарий</h2>
+      <article-comment-form />
+    </section>
+  </main>
+} @else {
+  <div class="article">
+    <p class="title">Статья не найдена</p>
+  </div>
+}

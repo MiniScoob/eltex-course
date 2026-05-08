@@ -1,0 +1,51 @@
+@let authorErrorMessage = getError('author');
+@let textErrorMessage = getError('text');
+
+<form [formGroup]="commentForm" (ngSubmit)="handleSubmit()" class="comment-form">
+  <p>
+    <label>Имя (обязательно)</label>
+    <br />
+    <input
+      id="author-input"
+      name="author"
+      formControlName="author"
+      type="text"
+      minlength="5"
+      size="40"
+      [class.comment-form__invalid]="isInvalid('author')"
+      required
+    />
+    @if (authorErrorMessage) {
+      <span class="comment-form__error-message">{{ authorErrorMessage }}</span>
+    }
+  </p>
+  <p>
+    <label>Текст (обязательно)</label>
+    <br />
+    <textarea
+      id="text-input"
+      name="text"
+      formControlName="text"
+      minlength="10"
+      rows="10"
+      cols="40"
+      [class.comment-form__invalid]="isInvalid('text')"
+      required
+    ></textarea>
+    @if (textErrorMessage) {
+      <span class="comment-form__error-message">{{ textErrorMessage }}</span>
+    }
+  </p>
+  <div class="comment-form__footer">
+    <button
+      class="button"
+      type="submit"
+      [disabled]="commentForm.invalid"
+    >
+      Добавить
+    </button>
+    <button class="button" type="reset">
+      Очистить
+    </button>
+  </div>
+</form>

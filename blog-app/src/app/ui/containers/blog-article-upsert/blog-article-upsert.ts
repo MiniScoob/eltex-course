@@ -2,8 +2,8 @@ import { Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import type { ArticleRaw } from '../../../models';
+import { getError, isInvalid } from '../../../utils';
 import { FileValueAccessor } from '../../directives';
-import { COMMON_ERRORS } from './blog-article-upsert.constants';
 
 @Component({
   selector: 'blog-article-upsert',
@@ -12,7 +12,7 @@ import { COMMON_ERRORS } from './blog-article-upsert.constants';
   styleUrl: './blog-article-upsert.module.scss',
 })
 export class BlogArticleUpsert {
-  private formBuilder = inject(FormBuilder);
+  private readonly formBuilder = inject(FormBuilder);
 
   public initialValue = input<ArticleRaw | null>();
 
@@ -60,30 +60,12 @@ export class BlogArticleUpsert {
   protected isInvalid(name: keyof typeof this.blogArticleForm.controls) {
     const control = this.blogArticleForm.get(name);
 
-    return !!(
-      control &&
-      control.invalid &&
-      control.touched
-    );
+    return isInvalid(control);
   }
 
   protected getError(name: keyof typeof this.blogArticleForm.controls) {
     const control = this.blogArticleForm.get(name);
 
-    if (!control || !control.errors || !control.touched) {
-      return [];
-    }
-
-    return Object.entries(control.errors)
-      .map(([key, value]) => {
-        const errorHandler = COMMON_ERRORS[key as keyof typeof COMMON_ERRORS];
-
-        if (!errorHandler) {
-          return null;
-        }
-
-        return errorHandler(value);
-      })
-      .filter(Boolean) as string[];
+    return getError(control);
   }
 }

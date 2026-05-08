@@ -1,0 +1,18 @@
+@use "variables";
+@use "placeholders";
+
+.comment-form {
+  @extend %form;
+}
+
+.comment-form__invalid {
+  @extend %form__invalid;
+}
+
+.comment-form__error-message {
+  @extend %form__error-message;
+}
+
+.comment-form__footer {
+  @extend %form__footer;
+}
