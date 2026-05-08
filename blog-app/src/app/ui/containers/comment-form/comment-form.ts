@@ -1,12 +1,15 @@
 import { Component, inject, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+// import { } from '@angular/material/button';
 
 import type { CommentRaw } from '../../../models';
 import { getError, isInvalid } from '../../../utils';
+import {MatButton} from '@angular/material/button';
+import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/input';
 
 @Component({
   selector: 'article-comment-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatButton, MatFormField, MatLabel, MatInput, MatError],
   templateUrl: './comment-form.html',
   styleUrl: './comment-form.module.scss',
 })
