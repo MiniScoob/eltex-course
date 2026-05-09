@@ -6,6 +6,7 @@ export interface ArticlesFacade {
   articles: Signal<ArticlePreview[]>;
   page: Signal<number>;
   totalArticles: Signal<number>;
+  totalComments: Signal<number>;
   pageSize: Signal<number>;
   isLoaded: Signal<boolean>;
 

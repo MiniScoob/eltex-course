@@ -3,7 +3,7 @@
 <blog-statistics
   [isOpen]="isStatisticsOpen()"
   [blogArticlesCount]="articles.length"
-  [blogCommentsCount]="0"
+  [blogCommentsCount]="store.totalComments()"
   (close)="closeStatistics()"
 />
 <blog-toolbar (showAddForm)="showFrom()" (showStatistic)="showStatistics()" />

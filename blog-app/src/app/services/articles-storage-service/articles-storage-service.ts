@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
 
-import type { ArticleDetails, ArticlePreview, Id } from '../../models';
+import type { ArticleDetails, ArticlePreview, Comment, Id } from '../../models';
 import { STORAGE_ENGINE_TOKEN } from '../storage-engine-service';
 import type { ArticlesStorage, ArticlesStorageResult } from './articles-storage-service.model';
 import { PAGE_SIZE, STORAGE_KEY } from './articles-storage-service.constants';
@@ -37,6 +37,16 @@ export class ArticlesStorageService implements ArticlesStorage {
   public getArticles(page: number, pageSize?: number) {
     const values = this.getArticlesFromStorage();
     const result = this.prepareData(values, page, pageSize);
+
+    return of(result);
+  }
+
+  public getAllComments() {
+    const values = this.getArticlesFromStorage();
+    const result = values.reduce((acc, item) =>
+      [...acc, ...item.comments],
+      [] as Comment[],
+    );
 
     return of(result);
   }
@@ -100,14 +110,14 @@ export class ArticlesStorageService implements ArticlesStorage {
     };
   }
 
-  private getArticlesFromStorage() {
+  private getArticlesFromStorage(): ArticleDetails[] {
     const values = this.engine.getItem(this._storageKey);
 
     if (!values) {
       return [];
     }
 
-    return JSON.parse(values) as ArticleDetails[];
+    return JSON.parse(values);
   }
 
   private saveArticlesToStorage(values: ArticleDetails[]) {

@@ -12,10 +12,12 @@ export class ArticlesFacadeService implements ArticlesFacade {
   private store = inject(ARTICLE_STORE_TOKEN);
 
   private _pageSize = signal<number>(DEFAULT_PAGE_SIZE);
+  private _totalComments = signal<number>(0);
 
   public readonly articles = this.store.articles;
   public readonly page = this.store.page;
   public readonly totalArticles = this.store.totalArticles;
+  public readonly totalComments = this._totalComments.asReadonly();
   public readonly pageSize = this._pageSize.asReadonly();
   public readonly isLoaded = this.store.isLoaded;
 
@@ -60,6 +62,7 @@ export class ArticlesFacadeService implements ArticlesFacade {
     this.store.setLoaded(false);
 
     this.getArticles();
+    this.getComments();
 
     this.store.setLoaded(true);
   }
@@ -99,6 +102,14 @@ export class ArticlesFacadeService implements ArticlesFacade {
     this.storage
       .getArticles(this.page(), this.pageSize())
       .subscribe(this.updateStore);
+  }
+
+  private getComments() {
+    this.storage
+      .getAllComments()
+      .subscribe((result) => {
+        this._totalComments.set(result.length);
+      });
   }
 
   private prepareRawValue(value: ArticleRaw) {
