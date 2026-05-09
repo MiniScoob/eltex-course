@@ -25,13 +25,17 @@
     </section>
     <section>
       <h2 class="title">Комментарии:</h2>
-      <ul class="article__comments-list">
-        @for (item of article.comments; track $index) {
-          <li>
-            <article-comment [data]="item" (ratingChange)="onCommentRatingChange(item.id, $event)" />
-          </li>
-        }
-      </ul>
+      @if (article.comments.length > 0) {
+        <ul class="article__comments-list">
+          @for (item of article.comments; track $index) {
+            <li>
+              <article-comment [data]="item" (ratingChange)="onCommentRatingChange(item.id, $event)" />
+            </li>
+          }
+        </ul>
+      } @else {
+        <p>Комментариев пока нет</p>
+      }
     </section>
   </main>
 } @else {
