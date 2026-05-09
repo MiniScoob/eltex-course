@@ -37,19 +37,21 @@
   @include mixins.flexbox;
 
   border: 1px solid transparent;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
+  color: variables.$color-primary;
   cursor: pointer;
-
-  > img {
-    width: 12px;
-    height: 12px;
-  }
+  transition: border-color variables.$animation-time;
 
   &:hover {
     border-color: variables.$color-primary;
   }
+}
+
+.statistics__button-icon {
+  width: 12px;
+  height: 12px;
 }
 
 .statistics__content {

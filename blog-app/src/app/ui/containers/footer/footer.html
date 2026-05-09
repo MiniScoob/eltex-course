@@ -22,7 +22,12 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                    <img src="icons/github.svg" alt="Иконка Github" />
+                  <mat-icon
+                    svgIcon="github"
+                    class="footer__link-icon"
+                    aria-hidden="false"
+                    aria-label="Иконка Github"
+                  ></mat-icon>
                 </a>
             </li>
             <li>
@@ -32,7 +37,12 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                    <img src="icons/telegram.svg" alt="Иконка Telegram" />
+                  <mat-icon
+                    svgIcon="telegram"
+                    class="footer__link-icon"
+                    aria-hidden="false"
+                    aria-label="Иконка Telegram"
+                  ></mat-icon>
                 </a>
             </li>
         </ul>
@@ -43,6 +53,7 @@
         <label for="contacts-email">Email</label>
         <br />
         <input
+          class="input"
           id="contacts-email"
           type="email"
           name="contacts-email"
@@ -56,6 +67,7 @@
         <label for="contacts-message">Сообщение</label>
         <br />
         <textarea
+          class="textarea"
           id="contacts-message"
           name="contacts-message"
           placeholder="Ваше послание мне"

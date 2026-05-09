@@ -1,20 +1,27 @@
 import { Component, computed, input, OnDestroy, output } from '@angular/core';
 
-import type { BlogArticleElement, Id } from '../../../models';
-import type { Mode } from './blog-article.model';
-import { DEFAULT_IMAGE } from './blog-article.constants';
-import { notEmptyFile, toDateString } from './blog-article.utils';
+import type { ArticlePreviewElement, Id } from '../../../models';
+import { notEmptyFile, toDateString } from '../../../utils';
+import type { Mode } from './blog-article-preview.model';
+import { DEFAULT_IMAGE } from './blog-article-preview.constants';
+import {DateTime} from '../date-time';
+import {MatIcon} from '@angular/material/icon';
+import {RouterLink} from '@angular/router';
 
 @Component({
-  selector: 'blog-article',
-  imports: [],
-  templateUrl: './blog-article.html',
-  styleUrl: './blog-article.module.scss',
+  selector: 'blog-article-preview',
+  imports: [
+    DateTime,
+    MatIcon,
+    RouterLink
+  ],
+  templateUrl: './blog-article-preview.html',
+  styleUrl: './blog-article-preview.module.scss',
 })
-export class BlogArticle implements OnDestroy {
+export class BlogArticlePreview implements OnDestroy {
   private _objectUrl?: string;
 
-  public value = input.required<BlogArticleElement>();
+  public value = input.required<ArticlePreviewElement>();
   public mode = input<Mode>('view');
 
   protected createdAt = computed(() => toDateString(new Date(this.value().createdAt)));
@@ -34,7 +41,7 @@ export class BlogArticle implements OnDestroy {
   });
 
   protected delete = output<Id>();
-  protected edit = output<BlogArticleElement>();
+  protected edit = output<ArticlePreviewElement>();
 
   ngOnDestroy() {
     if (this._objectUrl) {

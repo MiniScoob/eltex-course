@@ -1,0 +1,24 @@
+<div class="rating-stepper">
+  <button
+    matMiniFab
+    class="rating-stepper__button"
+    (click)="handleDecrement()"
+    aria-label="Увеличить рейтинг"
+  >
+    <mat-icon class="rating-stepper__icon">remove</mat-icon>
+  </button>
+  <span
+    [class.rating-stepper__positive]="value() > 0"
+    [class.rating-stepper__negative]="value() < 0"
+  >
+    {{ value() }}
+  </span>
+  <button
+    matMiniFab
+    class="rating-stepper__button"
+    (click)="handleIncrement()"
+    aria-label="Уменьшить рейтинг"
+  >
+    <mat-icon class="rating-stepper__icon">add</mat-icon>
+  </button>
+</div>

@@ -5,7 +5,12 @@
       class="toolbar__button toolbar__top-button"
       (click)="handleShowAddFormClick()"
     >
-      <img src="icons/add_article.svg" alt="Иконка добавления статьи" />
+      <mat-icon
+        svgIcon="add_article"
+        class="toolbar__icon"
+        aria-hidden="false"
+        aria-label="Иконка добавления статьи"
+      />
     </button>
   </li>
   <li>
@@ -14,7 +19,12 @@
       class="toolbar__button toolbar_bottom-button"
       (click)="handleShowStatisticClick()"
     >
-      <img src="icons/stats.svg" alt="Иконка просмотра статистики" />
+      <mat-icon
+        svgIcon="stats"
+        class="toolbar__icon"
+        aria-hidden="false"
+        aria-label="Иконка просмотра статистики"
+      />
     </button>
   </li>
 </menu>

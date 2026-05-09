@@ -17,16 +17,16 @@ $default-card-theme: 'light';
     border: 1px solid variables.$color-border;
     padding: 2.4rem;
     border-radius: 16px;
-    
+
     @if $theme == 'light' {
         background-color: variables.$color-white;
     } @else if $theme == 'dark' {
-        background-color:variables.$color-background-dark;
+        background-color: variables.$color-background-dark;
     }
 }
 
 $default-grid-columns: repeat(4, 1fr);
-$default-grid-rows: 1;
+$default-grid-rows: 1fr;
 
 @mixin grid($columns: $default-grid-columns, $rows: $default-grid-rows) {
     display: grid;

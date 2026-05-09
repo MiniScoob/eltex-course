@@ -1,0 +1,16 @@
+@use "variables";
+@use "placeholders";
+@use "mixins";
+
+.comment-form {
+  @include mixins.flexbox($align: stretch, $direction: column);
+}
+
+.comment-form__error-message {
+  font-size: 1.2rem;
+}
+
+.comment-form__footer {
+  margin-top: 1.6rem;
+  @extend %form__footer;
+}

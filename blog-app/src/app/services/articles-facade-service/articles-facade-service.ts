@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 
-import { type BlogArticleData, BlogArticleRaw, Id } from '../../models';
+import type { ArticlePreview, ArticleRaw, Id } from '../../models';
 import { ARTICLES_STORAGE_TOKEN, ArticlesStorageResult } from '../articles-storage-service';
 import { ARTICLE_STORE_TOKEN } from '../articles-store-service';
 import type { ArticlesFacade } from './articles-facade-service.model';
@@ -12,23 +12,25 @@ export class ArticlesFacadeService implements ArticlesFacade {
   private store = inject(ARTICLE_STORE_TOKEN);
 
   private _pageSize = signal<number>(DEFAULT_PAGE_SIZE);
+  private _totalComments = signal<number>(0);
 
   public readonly articles = this.store.articles;
   public readonly page = this.store.page;
   public readonly totalArticles = this.store.totalArticles;
+  public readonly totalComments = this._totalComments.asReadonly();
   public readonly pageSize = this._pageSize.asReadonly();
   public readonly isLoaded = this.store.isLoaded;
 
-  public addArticle(value: BlogArticleRaw) {
+  public addArticle(value: ArticleRaw) {
     const preparedValue = this.prepareRawValue(value);
-    const newBlogArticle = this.prepareDataValue(preparedValue);
+    const newBlogArticle = this.preparePreviewValue(preparedValue);
 
     this.storage
       .addArticle(newBlogArticle, this.page(), this.pageSize())
       .subscribe(this.updateStore);
   }
 
-  public updateArticle(initial: BlogArticleData, data: BlogArticleRaw) {
+  public updateArticle(initial: ArticlePreview, data: ArticleRaw) {
     const preparedValue = this.prepareRawValue(data);
     const updated = {
       ...initial,
@@ -60,6 +62,7 @@ export class ArticlesFacadeService implements ArticlesFacade {
     this.store.setLoaded(false);
 
     this.getArticles();
+    this.getComments();
 
     this.store.setLoaded(true);
   }
@@ -71,7 +74,7 @@ export class ArticlesFacadeService implements ArticlesFacade {
     );
 
     generated.forEach((article) => {
-      const newArticle = this.prepareDataValue(article);
+      const newArticle = this.preparePreviewValue(article);
       this.storage.addArticle(
         newArticle,
         this.page(),
@@ -83,7 +86,7 @@ export class ArticlesFacadeService implements ArticlesFacade {
   }
 
   public clearArticles() {
-    let copy: BlogArticleData[] =[];
+    let copy: ArticlePreview[] =[];
     this.storage.getArticles(1, this.totalArticles()).subscribe((result) => {
       copy = [...result.articles];
     });
@@ -101,13 +104,21 @@ export class ArticlesFacadeService implements ArticlesFacade {
       .subscribe(this.updateStore);
   }
 
-  private prepareRawValue(value: BlogArticleRaw) {
+  private getComments() {
+    this.storage
+      .getAllComments()
+      .subscribe((result) => {
+        this._totalComments.set(result.length);
+      });
+  }
+
+  private prepareRawValue(value: ArticleRaw) {
     const { photo, ...rest } = value;
 
     return rest;
   }
 
-  private prepareDataValue(value: BlogArticleRaw): BlogArticleData {
+  private preparePreviewValue(value: ArticleRaw): ArticlePreview {
     return {
       ...value,
       id: crypto.randomUUID(),

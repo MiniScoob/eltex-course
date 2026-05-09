@@ -7,15 +7,15 @@ import {
 } from '@angular/core';
 
 import type {
-  BlogArticleData,
-  BlogArticleElement,
-  BlogArticleRaw,
+  ArticlePreview,
+  ArticlePreviewElement,
+  ArticleRaw,
   Id,
 } from '../../../models';
 import { ARTICLES_FACADE_TOKEN } from '../../../services/articles-facade-service';
 import { BlogArticleUpsert } from '../../containers';
 import {
-  BlogArticle,
+  BlogArticlePreview,
   Pagination,
   Spinner,
   Statistics,
@@ -24,14 +24,21 @@ import {
 
 @Component({
   selector: 'app-blog',
-  imports: [BlogArticle, BlogArticleUpsert, Statistics, Toolbar, Pagination, Spinner],
+  imports: [
+    BlogArticlePreview,
+    BlogArticleUpsert,
+    Statistics,
+    Toolbar,
+    Pagination,
+    Spinner,
+  ],
   templateUrl: './blog.html',
   styleUrl: './blog.module.scss',
 })
 export class Blog implements OnInit {
   protected store = inject(ARTICLES_FACADE_TOKEN);
 
-  protected editingBlogArticle = signal<BlogArticleData | null>(null);
+  protected editingBlogArticle = signal<ArticlePreview | null>(null);
   protected isStatisticsOpen = signal<boolean>(false);
   protected isAddFormHidden = signal<boolean>(true);
 
@@ -46,10 +53,9 @@ export class Blog implements OnInit {
 
   public ngOnInit(){
     this.store.loadArticles();
-    console.log(this.store.articles());
   }
 
-  protected onSave(value: BlogArticleRaw) {
+  protected onSave(value: ArticleRaw) {
     const editing = this.editingBlogArticle();
 
     if (editing) {
@@ -77,7 +83,7 @@ export class Blog implements OnInit {
     this.store.deleteArticle(id);
   }
 
-  protected onEditBlogArticle(value: BlogArticleElement) {
+  protected onEditBlogArticle(value: ArticlePreviewElement) {
     this.editingBlogArticle.set(value);
     this.showFrom();
   }

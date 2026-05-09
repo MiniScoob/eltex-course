@@ -1,10 +1,13 @@
 import { Component, input } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 
 import type { Project } from './projects-list.model';
 
 @Component({
   selector: 'home-projects-list',
-  imports: [],
+  imports: [
+    MatIcon,
+  ],
   templateUrl: './projects-list.html',
   styleUrl: './projects-list.module.scss',
 })

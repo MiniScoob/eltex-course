@@ -53,7 +53,7 @@
         <ul class="home__article-list">
           @for (item of articles.slice(0, 2); track $index) {
             <li>
-              <blog-article [value]="item" />
+              <blog-article-preview [value]="item" />
             </li>
           }
         </ul>

@@ -1,0 +1,45 @@
+@let article = store.article();
+
+@if (!store.isLoaded()) {
+  <div class="article">
+    <app-spinner />
+  </div>
+} @else if (article !== null) {
+  <main class="article">
+    <article>
+      <header>
+        <h1 class="lead-title">{{ article.title }}</h1>
+        <date-time [value]="article.createdAt">Опубликовано:</date-time>
+      </header>
+      <div>
+        <p class="article__text">{{ article.text }}</p>
+        <img class="article__image" [src]="photo" alt="Article cover" />
+      </div>
+      <footer class="article__footer">
+        <rating-stepper [value]="article.rating" (change)="onArticleRatingChange($event)" />
+      </footer>
+    </article>
+    <section>
+      <h2 class="title">Добавить комментарий</h2>
+      <article-comment-form (save)="onAddComment($event)" />
+    </section>
+    <section>
+      <h2 class="title">Комментарии:</h2>
+      @if (article.comments.length > 0) {
+        <ul class="article__comments-list">
+          @for (item of article.comments; track $index) {
+            <li>
+              <article-comment [data]="item" (ratingChange)="onCommentRatingChange(item.id, $event)" />
+            </li>
+          }
+        </ul>
+      } @else {
+        <p>Комментариев пока нет</p>
+      }
+    </section>
+  </main>
+} @else {
+  <div class="article">
+    <p class="title">Статья не найдена</p>
+  </div>
+}

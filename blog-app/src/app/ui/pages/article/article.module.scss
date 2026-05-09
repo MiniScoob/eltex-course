@@ -1,0 +1,38 @@
+@use "placeholders";
+@use "variables";
+@use "mixins";
+
+.article {
+  @extend %content;
+
+  @include mixins.card;
+  @include mixins.flexbox($align: stretch, $direction: column);
+
+  gap: 4rem;
+  margin-bottom: 2.4rem;
+}
+
+.article__text {
+  margin: 2rem 0;
+  font-size: 1.8rem;
+}
+
+.article__image {
+  border: 2px solid variables.$color-border;
+  max-height: 380px;
+  width: 100%;
+  border-radius: variables.$border-radius-small;
+  background-color: variables.$color-background;
+  object-fit: contain;
+}
+
+.article__footer {
+  margin-top: 1rem;
+}
+
+.article__comments-list {
+  @include mixins.flexbox($align: stretch, $direction: column);
+
+  gap: 1.6rem;
+  list-style: none;
+}
