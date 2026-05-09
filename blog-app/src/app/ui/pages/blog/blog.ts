@@ -21,7 +21,6 @@ import {
   Statistics,
   Toolbar,
 } from '../../components';
-import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-blog',
@@ -32,7 +31,6 @@ import {RouterLink} from '@angular/router';
     Toolbar,
     Pagination,
     Spinner,
-    RouterLink
   ],
   templateUrl: './blog.html',
   styleUrl: './blog.module.scss',

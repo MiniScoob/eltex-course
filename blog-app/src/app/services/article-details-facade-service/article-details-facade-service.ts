@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
-import type { Comment, CommentRaw, Id } from '../../models';
+import type { ArticleDetails, Comment, CommentRaw, Id } from '../../models';
 import { ARTICLE_DETAILS_STORAGE_TOKEN } from '../article-details-storage-service';
 import { ARTICLE_DETAILS_STORE_TOKEN } from '../article-details-store-service';
 import type { ArticleDetailsFacade } from './article-details-facade-service.model';
@@ -63,6 +63,13 @@ export class ArticleDetailsFacadeService implements ArticleDetailsFacade {
       }
       this.store.setLoaded();
     });
+  }
+
+  public setPreloadedArticle(article: ArticleDetails | null) {
+    if (article) {
+      this.store.setArticle(article);
+    }
+    this.store.setLoaded();
   }
 
   private prepareCommentValue(value: CommentRaw): Comment {

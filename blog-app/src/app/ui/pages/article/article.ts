@@ -10,15 +10,19 @@ import { DEFAULT_IMAGE } from './article.constants';
 
 @Component({
   selector: 'app-article',
-  imports: [CommentForm, Spinner, ArticleComment, RatingStepper, DateTime],
+  imports: [
+    CommentForm,
+    Spinner,
+    ArticleComment,
+    RatingStepper,
+    DateTime,
+  ],
   templateUrl: './article.html',
   styleUrl: './article.module.scss',
 })
 export class Article implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   protected readonly store = inject(ARTICLE_DETAILS_FACADE_TOKEN);
-
-  private readonly articleId: Id | null;
 
   protected readonly photo = DEFAULT_IMAGE;
 
@@ -28,13 +32,10 @@ export class Article implements OnInit {
     return article ? toDateString(new Date(article.createdAt)) : null;
   });
 
-  constructor() {
-    this.articleId = this.activatedRoute.snapshot.paramMap.get('id');
-  }
-
   ngOnInit() {
-    if (this.articleId !== null) {
-      this.store.loadArticle(this.articleId);
+    const article = this.activatedRoute.snapshot.data['article'];
+    if (article) {
+      this.store.setPreloadedArticle(article);
     }
   }
 

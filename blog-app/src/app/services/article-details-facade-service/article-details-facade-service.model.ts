@@ -10,6 +10,7 @@ export interface ArticleDetailsFacade {
   updateArticleRating: (step: number) => void;
   updateCommentRating: (commentId: Id, step: number) => void;
   loadArticle: (id: Id) => void;
+  setPreloadedArticle: (article: ArticleDetails | null) => void;
 }
 
 export const ARTICLE_DETAILS_FACADE_TOKEN = new InjectionToken<ArticleDetailsFacade>('ArticleDetailsFacade');
