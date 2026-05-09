@@ -6,15 +6,15 @@ export default {
   locale: undefined,
   routes: [
   {
-    "renderMode": 0,
+    "renderMode": 1,
     "route": "/eltex-course"
   },
   {
-    "renderMode": 0,
+    "renderMode": 1,
     "route": "/eltex-course/blog"
   },
   {
-    "renderMode": 0,
+    "renderMode": 1,
     "route": "/eltex-course/blog/*"
   }
 ],
