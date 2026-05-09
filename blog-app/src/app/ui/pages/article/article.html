@@ -9,12 +9,7 @@
     <article>
       <header>
         <h1 class="lead-title">{{ article.title }}</h1>
-        <p>
-          Опубликовано:
-          <time [dateTime]="article.createdAt" class="article__time-published">
-            {{ createdAt() }}
-          </time>
-        </p>
+        <date-time [value]="article.createdAt">Опубликовано:</date-time>
       </header>
       <div>
         <p class="article__text">{{ article.text }}</p>

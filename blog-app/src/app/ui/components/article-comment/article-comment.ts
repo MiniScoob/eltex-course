@@ -11,6 +11,7 @@ import {
 import type { Comment } from '../../../models';
 import { toDateString } from '../../../utils';
 import { RatingStepper } from '../rating-stepper';
+import {DateTime} from '../date-time';
 
 @Component({
   selector: 'article-comment',
@@ -22,6 +23,7 @@ import { RatingStepper } from '../rating-stepper';
     MatCardSubtitle,
     MatCardFooter,
     RatingStepper,
+    DateTime,
   ],
   templateUrl: './article-comment.html',
   styleUrl: './article-comment.module.scss',

@@ -4,10 +4,13 @@ import type { ArticlePreviewElement, Id } from '../../../models';
 import { notEmptyFile, toDateString } from '../../../utils';
 import type { Mode } from './blog-article-preview.model';
 import { DEFAULT_IMAGE } from './blog-article-preview.constants';
+import {DateTime} from '../date-time';
 
 @Component({
   selector: 'blog-article-preview',
-  imports: [],
+  imports: [
+    DateTime
+  ],
   templateUrl: './blog-article-preview.html',
   styleUrl: './blog-article-preview.module.scss',
 })

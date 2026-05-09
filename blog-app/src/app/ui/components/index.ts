@@ -1,3 +1,4 @@
+export { DateTime } from './date-time';
 export { BlogArticlePreview } from './blog-article-preview';
 export { HobbyCard } from './hobby-card';
 export { Statistics } from './statistics';

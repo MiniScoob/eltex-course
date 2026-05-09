@@ -24,12 +24,7 @@
   <div class="blog-article__content">
     <header class="blog-article__header">
       <h3 class="blog-article__title">{{ value().title }}</h3>
-      <p>
-        Опубликовано:
-        <time [dateTime]="value().createdAt" class="blog-article__time-published">
-          {{ createdAt() }}
-        </time>
-      </p>
+      <date-time [value]="value().createdAt">Опубликовано:</date-time>
     </header>
     <p class="blog-article__text">{{ value().text }}</p>
   </div>
