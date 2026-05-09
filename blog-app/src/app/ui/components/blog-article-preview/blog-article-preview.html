@@ -1,4 +1,5 @@
 @let isEditMode = mode() === 'edit';
+@let article = value();
 
 <article class="blog-article" [class.edit]="isEditMode">
   @if (isEditMode) {
@@ -29,12 +30,14 @@
       </button>
     </div>
   }
-  <div class="blog-article__content">
-    <header class="blog-article__header">
-      <h3 class="blog-article__title">{{ value().title }}</h3>
-      <date-time [value]="value().createdAt">Опубликовано:</date-time>
-    </header>
-    <p class="blog-article__text">{{ value().text }}</p>
-  </div>
-  <img class="blog-article__image" [src]="photo()" alt="Титульная картинка статьи" />
+  <a [routerLink]="`/blog/${article.id}`" class="blog-article__link-container">
+    <div class="blog-article__content">
+      <header class="blog-article__header">
+        <h3 class="blog-article__title">{{ article.title }}</h3>
+        <date-time [value]="article.createdAt">Опубликовано:</date-time>
+      </header>
+      <p class="blog-article__text">{{ article.text }}</p>
+    </div>
+    <img class="blog-article__image" [src]="photo()" alt="Титульная картинка статьи" />
+  </a>
 </article>

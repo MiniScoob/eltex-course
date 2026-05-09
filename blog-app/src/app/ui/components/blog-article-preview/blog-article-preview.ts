@@ -6,12 +6,14 @@ import type { Mode } from './blog-article-preview.model';
 import { DEFAULT_IMAGE } from './blog-article-preview.constants';
 import {DateTime} from '../date-time';
 import {MatIcon} from '@angular/material/icon';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'blog-article-preview',
   imports: [
     DateTime,
-    MatIcon
+    MatIcon,
+    RouterLink
   ],
   templateUrl: './blog-article-preview.html',
   styleUrl: './blog-article-preview.module.scss',
