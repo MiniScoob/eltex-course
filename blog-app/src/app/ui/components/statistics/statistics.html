@@ -15,7 +15,12 @@
         title="Закрыть окно статистики страницы"
         (click)="handleClose()"
       >
-        <img src="icons/xmark.svg" alt="Иконка закрытия" />
+        <mat-icon
+          svgIcon="xmark"
+          class="statistics__button-icon"
+          aria-hidden="false"
+          aria-label="Иконка закрытия">
+        </mat-icon>
       </button>
     </div>
     <div class="statistics__content">

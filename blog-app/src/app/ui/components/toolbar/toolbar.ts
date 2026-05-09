@@ -1,8 +1,11 @@
 import { Component, output } from '@angular/core';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'blog-toolbar',
-  imports: [],
+  imports: [
+    MatIcon
+  ],
   templateUrl: './toolbar.html',
   styleUrl: './toolbar.module.scss',
 })

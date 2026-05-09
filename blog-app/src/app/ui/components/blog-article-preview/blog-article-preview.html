@@ -9,7 +9,11 @@
         title="Редактировать статью"
         (click)="handleEdit()"
       >
-        <img src="icons/edit_article.svg" alt="Иконка редактирования в виде ручки и бумаги" />
+         <mat-icon
+           svgIcon="edit_article"
+           aria-hidden="false"
+           aria-label="Иконка редактирования в виде ручки и бумаги"
+         ></mat-icon>
       </button>
       <button
         type="button"
@@ -17,7 +21,11 @@
         title="Удалить статью"
         (click)="handleDelete()"
       >
-        <img src="icons/trash_can.svg" alt="Иконка удаления в виде мусорной корзины" />
+        <mat-icon
+          svgIcon="trash_can"
+          aria-hidden="false"
+          aria-label="Иконка удаления в виде мусорной корзины"
+        ></mat-icon>
       </button>
     </div>
   }

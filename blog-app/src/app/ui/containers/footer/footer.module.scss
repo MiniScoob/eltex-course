@@ -1,3 +1,4 @@
+@use "variables";
 @use "placeholders";
 @use "mixins";
 
@@ -27,12 +28,11 @@
 
     gap: 1.6rem;
     list-style: none;
+    color: variables.$color-primary;
 }
 
 .footer__link {
     display: block;
-    width: 48px;
-    height: 48px;
     transition: transform var(--animation-time) ease-in-out;
 
     &:hover {
@@ -44,8 +44,10 @@
     }
 }
 
-.footer__list img {
-    object-fit: contain;
+.footer__link,
+.footer__link-icon {
+    width: 4.8rem;
+    height: 4.8rem;
 }
 
 .footer__form {

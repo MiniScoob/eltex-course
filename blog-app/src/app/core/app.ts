@@ -1,5 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import { IconResolver, MatIconRegistry } from '@angular/material/icon';
 
 import { Footer, Header } from '../ui/containers';
 
@@ -10,5 +12,9 @@ import { Footer, Header } from '../ui/containers';
   styleUrl: './app.module.scss',
 })
 export class App {
-  protected readonly title = signal('blog-app');
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    const resolver: IconResolver = (name) => sanitizer
+      .bypassSecurityTrustResourceUrl(`/icons/${name}.svg`);
+    iconRegistry.addSvgIconResolver(resolver);
+  }
 }

@@ -1,8 +1,18 @@
-import { afterRenderEffect, Component, ElementRef, input, output, ViewChild } from '@angular/core';
+import {
+  afterRenderEffect,
+  Component,
+  ElementRef,
+  input,
+  output,
+  ViewChild,
+} from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'blog-statistics',
-  imports: [],
+  imports: [
+    MatIcon,
+  ],
   templateUrl: './statistics.html',
   styleUrl: './statistics.module.scss',
 })

@@ -12,19 +12,19 @@
   border-top: 1px solid variables.$color-border;
   width: fit-content;
   list-style: none;
-  border-top-left-radius: 16px;
-  border-bottom-left-radius: 16px;
+  border-top-left-radius: variables.$border-radius;
+  border-bottom-left-radius: variables.$border-radius;
   background-color: variables.$color-white;
   overflow: hidden;
   z-index: 1;
 }
 
 .toolbar__top-button {
-  border-top-left-radius: 16px;
+  border-top-left-radius: variables.$border-radius;
 }
 
 .toolbar_bottom-button {
-  border-bottom-left-radius: 16px;
+  border-bottom-left-radius: variables.$border-radius;
 }
 
 .toolbar__button {
@@ -32,16 +32,17 @@
 
   padding: 2rem 1.5rem;
   border-color: transparent;
+  color: variables.$color-primary;
   background-color: transparent;
   cursor: pointer;
-
-  > img {
-    width: 24px;
-    height: 24px;
-  }
 
   &:hover,
   &:focus {
     border-color: variables.$color-primary;
   }
+}
+
+.toolbar__icon {
+  width: 24px;
+  height: 24px;
 }

@@ -39,8 +39,9 @@
     border: 1px solid variables.$color-border-dark;
     width: 36px;
     height: 36px;
-    background-color: variables.$color-white;
     border-radius: 50%;
+    color: variables.$color-primary;
+    background-color: variables.$color-white;
     cursor: pointer;
     transition: border-color variables.$animation-time,
                 transform variables.$animation-time ease-in;
