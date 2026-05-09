@@ -14,6 +14,7 @@ export class ArticleDetailsFacadeService implements ArticleDetailsFacade {
   public readonly isLoaded = this.store.isLoaded;
 
   public addComment(comment: CommentRaw) {
+    console.log('addComment');
     const articleValue = this.store.article();
 
     if (!articleValue) {
@@ -22,32 +23,35 @@ export class ArticleDetailsFacadeService implements ArticleDetailsFacade {
 
     const value = this.prepareCommentValue(comment);
     this.storage.addComment(articleValue.id, value).subscribe((result) => {
+      console.log(result);
       this.store.setComments(result);
     });
   }
 
-  public updateArticleRating(rating: number) {
+  public updateArticleRating(step: number) {
     const articleValue = this.store.article();
 
     if (!articleValue) {
       return;
     }
 
-    this.storage.updateArticleRating(articleValue.id, rating).subscribe((result) => {
+    this.storage.updateArticleRating(articleValue.id, step).subscribe((result) => {
       if (result) {
         this.store.setArticle(result);
       }
     });
   }
 
-  public updateCommentRating(id: Id, rating: number) {
+  public updateCommentRating(id: Id, step: number) {
+    console.log('updateCommentRating');
     const articleValue = this.store.article();
 
     if (!articleValue) {
       return;
     }
 
-    this.storage.updateCommentRating(articleValue.id, id, rating).subscribe((result) => {
+    this.storage.updateCommentRating(articleValue.id, id, step).subscribe((result) => {
+      console.log(result);
       this.store.setComments(result);
     });
   }

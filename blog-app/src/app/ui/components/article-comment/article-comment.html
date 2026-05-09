@@ -15,4 +15,7 @@
   <mat-card-content>
     <p class="article-comment__text">{{ comment.text }}</p>
   </mat-card-content>
+  <mat-card-footer class="article-comment__footer">
+    <rating-stepper [value]="comment.rating" (change)="handleRatingChange($event)" />
+  </mat-card-footer>
 </mat-card>

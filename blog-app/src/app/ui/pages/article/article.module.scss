@@ -13,7 +13,7 @@
 }
 
 .article__text {
-  margin-bottom: 2rem;
+  margin: 2rem 0;
   font-size: 1.8rem;
 }
 
@@ -24,6 +24,10 @@
   border-radius: variables.$border-radius-small;
   background-color: variables.$color-background;
   object-fit: contain;
+}
+
+.article__footer {
+  margin-top: 1rem;
 }
 
 .article__comments-list {

@@ -10,3 +10,4 @@ export { SkillsList } from './skills-list';
 export { ProjectsList } from './projects-list';
 export { AchievementsList } from './achievements-list';
 export { ArticleComment } from './article-comment';
+export { RatingStepper } from './rating-stepper';

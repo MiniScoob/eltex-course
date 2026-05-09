@@ -1,0 +1,33 @@
+@use '@angular/material' as mat;
+@use "mixins";
+
+.rating-stepper {
+  @include mixins.flexbox($justify: flex-end);
+
+  gap: 0.8rem;
+}
+
+.rating-stepper__button {
+  @include mat.fab-overrides(
+    (
+      small-touch-target-size: 2.2rem,
+    )
+  );
+
+  width: 2rem;
+  height: 2rem;
+}
+
+.rating-stepper__icon {
+  width: 1.4rem;
+  height: 1.4rem;
+  font-size: 1.4rem;
+}
+
+.rating-stepper__positive {
+  color: #008000;
+}
+
+.rating-stepper__negative {
+  color: #FF0000;
+}

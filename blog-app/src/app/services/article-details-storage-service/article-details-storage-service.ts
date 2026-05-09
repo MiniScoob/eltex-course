@@ -34,7 +34,7 @@ export class ArticleDetailsStorageService implements ArticleDetailsStorage {
     return of(comments);
   }
 
-  public updateArticleRating(id: Id, rating: number): Observable<ArticleDetails | null> {
+  public updateArticleRating(id: Id, step: number): Observable<ArticleDetails | null> {
     const article = this.getArticleById(id);
 
     if (!article) {
@@ -43,14 +43,14 @@ export class ArticleDetailsStorageService implements ArticleDetailsStorage {
 
     const updated: ArticleDetails = {
       ...article,
-      rating,
+      rating: article.rating + step,
     };
     this.saveArticle(updated);
 
     return of(updated);
   }
 
-  public updateCommentRating(articleId: Id, id: Id, rating: number): Observable<Comment[]> {
+  public updateCommentRating(articleId: Id, id: Id, step: number): Observable<Comment[]> {
     const article = this.getArticleById(articleId);
 
     if (!article) {
@@ -58,7 +58,7 @@ export class ArticleDetailsStorageService implements ArticleDetailsStorage {
     }
 
     const comments = article.comments.map((value) => value.id === id
-      ? { ...value, rating }
+      ? { ...value, rating: value.rating + step }
       : value,
     );
 

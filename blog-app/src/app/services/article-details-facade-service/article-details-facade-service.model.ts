@@ -7,8 +7,8 @@ export interface ArticleDetailsFacade {
   isLoaded: Signal<boolean>;
 
   addComment: (comment: CommentRaw) => void;
-  updateArticleRating: (rating: number) => void;
-  updateCommentRating: (commentId: Id, rating: number) => void;
+  updateArticleRating: (step: number) => void;
+  updateCommentRating: (commentId: Id, step: number) => void;
   loadArticle: (id: Id) => void;
 }
 

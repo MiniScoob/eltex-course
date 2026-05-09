@@ -6,21 +6,34 @@
   </div>
 } @else if (article !== null) {
   <main class="article">
-    <div>
-      <h1 class="lead-title">{{ article.title }}</h1>
-      <p class="article__text">{{ article.text }}</p>
-      <img class="article__image" [src]="photo" alt="Article cover" />
-    </div>
+    <article>
+      <header>
+        <h1 class="lead-title">{{ article.title }}</h1>
+        <p>
+          Опубликовано:
+          <time [dateTime]="article.createdAt" class="article__time-published">
+            {{ createdAt() }}
+          </time>
+        </p>
+      </header>
+      <div>
+        <p class="article__text">{{ article.text }}</p>
+        <img class="article__image" [src]="photo" alt="Article cover" />
+      </div>
+      <footer class="article__footer">
+        <rating-stepper [value]="article.rating" (change)="onArticleRatingChange($event)" />
+      </footer>
+    </article>
     <section>
       <h2 class="title">Добавить комментарий</h2>
-      <article-comment-form />
+      <article-comment-form (save)="onAddComment($event)" />
     </section>
     <section>
       <h2 class="title">Комментарии:</h2>
       <ul class="article__comments-list">
-        @for (item of [{ id: 1, author: 'Bob', text: 'test', createdAt: '2025-03-03', rating: 0 }]; track $index) {
+        @for (item of article.comments; track $index) {
           <li>
-            <article-comment [data]="item" />
+            <article-comment [data]="item" (ratingChange)="onCommentRatingChange(item.id, $event)" />
           </li>
         }
       </ul>

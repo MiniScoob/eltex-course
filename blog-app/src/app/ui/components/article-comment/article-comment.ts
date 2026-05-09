@@ -1,8 +1,16 @@
-import { Component, computed, input } from '@angular/core';
-import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
+import { Component, computed, input, output } from '@angular/core';
+import {
+  MatCard,
+  MatCardContent,
+  MatCardFooter,
+  MatCardHeader,
+  MatCardSubtitle,
+  MatCardTitle,
+} from '@angular/material/card';
 
 import type { Comment } from '../../../models';
 import { toDateString } from '../../../utils';
+import { RatingStepper } from '../rating-stepper';
 
 @Component({
   selector: 'article-comment',
@@ -11,7 +19,9 @@ import { toDateString } from '../../../utils';
     MatCardHeader,
     MatCardTitle,
     MatCardContent,
-    MatCardSubtitle
+    MatCardSubtitle,
+    MatCardFooter,
+    RatingStepper,
   ],
   templateUrl: './article-comment.html',
   styleUrl: './article-comment.module.scss',
@@ -20,4 +30,10 @@ export class ArticleComment {
   public data = input.required<Comment>();
 
   protected createdAt = computed(() => toDateString(new Date(this.data().createdAt)));
+
+  public ratingChange = output<number>();
+
+  protected handleRatingChange(step: number) {
+    this.ratingChange.emit(step);
+  }
 }
