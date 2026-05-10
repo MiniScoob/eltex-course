@@ -14,7 +14,7 @@ import { Footer, Header } from '../ui/containers';
 export class App {
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     const resolver: IconResolver = (name) => sanitizer
-      .bypassSecurityTrustResourceUrl(`/icons/${name}.svg`);
+      .bypassSecurityTrustResourceUrl(`icons/${name}.svg`);
     iconRegistry.addSvgIconResolver(resolver);
   }
 }

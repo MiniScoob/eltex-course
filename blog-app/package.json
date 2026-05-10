@@ -5,8 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:prod": "ng build --configuration production --base-href=/eltex-course/",
-    "deploy": "npx angular-cli-ghpages --dir=dist/blog-app",
+    "build:prod": "ng build --configuration production --base-href=/eltex-course/ && cp dist/blog-app/browser/index.csr.html dist/blog-app/browser/404.html",
+    "deploy": "npx angular-cli-ghpages --dir=dist/blog-app/browser",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:blog-app": "node dist/blog-app/server/server.mjs"
