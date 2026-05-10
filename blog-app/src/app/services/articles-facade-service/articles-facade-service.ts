@@ -22,23 +22,14 @@ export class ArticlesFacadeService implements ArticlesFacade {
   public readonly isLoaded = this.store.isLoaded;
 
   public addArticle(value: ArticleRaw) {
-    const preparedValue = this.prepareRawValue(value);
-    const newBlogArticle = this.preparePreviewValue(preparedValue);
-
     this.storage
-      .addArticle(newBlogArticle, this.page(), this.pageSize())
+      .addArticle(value, this.page(), this.pageSize())
       .subscribe(this.updateStore);
   }
 
-  public updateArticle(initial: ArticlePreview, data: ArticleRaw) {
-    const preparedValue = this.prepareRawValue(data);
-    const updated = {
-      ...initial,
-      ...preparedValue,
-    };
-
+  public updateArticle(id: Id, data: ArticleRaw) {
     this.storage
-      .updateArticle(updated, this.page(), this.pageSize())
+      .updateArticle(id, data, this.page(), this.pageSize())
       .subscribe(this.updateStore);
   }
 
@@ -74,9 +65,8 @@ export class ArticlesFacadeService implements ArticlesFacade {
     );
 
     generated.forEach((article) => {
-      const newArticle = this.preparePreviewValue(article);
       this.storage.addArticle(
-        newArticle,
+        article,
         this.page(),
         this.pageSize()
       );
@@ -110,20 +100,6 @@ export class ArticlesFacadeService implements ArticlesFacade {
       .subscribe((result) => {
         this._totalComments.set(result.length);
       });
-  }
-
-  private prepareRawValue(value: ArticleRaw) {
-    const { photo, ...rest } = value;
-
-    return rest;
-  }
-
-  private preparePreviewValue(value: ArticleRaw): ArticlePreview {
-    return {
-      ...value,
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-    };
   }
 
   private updateStore = (data: ArticlesStorageResult) => {

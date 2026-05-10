@@ -12,7 +12,7 @@ export interface ArticlesFacade {
 
   addArticle: (value: ArticleRaw) => void;
   deleteArticle: (id: Id) => void;
-  updateArticle: (initial: ArticlePreview, data: ArticleRaw) => void;
+  updateArticle: (id: Id, data: ArticleRaw) => void;
   changePage: (page: number) => void;
   setPageSize: (page: number) => void;
   loadArticles: () => void;

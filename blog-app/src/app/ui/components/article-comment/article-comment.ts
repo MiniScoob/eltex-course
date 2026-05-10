@@ -11,7 +11,7 @@ import {
 import type { Comment } from '../../../models';
 import { toDateString } from '../../../utils';
 import { RatingStepper } from '../rating-stepper';
-import {DateTime} from '../date-time';
+import { DateTime } from '../date-time';
 
 @Component({
   selector: 'article-comment',

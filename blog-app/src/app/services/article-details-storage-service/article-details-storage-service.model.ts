@@ -2,11 +2,17 @@ import { InjectionToken } from '@angular/core';
 
 import type { Observable } from 'rxjs';
 
-import type { ArticleDetails, Comment, Id } from '../../models';
+import type {
+  ArticleDetails,
+  Comment,
+  CommentData,
+  Id,
+} from '../../models';
 
 export interface ArticleDetailsStorage {
   getArticle(id: Id): Observable<ArticleDetails | null>;
-  addComment(articleId: Id, data: Comment): Observable<Comment[]>;
+  getComments(id: Id): Observable<Comment[]>;
+  addComment(data: CommentData): Observable<Comment[]>;
   updateArticleRating(id: Id, step: number): Observable<ArticleDetails | null>;
   updateCommentRating(articleId: Id, id: Id, step: number): Observable<Comment[]>;
 }

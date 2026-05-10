@@ -2,18 +2,27 @@ import { inject, Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
 
-import type { ArticleDetails, ArticlePreview, Comment, Id } from '../../models';
+import type {
+  ArticleDetails,
+  ArticlePreview,
+  ArticleRaw,
+  Comment,
+  CommentsStorageData,
+  Id,
+} from '../../models';
+import { ARTICLES_STORAGE_KEY, COMMENTS_STORAGE_KEY } from '../../constants';
 import { STORAGE_ENGINE_TOKEN } from '../storage-engine-service';
 import type { ArticlesStorage, ArticlesStorageResult } from './articles-storage-service.model';
-import { PAGE_SIZE, STORAGE_KEY } from './articles-storage-service.constants';
+import { PAGE_SIZE } from './articles-storage-service.constants';
 
 @Injectable({ providedIn: 'root' })
 export class ArticlesStorageService implements ArticlesStorage {
   private engine = inject(STORAGE_ENGINE_TOKEN);
 
-  private readonly _storageKey = STORAGE_KEY;
+  private readonly _articlesStorageKey = ARTICLES_STORAGE_KEY;
+  private readonly _commentsStorageKey = COMMENTS_STORAGE_KEY;
 
-  public addArticle(value: ArticlePreview, page: number, pageSize?: number) {
+  public addArticle(value: ArticleRaw, page: number, pageSize?: number) {
     const updated = this.addArticleToStorage(value);
     const result = this.prepareData(updated, page, pageSize);
 
@@ -27,8 +36,8 @@ export class ArticlesStorageService implements ArticlesStorage {
     return of(result);
   }
 
-  public updateArticle(value: ArticlePreview, page: number, pageSize?: number) {
-    const updated = this.updateArticleInStorage(value);
+  public updateArticle(id: Id, value: ArticleRaw, page: number, pageSize?: number) {
+    const updated = this.updateArticleInStorage(id, value);
     const result = this.prepareData(updated, page, pageSize);
 
     return of(result);
@@ -42,10 +51,10 @@ export class ArticlesStorageService implements ArticlesStorage {
   }
 
   public getAllComments() {
-    const values = this.getArticlesFromStorage();
-    const result = values.reduce((acc, item) =>
-      [...acc, ...item.comments],
-      [] as Comment[],
+    const values = this.getCommentsFromStorage();
+
+    const result = values.flatMap((item) =>
+      item.comments.map((c) => ({ ...c, articleId: item.articleId }))
     );
 
     return of(result);
@@ -62,7 +71,7 @@ export class ArticlesStorageService implements ArticlesStorage {
     };
   }
 
-  private addArticleToStorage(value: ArticlePreview) {
+  private addArticleToStorage(value: ArticleRaw) {
     const newArticle = this.createArticle(value);
     const articles = this.getArticlesFromStorage();
     const updated = [newArticle, ...articles];
@@ -81,10 +90,10 @@ export class ArticlesStorageService implements ArticlesStorage {
     return updated;
   }
 
-  private updateArticleInStorage(value: ArticlePreview) {
+  private updateArticleInStorage(id: Id, value: ArticleRaw) {
     const articles = this.getArticlesFromStorage();
-    const updated = articles.map((item) => item.id === value.id
-      ? { ...item, ...value }
+    const updated = articles.map((item) => item.id === id
+      ? { ...item, ...value, updatedAt: new Date().toISOString() }
       : item
     );
 
@@ -93,11 +102,15 @@ export class ArticlesStorageService implements ArticlesStorage {
     return updated;
   }
 
-  private createArticle(value: ArticlePreview) {
+  private createArticle(value: ArticleRaw): ArticleDetails {
+    const date = new Date().toISOString();
     return {
       ...value,
+      id: crypto.randomUUID(),
+      imgSrc: null,
       rating: 0,
-      comments: [],
+      createdAt: date,
+      updatedAt: date,
     };
   }
 
@@ -105,13 +118,15 @@ export class ArticlesStorageService implements ArticlesStorage {
     return {
       id: value.id,
       title: value.title,
-      text: value.text,
+      content: value.content,
+      imgSrc: value.imgSrc,
+      categoryId: value.categoryId,
       createdAt: value.createdAt,
     };
   }
 
   private getArticlesFromStorage(): ArticleDetails[] {
-    const values = this.engine.getItem(this._storageKey);
+    const values = this.engine.getItem(this._articlesStorageKey);
 
     if (!values) {
       return [];
@@ -121,7 +136,17 @@ export class ArticlesStorageService implements ArticlesStorage {
   }
 
   private saveArticlesToStorage(values: ArticleDetails[]) {
-    this.engine.setItem(this._storageKey, JSON.stringify(values));
+    this.engine.setItem(this._articlesStorageKey, JSON.stringify(values));
+  }
+
+  private getCommentsFromStorage(): CommentsStorageData[] {
+    const values = this.engine.getItem(this._commentsStorageKey);
+
+    if (!values) {
+      return [];
+    }
+
+    return JSON.parse(values);
   }
 
   private getRealPage(page: number, totalPages: number) {

@@ -1,6 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 
-import type { ArticleDetails, Comment, CommentRaw, Id } from '../../models';
+import type {
+  ArticleDetails,
+  CommentData,
+  CommentRaw,
+  Id,
+} from '../../models';
 import { ARTICLE_DETAILS_STORAGE_TOKEN } from '../article-details-storage-service';
 import { ARTICLE_DETAILS_STORE_TOKEN } from '../article-details-store-service';
 import type { ArticleDetailsFacade } from './article-details-facade-service.model';
@@ -14,7 +19,6 @@ export class ArticleDetailsFacadeService implements ArticleDetailsFacade {
   public readonly isLoaded = this.store.isLoaded;
 
   public addComment(comment: CommentRaw) {
-    console.log('addComment');
     const articleValue = this.store.article();
 
     if (!articleValue) {
@@ -22,7 +26,7 @@ export class ArticleDetailsFacadeService implements ArticleDetailsFacade {
     }
 
     const value = this.prepareCommentValue(comment);
-    this.storage.addComment(articleValue.id, value).subscribe((result) => {
+    this.storage.addComment(value).subscribe((result) => {
       console.log(result);
       this.store.setComments(result);
     });
@@ -72,12 +76,10 @@ export class ArticleDetailsFacadeService implements ArticleDetailsFacade {
     this.store.setLoaded();
   }
 
-  private prepareCommentValue(value: CommentRaw): Comment {
+  private prepareCommentValue(value: CommentRaw): CommentData {
     return {
       ...value,
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-      rating: 0,
+      articleId: this.article()!.id,
     };
   }
 }

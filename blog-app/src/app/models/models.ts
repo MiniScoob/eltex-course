@@ -2,27 +2,41 @@ export type Id = string | number;
 
 export interface Comment {
   id: Id;
-  author: string;
-  text: string;
-  createdAt: string;
+  articleId: Id;
+  username: string;
+  content: string;
   rating: number;
+  createdAt: string;
 }
 
-export type CommentRaw = Pick<Comment, 'author' | 'text'>;
+export type CommentData = Pick<Comment, 'username' | 'content' | 'articleId'>;
+
+export type CommentRaw = Omit<CommentData, 'articleId'>;
+
+export interface Category {
+  id: Id;
+  name: string;
+  createdAt: string;
+}
+
+export type CategoryRaw = Pick<Category, 'name'>;
 
 export interface ArticleDetails {
   id: Id;
   title: string;
-  text: string;
-  createdAt: string;
+  content: string;
+  imgSrc: string | null;
+  categoryId: Id | null;
   rating: number;
-  comments: Comment[];
+  createdAt: string;
+  updatedAt: string;
 }
 
-export type ArticlePreview = Pick<ArticleDetails, 'id' | 'title' | 'text' | 'createdAt'>;
+export type ArticlePreview = Pick<
+  ArticleDetails,
+  'id' | 'title' | 'content' | 'imgSrc' | 'categoryId' | 'createdAt'
+>;
 
-export interface ArticlePreviewElement extends ArticlePreview {
-  photo?: File | null;
-}
-
-export type ArticleRaw = Omit<ArticlePreviewElement, 'id' | 'createdAt'>;
+export type ArticleRaw = Pick<ArticleDetails, 'title' | 'content' | 'categoryId'> & {
+  image: File | null;
+};

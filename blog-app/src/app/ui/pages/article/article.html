@@ -12,7 +12,7 @@
         <date-time [value]="article.createdAt">Опубликовано:</date-time>
       </header>
       <div>
-        <p class="article__text">{{ article.text }}</p>
+        <p class="article__text">{{ article.content }}</p>
         <img class="article__image" [src]="photo" alt="Article cover" />
       </div>
       <footer class="article__footer">
@@ -25,17 +25,17 @@
     </section>
     <section>
       <h2 class="title">Комментарии:</h2>
-      @if (article.comments.length > 0) {
-        <ul class="article__comments-list">
-          @for (item of article.comments; track $index) {
-            <li>
-              <article-comment [data]="item" (ratingChange)="onCommentRatingChange(item.id, $event)" />
-            </li>
-          }
-        </ul>
-      } @else {
-        <p>Комментариев пока нет</p>
-      }
+<!--      @if (article.comments.length > 0) {-->
+<!--        <ul class="article__comments-list">-->
+<!--          @for (item of article.comments; track $index) {-->
+<!--            <li>-->
+<!--              <article-comment [data]="item" (ratingChange)="onCommentRatingChange(item.id, $event)" />-->
+<!--            </li>-->
+<!--          }-->
+<!--        </ul>-->
+<!--      } @else {-->
+<!--        <p>Комментариев пока нет</p>-->
+<!--      }-->
     </section>
   </main>
 } @else {

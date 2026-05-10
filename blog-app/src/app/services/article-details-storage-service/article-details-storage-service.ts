@@ -2,7 +2,8 @@ import { inject, Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 
-import type { ArticleDetails, Comment, Id } from '../../models';
+import type { ArticleDetails, Comment, CommentData, CommentsStorageData, Id } from '../../models';
+import { ARTICLES_STORAGE_KEY, COMMENTS_STORAGE_KEY } from '../../constants';
 import { STORAGE_ENGINE_TOKEN } from '../storage-engine-service';
 import type { ArticleDetailsStorage } from './article-details-storage-service.model';
 
@@ -10,28 +11,22 @@ import type { ArticleDetailsStorage } from './article-details-storage-service.mo
 export class ArticleDetailsStorageService implements ArticleDetailsStorage {
   private readonly engine = inject(STORAGE_ENGINE_TOKEN);
 
-  private readonly _storageKey = 'articles';
+  private readonly _articlesStorageKey = ARTICLES_STORAGE_KEY;
+  private readonly _commentsStorageKey = COMMENTS_STORAGE_KEY;
 
   public getArticle(id: Id) {
     return of(this.getArticleById(id));
   }
 
-  public addComment(articleId: Id, data: Comment): Observable<Comment[]> {
-    const article = this.getArticleById(articleId);
+  public getComments(id: Id) {
+    return of(this.getCommentsByArticleId(id));
+  }
 
-    if (!article) {
-      return of([]);
-    }
+  public addComment(data: CommentData): Observable<Comment[]> {
+    const value = this.prepareComment(data);
+    this.saveComment(value);
 
-    const comments = [...article.comments, data];
-
-    const updated: ArticleDetails = {
-      ...article,
-      comments,
-    };
-    this.saveArticle(updated);
-
-    return of(comments);
+    return of(this.getCommentsByArticleId(data.articleId));
   }
 
   public updateArticleRating(id: Id, step: number): Observable<ArticleDetails | null> {
@@ -51,24 +46,25 @@ export class ArticleDetailsStorageService implements ArticleDetailsStorage {
   }
 
   public updateCommentRating(articleId: Id, id: Id, step: number): Observable<Comment[]> {
-    const article = this.getArticleById(articleId);
+    const comments = this.getCommentsByArticleId(articleId);
 
-    if (!article) {
+    if (!comments) {
       return of([]);
     }
 
-    const comments = article.comments.map((value) => value.id === id
-      ? { ...value, rating: value.rating + step }
-      : value,
-    );
+    let value = comments.find((comment) => comment.id === id);
 
-    const updated: ArticleDetails = {
-      ...article,
-      comments,
+    if (!value) {
+      return of([]);
+    }
+
+    const updated: Comment = {
+      ...value,
+      rating: value.rating + step,
     };
-    this.saveArticle(updated);
+    this.saveComment(updated);
 
-    return of(comments);
+    return of(this.getCommentsByArticleId(articleId));
   }
 
   private saveArticle(value: ArticleDetails) {
@@ -82,29 +78,80 @@ export class ArticleDetailsStorageService implements ArticleDetailsStorage {
     this.saveArticlesToStorage(updated);
   }
 
+  private prepareComment(value: CommentData): Comment {
+    return {
+      ...value,
+      id: crypto.randomUUID(),
+      rating: 0,
+      createdAt: new Date().toISOString(),
+    }
+  }
+
+  private saveComment(value: Comment) {
+    const data = this.getAllCommentsFromStorage();
+    const groupExists = data.some((d) => d.articleId === value.articleId);
+
+    const updated = groupExists
+      ? data.map((d) => {
+        if (d.articleId !== value.articleId) {
+          return d;
+        }
+
+        const commentExists = d.comments.some((c) => c.id === value.id);
+        const comments = commentExists
+          ? d.comments.map((c) => (c.id === value.id ? value : c))
+          : [...d.comments, value];
+        return { ...d, comments };
+      })
+      : [...data, { articleId: value.articleId, comments: [value] }];
+
+    this.saveCommentsToStorage(updated);
+  }
+
   private getArticleById(id: Id) {
     const values = this.getAllArticlesFromStorage();
-
-    if (values.length === 0) {
-      return null;
-    }
-
     const article = values.find((a) => a.id === id);
 
     return article ?? null;
   }
 
-  private getAllArticlesFromStorage() {
-    const values = this.engine.getItem(this._storageKey);
+  private getAllArticlesFromStorage(): ArticleDetails[] {
+    const values = this.engine.getItem(this._articlesStorageKey);
 
     if (!values) {
       return [];
     }
 
-    return JSON.parse(values) as ArticleDetails[];
+    return JSON.parse(values);
   }
 
   private saveArticlesToStorage(values: ArticleDetails[]) {
-    this.engine.setItem(this._storageKey, JSON.stringify(values));
+    this.engine.setItem(this._articlesStorageKey, JSON.stringify(values));
+  }
+
+  private getCommentsByArticleId(id: Id) {
+    const values = this.getAllCommentsFromStorage();
+
+    const data = values.find((v) => v.articleId === id);
+
+    if (!data) {
+      return [];
+    }
+
+    return data.comments.map((c) => ({ ...c, articleId: data.articleId }));
+  }
+
+  private getAllCommentsFromStorage(): CommentsStorageData[]  {
+    const values = this.engine.getItem(this._commentsStorageKey);
+
+    if (!values) {
+      return [];
+    }
+
+    return JSON.parse(values);
+  }
+
+  private saveCommentsToStorage(values: CommentsStorageData[]) {
+    this.engine.setItem(this._commentsStorageKey, JSON.stringify(values));
   }
 }

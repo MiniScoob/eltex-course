@@ -18,8 +18,8 @@ export class BlogArticleUpsert {
 
   protected blogArticleForm = this.formBuilder.group({
     title: [this.initialValue()?.title ?? '', [Validators.required, Validators.minLength(25)]],
-    text: [this.initialValue()?.text ?? '', [Validators.required, Validators.minLength(20)]],
-    photo: [this.initialValue()?.photo ?? null],
+    content: [this.initialValue()?.content ?? '', [Validators.required, Validators.minLength(20)]],
+    image: [this.initialValue()?.image ?? null],
   });
 
   constructor() {
@@ -29,8 +29,8 @@ export class BlogArticleUpsert {
       if (blogArticle) {
         this.blogArticleForm.patchValue({
           title: blogArticle.title,
-          text: blogArticle.text,
-          photo: blogArticle?.photo,
+          content: blogArticle.content,
+          image: blogArticle?.image,
         });
       } else {
         this.blogArticleForm.reset();
@@ -44,8 +44,9 @@ export class BlogArticleUpsert {
   protected handleSubmit() {
     const value: ArticleRaw = {
       title: this.blogArticleForm.value.title ?? '',
-      text: this.blogArticleForm.value.text ?? '',
-      photo: this.blogArticleForm.value.photo ?? null,
+      content: this.blogArticleForm.value.content ?? '',
+      image: this.blogArticleForm.value.image ?? null,
+      categoryId: null,
     };
 
     this.blogArticleForm.reset();

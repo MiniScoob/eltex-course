@@ -16,16 +16,16 @@ export class ArticleDetailsStoreService implements ArticleDetailsStore {
   }
 
   public setComments(comments: Comment[]) {
-    const articleValue = this._article();
-
-    if (!articleValue) {
-      return;
-    }
-
-    this._article.set({
-      ...articleValue,
-      comments,
-    });
+    // const articleValue = this._article();
+    //
+    // if (!articleValue) {
+    //   return;
+    // }
+    //
+    // this._article.set({
+    //   ...articleValue,
+    //   comments,
+    // });
   }
 
   public setLoaded() {
