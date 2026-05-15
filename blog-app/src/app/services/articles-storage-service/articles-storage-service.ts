@@ -5,8 +5,7 @@ import { of } from 'rxjs';
 import type {
   ArticleDetails,
   ArticlePreview,
-  ArticleRaw,
-  Comment,
+  ArticleData,
   CommentsStorageData,
   Id,
 } from '../../models';
@@ -15,14 +14,14 @@ import { STORAGE_ENGINE_TOKEN } from '../storage-engine-service';
 import type { ArticlesStorage, ArticlesStorageResult } from './articles-storage-service.model';
 import { PAGE_SIZE } from './articles-storage-service.constants';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ArticlesStorageService implements ArticlesStorage {
   private engine = inject(STORAGE_ENGINE_TOKEN);
 
   private readonly _articlesStorageKey = ARTICLES_STORAGE_KEY;
   private readonly _commentsStorageKey = COMMENTS_STORAGE_KEY;
 
-  public addArticle(value: ArticleRaw, page: number, pageSize?: number) {
+  public addArticle(value: ArticleData, page: number, pageSize?: number) {
     const updated = this.addArticleToStorage(value);
     const result = this.prepareData(updated, page, pageSize);
 
@@ -36,7 +35,7 @@ export class ArticlesStorageService implements ArticlesStorage {
     return of(result);
   }
 
-  public updateArticle(id: Id, value: ArticleRaw, page: number, pageSize?: number) {
+  public updateArticle(id: Id, value: ArticleData, page: number, pageSize?: number) {
     const updated = this.updateArticleInStorage(id, value);
     const result = this.prepareData(updated, page, pageSize);
 
@@ -71,7 +70,7 @@ export class ArticlesStorageService implements ArticlesStorage {
     };
   }
 
-  private addArticleToStorage(value: ArticleRaw) {
+  private addArticleToStorage(value: ArticleData) {
     const newArticle = this.createArticle(value);
     const articles = this.getArticlesFromStorage();
     const updated = [newArticle, ...articles];
@@ -90,7 +89,7 @@ export class ArticlesStorageService implements ArticlesStorage {
     return updated;
   }
 
-  private updateArticleInStorage(id: Id, value: ArticleRaw) {
+  private updateArticleInStorage(id: Id, value: ArticleData) {
     const articles = this.getArticlesFromStorage();
     const updated = articles.map((item) => item.id === id
       ? { ...item, ...value, updatedAt: new Date().toISOString() }
@@ -102,7 +101,7 @@ export class ArticlesStorageService implements ArticlesStorage {
     return updated;
   }
 
-  private createArticle(value: ArticleRaw): ArticleDetails {
+  private createArticle(value: ArticleData): ArticleDetails {
     const date = new Date().toISOString();
     return {
       ...value,

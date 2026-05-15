@@ -1,6 +1,6 @@
 import { InjectionToken, type Signal } from '@angular/core';
 
-import type { ArticlePreview, ArticleRaw, Id } from '../../models';
+import type { ArticleRaw, ArticlePreview, Id } from '../../models';
 
 export interface ArticlesFacade {
   articles: Signal<ArticlePreview[]>;

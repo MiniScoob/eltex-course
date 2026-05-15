@@ -37,6 +37,11 @@ export type ArticlePreview = Pick<
   'id' | 'title' | 'content' | 'imgSrc' | 'categoryId' | 'createdAt'
 >;
 
+export type ArticleData = Pick<ArticleDetails, 'title' | 'content' | 'categoryId'> & {
+  image: File | null;
+};
+
 export type ArticleRaw = Pick<ArticleDetails, 'title' | 'content' | 'categoryId'> & {
+  categoryName: string;
   image: File | null;
 };

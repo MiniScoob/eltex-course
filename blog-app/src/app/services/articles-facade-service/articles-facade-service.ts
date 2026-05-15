@@ -1,6 +1,14 @@
 import { inject, Injectable, signal } from '@angular/core';
 
-import type { ArticlePreview, ArticleRaw, Id } from '../../models';
+import { type Observable, switchMap } from 'rxjs';
+
+import type {
+  ArticleData,
+  ArticlePreview,
+  ArticleRaw,
+  Id
+} from '../../models';
+import { CATEGORIES_FACADE_TOKEN } from '../categories-facade-service';
 import { ARTICLES_STORAGE_TOKEN, ArticlesStorageResult } from '../articles-storage-service';
 import { ARTICLE_STORE_TOKEN } from '../articles-store-service';
 import type { ArticlesFacade } from './articles-facade-service.model';
@@ -8,6 +16,7 @@ import { DEFAULT_PAGE_SIZE, INITIAL_ARTICLES } from './articles-facade-service.c
 
 @Injectable()
 export class ArticlesFacadeService implements ArticlesFacade {
+  private categoriesStore = inject(CATEGORIES_FACADE_TOKEN);
   private storage = inject(ARTICLES_STORAGE_TOKEN);
   private store = inject(ARTICLE_STORE_TOKEN);
 
@@ -22,15 +31,15 @@ export class ArticlesFacadeService implements ArticlesFacade {
   public readonly isLoaded = this.store.isLoaded;
 
   public addArticle(value: ArticleRaw) {
-    this.storage
-      .addArticle(value, this.page(), this.pageSize())
-      .subscribe(this.updateStore);
+    this.resolveCategoryAndSave(value, (articleData) =>
+      this.storage.addArticle(articleData, this.page(), this.pageSize())
+    );
   }
 
   public updateArticle(id: Id, data: ArticleRaw) {
-    this.storage
-      .updateArticle(id, data, this.page(), this.pageSize())
-      .subscribe(this.updateStore);
+    this.resolveCategoryAndSave(data, (articleData) =>
+      this.storage.updateArticle(id, articleData, this.page(), this.pageSize())
+    );
   }
 
   public deleteArticle(id: Id) {
@@ -86,6 +95,23 @@ export class ArticlesFacadeService implements ArticlesFacade {
     });
 
     this.getArticles();
+  }
+
+  private resolveCategoryAndSave(
+    value: ArticleRaw,
+    save: (enriched: ArticleData) => Observable<ArticlesStorageResult>
+  ) {
+    const { categoryName, ...rest } = value;
+
+    // Если категория не указана — сразу сохраняем
+    if (!categoryName) {
+      save({ ...rest, categoryId: null }).subscribe(this.updateStore);
+      return;
+    }
+
+    this.categoriesStore.resolveCategory(categoryName).pipe(
+      switchMap((categoryId) => save({...value, categoryId})),
+    ).subscribe(this.updateStore);
   }
 
   private getArticles() {

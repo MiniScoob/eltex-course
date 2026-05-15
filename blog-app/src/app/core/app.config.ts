@@ -9,6 +9,8 @@ import {
   BrowserStorageEngineService,
   ServerStorageEngineService
 } from '../services/storage-engine-service';
+import { CATEGORIES_STORAGE_TOKEN, CategoriesStorageService } from '../services/categories-storage-service';
+import { CATEGORIES_FACADE_TOKEN, CategoriesFacadeService } from '../services/categories-facade-service';
 import { ARTICLES_STORAGE_TOKEN, ArticlesStorageService } from '../services/articles-storage-service';
 import { ARTICLE_STORE_TOKEN, ArticlesStoreService } from '../services/articles-store-service';
 import { ARTICLES_FACADE_TOKEN, ArticlesFacadeService } from '../services/articles-facade-service';
@@ -30,8 +32,14 @@ export const appConfig: ApplicationConfig = {
         : new ServerStorageEngineService(),
       deps: [PLATFORM_ID],
     },
-    { provide: ARTICLES_STORAGE_TOKEN, useExisting: ArticlesStorageService },
-    { provide: ARTICLE_STORE_TOKEN, useExisting: ArticlesStoreService },
+    {
+      provide: CATEGORIES_STORAGE_TOKEN, useClass: CategoriesStorageService,
+    },
+    {
+      provide: CATEGORIES_FACADE_TOKEN, useClass: CategoriesFacadeService,
+    },
+    { provide: ARTICLES_STORAGE_TOKEN, useClass: ArticlesStorageService },
+    { provide: ARTICLE_STORE_TOKEN, useClass: ArticlesStoreService },
     { provide: ARTICLES_FACADE_TOKEN, useClass: ArticlesFacadeService },
     { provide: ARTICLE_DETAILS_STORAGE_TOKEN, useClass: ArticleDetailsStorageService },
     { provide: ARTICLE_DETAILS_STORE_TOKEN, useClass: ArticleDetailsStoreService },

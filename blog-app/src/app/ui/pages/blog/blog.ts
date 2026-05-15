@@ -7,10 +7,12 @@ import {
 } from '@angular/core';
 
 import type {
+  ArticleData,
   ArticlePreview,
   ArticleRaw,
   Id,
 } from '../../../models';
+import { CATEGORIES_FACADE_TOKEN } from '../../../services/categories-facade-service';
 import { ARTICLES_FACADE_TOKEN } from '../../../services/articles-facade-service';
 import { BlogArticleUpsert } from '../../containers';
 import {
@@ -35,14 +37,15 @@ import {
   styleUrl: './blog.module.scss',
 })
 export class Blog implements OnInit {
-  protected store = inject(ARTICLES_FACADE_TOKEN);
+  protected categoriesStore = inject(CATEGORIES_FACADE_TOKEN);
+  protected articlesStore = inject(ARTICLES_FACADE_TOKEN);
 
   private _editingBlogArticle = signal<ArticlePreview | null>(null);
 
   protected isStatisticsOpen = signal<boolean>(false);
   protected isAddFormHidden = signal<boolean>(true);
 
-  protected editingBlogArticle = computed<ArticleRaw | null>(() => {
+  protected editingBlogArticle = computed<ArticleData | null>(() => {
     const editing = this._editingBlogArticle();
 
     if (!editing) {
@@ -52,12 +55,12 @@ export class Blog implements OnInit {
     return {
       title: editing.title,
       content: editing.content,
-      categoryId: null,
+      categoryId: editing.categoryId,
       image: null,
-    }
+    };
   });
-  protected totalPages = computed(() => this.store.totalArticles() > 0
-    ? Math.ceil(this.store.totalArticles() / this.store.pageSize())
+  protected totalPages = computed(() => this.articlesStore.totalArticles() > 0
+    ? Math.ceil(this.articlesStore.totalArticles() / this.articlesStore.pageSize())
     : 1,
   );
   protected formTitle = computed(() => this._editingBlogArticle()
@@ -66,18 +69,19 @@ export class Blog implements OnInit {
   );
 
   public ngOnInit(){
-    this.store.loadArticles();
+    this.categoriesStore.loadCategories();
+    this.articlesStore.loadArticles();
   }
 
   protected onSave(value: ArticleRaw) {
     const editing = this._editingBlogArticle();
 
     if (editing) {
-      this.store.updateArticle(editing.id, value);
+      this.articlesStore.updateArticle(editing.id, { ...value, categoryName: '' });
 
       this._editingBlogArticle.set(null);
     } else {
-      this.store.addArticle(value);
+      this.articlesStore.addArticle({ ...value, categoryName: '' });
     }
   }
 
@@ -94,7 +98,7 @@ export class Blog implements OnInit {
       this._editingBlogArticle.set(null);
     }
 
-    this.store.deleteArticle(id);
+    this.articlesStore.deleteArticle(id);
   }
 
   protected onEditBlogArticle(value: ArticlePreview) {
@@ -135,6 +139,6 @@ export class Blog implements OnInit {
   }
 
   protected onPageChanged(page: number) {
-    this.store.changePage(page);
+    this.articlesStore.changePage(page);
   }
 }

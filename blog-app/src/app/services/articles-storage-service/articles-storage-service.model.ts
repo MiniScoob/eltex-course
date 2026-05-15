@@ -2,7 +2,7 @@ import { InjectionToken } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import type { ArticlePreview, ArticleRaw, Comment, Id } from '../../models';
+import type { ArticleData, ArticlePreview, Comment, Id } from '../../models';
 
 export type ArticlesStorageResult = {
   articles: ArticlePreview[];
@@ -10,9 +10,9 @@ export type ArticlesStorageResult = {
 };
 
 export interface ArticlesStorage {
-  addArticle: (value: ArticleRaw, page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
+  addArticle: (value: ArticleData, page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
   deleteArticle: (id: Id, page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
-  updateArticle: (id: Id, value: ArticleRaw, page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
+  updateArticle: (id: Id, value: ArticleData, page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
   getArticles: (page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
   getAllComments: () => Observable<Comment[]>;
 }
