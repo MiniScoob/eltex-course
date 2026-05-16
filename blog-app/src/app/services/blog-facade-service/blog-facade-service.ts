@@ -6,29 +6,30 @@ import type {
   ArticleData,
   ArticlePreview,
   ArticleRaw,
-  Id
+  Id,
 } from '../../models';
 import { CATEGORIES_FACADE_TOKEN } from '../categories-facade-service';
 import { ARTICLES_STORAGE_TOKEN, ArticlesStorageResult } from '../articles-storage-service';
-import { ARTICLE_STORE_TOKEN } from '../articles-store-service';
-import type { ArticlesFacade } from './articles-facade-service.model';
-import { DEFAULT_PAGE_SIZE, INITIAL_ARTICLES } from './articles-facade-service.constants';
+import { ARTICLES_STORE_TOKEN } from '../articles-store-service';
+import type { BlogFacade } from './blog-facade-service.model';
+import { DEFAULT_PAGE_SIZE, INITIAL_ARTICLES } from './blog-facade-service.constants';
 
 @Injectable()
-export class ArticlesFacadeService implements ArticlesFacade {
+export class BlogFacadeService implements BlogFacade {
   private categoriesStore = inject(CATEGORIES_FACADE_TOKEN);
   private storage = inject(ARTICLES_STORAGE_TOKEN);
-  private store = inject(ARTICLE_STORE_TOKEN);
+  private articlesStore = inject(ARTICLES_STORE_TOKEN);
 
   private _pageSize = signal<number>(DEFAULT_PAGE_SIZE);
   private _totalComments = signal<number>(0);
 
-  public readonly articles = this.store.articles;
-  public readonly page = this.store.page;
-  public readonly totalArticles = this.store.totalArticles;
+  public readonly articles = this.articlesStore.articles;
+  public readonly categories = this.categoriesStore.categories;
+  public readonly page = this.articlesStore.page;
+  public readonly totalArticles = this.articlesStore.totalArticles;
   public readonly totalComments = this._totalComments.asReadonly();
   public readonly pageSize = this._pageSize.asReadonly();
-  public readonly isLoaded = this.store.isLoaded;
+  public readonly isLoaded = this.articlesStore.isLoaded;
 
   public addArticle(value: ArticleRaw) {
     this.resolveCategoryAndSave(value, (articleData) =>
@@ -49,7 +50,7 @@ export class ArticlesFacadeService implements ArticlesFacade {
   }
 
   public changePage(page: number) {
-    this.store.setPage(page);
+    this.articlesStore.setPage(page);
     this.getArticles();
   }
 
@@ -58,13 +59,14 @@ export class ArticlesFacadeService implements ArticlesFacade {
     this.getArticles();
   }
 
-  public loadArticles() {
-    this.store.setLoaded(false);
+  public load() {
+    this.articlesStore.setLoaded(false);
 
+    this.categoriesStore.loadCategories();
     this.getArticles();
     this.getComments();
 
-    this.store.setLoaded(true);
+    this.articlesStore.setLoaded(true);
   }
 
   public generateArticles() {
@@ -129,7 +131,7 @@ export class ArticlesFacadeService implements ArticlesFacade {
   }
 
   private updateStore = (data: ArticlesStorageResult) => {
-    this.store.setArticles(data.articles);
-    this.store.setTotalArticles(data.total);
+    this.articlesStore.setArticles(data.articles);
+    this.articlesStore.setTotalArticles(data.total);
   }
 }

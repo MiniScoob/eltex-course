@@ -1,9 +1,9 @@
-@let articles = articlesStore.articles();
+@let articles = store.articles();
 
 <blog-statistics
   [isOpen]="isStatisticsOpen()"
   [blogArticlesCount]="articles.length"
-  [blogCommentsCount]="articlesStore.totalComments()"
+  [blogCommentsCount]="store.totalComments()"
   (close)="closeStatistics()"
 />
 <blog-toolbar (showAddForm)="showFrom()" (showStatistic)="showStatistics()" />
@@ -19,15 +19,15 @@
     <div class="blog__articles-header">
       <h2 class="lead-title">Статьи</h2>
       <div class="blog__articles-controls">
-        <button class="button" (click)="articlesStore.generateArticles()">
+        <button class="button" (click)="store.generateArticles()">
           Сгенерировать
         </button>
-        <button class="button" (click)="articlesStore.clearArticles()">
+        <button class="button" (click)="store.clearArticles()">
           Удалить все
         </button>
       </div>
     </div>
-    @if (!articlesStore.isLoaded()) {
+    @if (!store.isLoaded()) {
       <app-spinner />
     } @else if (articles.length > 0) {
       <ul class="blog__articles-list">
@@ -44,7 +44,7 @@
       </ul>
       <list-pagination
         class="blog__pagination"
-        [currentPage]="articlesStore.page()"
+        [currentPage]="store.page()"
         [totalPages]="totalPages()"
         (pageChange)="onPageChanged($event)"
       />

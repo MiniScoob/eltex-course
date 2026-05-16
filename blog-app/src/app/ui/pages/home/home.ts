@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 
-import { ARTICLES_FACADE_TOKEN } from '../../../services/articles-facade-service';
+import { ARTICLES_STORE_TOKEN } from '../../../services/articles-store-service';
 import {
   AboutMe,
   AchievementsList,
@@ -28,13 +28,13 @@ import {
     EducationsList,
     SkillsList,
     ProjectsList,
-    AchievementsList
+    AchievementsList,
   ],
   templateUrl: './home.html',
   styleUrl: './home.module.scss',
 })
 export class Home {
-  protected readonly store = inject(ARTICLES_FACADE_TOKEN);
+  protected readonly store = inject(ARTICLES_STORE_TOKEN);
 
   protected readonly achievements = ACHIEVEMENTS;
   protected readonly hobbies = HOBBIES;

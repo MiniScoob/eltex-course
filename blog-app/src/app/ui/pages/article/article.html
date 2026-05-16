@@ -1,6 +1,7 @@
 @let article = store.article();
+@let comments = store.comments();
 
-@if (!store.isLoaded()) {
+@if (!store.isArticleLoaded()) {
   <div class="article">
     <app-spinner />
   </div>
@@ -25,17 +26,19 @@
     </section>
     <section>
       <h2 class="title">Комментарии:</h2>
-<!--      @if (article.comments.length > 0) {-->
-<!--        <ul class="article__comments-list">-->
-<!--          @for (item of article.comments; track $index) {-->
-<!--            <li>-->
-<!--              <article-comment [data]="item" (ratingChange)="onCommentRatingChange(item.id, $event)" />-->
-<!--            </li>-->
-<!--          }-->
-<!--        </ul>-->
-<!--      } @else {-->
-<!--        <p>Комментариев пока нет</p>-->
-<!--      }-->
+      @if (!store.isCommentsLoaded()) {
+        <app-spinner />
+      } @else if (comments.length > 0) {
+        <ul class="article__comments-list">
+          @for (item of comments; track $index) {
+            <li>
+              <article-comment [data]="item" (ratingChange)="onCommentRatingChange(item.id, $event)" />
+            </li>
+          }
+        </ul>
+      } @else {
+        <p>Комментариев пока нет</p>
+      }
     </section>
   </main>
 } @else {

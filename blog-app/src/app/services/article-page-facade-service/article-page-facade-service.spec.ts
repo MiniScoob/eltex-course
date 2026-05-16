@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ArticleDetailsFacadeService } from './article-details-facade-service';
+import { ArticlePageFacadeService } from './article-page-facade-service';
 
 describe('ArticleDetailsFacadeService', () => {
-  let service: ArticleDetailsFacadeService;
+  let service: ArticlePageFacadeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ArticleDetailsFacadeService);
+    service = TestBed.inject(ArticlePageFacadeService);
   });
 
   it('should be created', () => {

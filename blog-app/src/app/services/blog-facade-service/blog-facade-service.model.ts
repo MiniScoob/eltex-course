@@ -1,9 +1,15 @@
 import { InjectionToken, type Signal } from '@angular/core';
 
-import type { ArticleRaw, ArticlePreview, Id } from '../../models';
+import type {
+  ArticleRaw,
+  ArticlePreview,
+  Id,
+  Category
+} from '../../models';
 
-export interface ArticlesFacade {
+export interface BlogFacade {
   articles: Signal<ArticlePreview[]>;
+  categories: Signal<Category[]>;
   page: Signal<number>;
   totalArticles: Signal<number>;
   totalComments: Signal<number>;
@@ -15,11 +21,11 @@ export interface ArticlesFacade {
   updateArticle: (id: Id, data: ArticleRaw) => void;
   changePage: (page: number) => void;
   setPageSize: (page: number) => void;
-  loadArticles: () => void;
+  load: () => void;
 
   // for testing purposes
   generateArticles: () => void;
   clearArticles: () => void;
 }
 
-export const ARTICLES_FACADE_TOKEN = new InjectionToken<ArticlesFacade>('ArticlesFacade')
+export const BLOG_FACADE_TOKEN = new InjectionToken<BlogFacade>('BlogFacade')

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import type { CommentRaw, Id, RatingAction } from '../../../models';
 import { toDateString } from '../../../utils';
-import { ARTICLE_DETAILS_FACADE_TOKEN } from '../../../services/article-details-facade-service';
+import { ARTICLE_PAGE_FACADE_TOKEN } from '../../../services/article-page-facade-service';
 import { CommentForm } from '../../containers';
 import { ArticleComment, DateTime, RatingStepper, Spinner } from '../../components';
 import { DEFAULT_IMAGE } from './article.constants';
@@ -22,7 +22,7 @@ import { DEFAULT_IMAGE } from './article.constants';
 })
 export class Article implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
-  protected readonly store = inject(ARTICLE_DETAILS_FACADE_TOKEN);
+  protected readonly store = inject(ARTICLE_PAGE_FACADE_TOKEN);
 
   protected readonly photo = DEFAULT_IMAGE;
 
@@ -36,6 +36,7 @@ export class Article implements OnInit {
     const article = this.activatedRoute.snapshot.data['article'];
     if (article) {
       this.store.setPreloadedArticle(article);
+      this.store.loadComments();
     }
   }
 
@@ -47,7 +48,7 @@ export class Article implements OnInit {
     this.store.addComment(value);
   }
 
-  protected onCommentRatingChange(id: Id, step: number) {
-    this.store.updateCommentRating(id, step);
+  protected onCommentRatingChange(id: Id, action: RatingAction) {
+    this.store.updateCommentRating(id, action);
   }
 }

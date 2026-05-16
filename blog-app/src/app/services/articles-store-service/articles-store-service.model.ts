@@ -14,4 +14,4 @@ export interface ArticlesStore {
   setLoaded: (isLoaded: boolean) => void;
 }
 
-export const ARTICLE_STORE_TOKEN = new InjectionToken<ArticlesStore>('ArticlesStore');
+export const ARTICLES_STORE_TOKEN = new InjectionToken<ArticlesStore>('ArticlesStore');

@@ -1,51 +1,37 @@
 import { inject, Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
-import type { ArticleDetails, Comment, CommentData, CommentsStorageData, Id } from '../../models';
-import { ARTICLES_STORAGE_KEY, COMMENTS_STORAGE_KEY } from '../../constants';
+import type {
+  Comment,
+  CommentData,
+  CommentsStorageData,
+  Id,
+  RatingAction,
+} from '../../models';
+import { COMMENTS_STORAGE_KEY } from '../../constants';
+import { calculateRating } from '../../utils';
 import { STORAGE_ENGINE_TOKEN } from '../storage-engine-service';
-import type { ArticleDetailsStorage } from './article-details-storage-service.model';
+import type { CommentsStorage } from './comments-storage-service.model';
 
 @Injectable()
-export class ArticleDetailsStorageService implements ArticleDetailsStorage {
+export class CommentsStorageService implements CommentsStorage {
   private readonly engine = inject(STORAGE_ENGINE_TOKEN);
 
-  private readonly _articlesStorageKey = ARTICLES_STORAGE_KEY;
   private readonly _commentsStorageKey = COMMENTS_STORAGE_KEY;
-
-  public getArticle(id: Id) {
-    return of(this.getArticleById(id));
-  }
 
   public getComments(id: Id) {
     return of(this.getCommentsByArticleId(id));
   }
 
-  public addComment(data: CommentData): Observable<Comment[]> {
+  public addComment(data: CommentData) {
     const value = this.prepareComment(data);
     this.saveComment(value);
 
     return of(this.getCommentsByArticleId(data.articleId));
   }
 
-  public updateArticleRating(id: Id, step: number): Observable<ArticleDetails | null> {
-    const article = this.getArticleById(id);
-
-    if (!article) {
-      return of(null);
-    }
-
-    const updated: ArticleDetails = {
-      ...article,
-      rating: article.rating + step,
-    };
-    this.saveArticle(updated);
-
-    return of(updated);
-  }
-
-  public updateCommentRating(articleId: Id, id: Id, step: number): Observable<Comment[]> {
+  public updateCommentRating(articleId: Id, id: Id, action: RatingAction) {
     const comments = this.getCommentsByArticleId(articleId);
 
     if (!comments) {
@@ -60,22 +46,11 @@ export class ArticleDetailsStorageService implements ArticleDetailsStorage {
 
     const updated: Comment = {
       ...value,
-      rating: value.rating + step,
+      rating: calculateRating(value.rating, action),
     };
     this.saveComment(updated);
 
     return of(this.getCommentsByArticleId(articleId));
-  }
-
-  private saveArticle(value: ArticleDetails) {
-    const articles = this.getAllArticlesFromStorage();
-
-    const updated = articles.map((a) => a.id === value.id
-      ? { ...a, ...value }
-      : a,
-    );
-
-    this.saveArticlesToStorage(updated);
   }
 
   private prepareComment(value: CommentData): Comment {
@@ -108,28 +83,7 @@ export class ArticleDetailsStorageService implements ArticleDetailsStorage {
     this.saveCommentsToStorage(updated);
   }
 
-  private getArticleById(id: Id) {
-    const values = this.getAllArticlesFromStorage();
-    const article = values.find((a) => a.id === id);
-
-    return article ?? null;
-  }
-
-  private getAllArticlesFromStorage(): ArticleDetails[] {
-    const values = this.engine.getItem(this._articlesStorageKey);
-
-    if (!values) {
-      return [];
-    }
-
-    return JSON.parse(values);
-  }
-
-  private saveArticlesToStorage(values: ArticleDetails[]) {
-    this.engine.setItem(this._articlesStorageKey, JSON.stringify(values));
-  }
-
-  private getCommentsByArticleId(id: Id) {
+  private getCommentsByArticleId(id: Id): Comment[] {
     const values = this.getAllCommentsFromStorage();
 
     const data = values.find((v) => v.articleId === id);
