@@ -2,7 +2,7 @@ import { Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import type { ArticleData, ArticleRaw } from '../../../models';
-import { getError, isInvalid } from '../../../utils';
+import {getError, isInvalid, notEmptyFile} from '../../../utils';
 import { FileValueAccessor } from '../../directives';
 
 @Component({
@@ -45,8 +45,7 @@ export class BlogArticleUpsert {
     const value: ArticleRaw = {
       title: this.blogArticleForm.value.title ?? '',
       content: this.blogArticleForm.value.content ?? '',
-      image: this.blogArticleForm.value.image ?? null,
-      categoryId: null,
+      image: notEmptyFile(this.blogArticleForm.value.image) ? this.blogArticleForm.value.image : undefined,
       categoryName: '',
     };
 

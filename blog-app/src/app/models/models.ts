@@ -38,10 +38,9 @@ export type ArticlePreview = Pick<
 >;
 
 export type ArticleData = Pick<ArticleDetails, 'title' | 'content' | 'categoryId'> & {
-  image: File | null;
+  image?: File | null;
 };
 
-export type ArticleRaw = Pick<ArticleDetails, 'title' | 'content' | 'categoryId'> & {
+export type ArticleRaw = Omit<ArticleData, 'categoryId'> & {
   categoryName: string;
-  image: File | null;
 };

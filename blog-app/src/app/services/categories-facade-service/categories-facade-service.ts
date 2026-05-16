@@ -21,8 +21,9 @@ export class CategoriesFacadeService implements CategoriesFacade {
 
   public resolveCategory(name: string): Observable<Id> {
     const trimmed = name.trim();
+    const trimmedLowerCase = trimmed.toLowerCase();
     const existing = this._categories().find(
-      (c) => c.name.toLowerCase() === trimmed.toLowerCase()
+      (c) => c.name.toLowerCase() === trimmedLowerCase
     );
 
     if (existing) {
@@ -33,7 +34,7 @@ export class CategoriesFacadeService implements CategoriesFacade {
       tap((categories) => this._categories.set(categories)),
       map((categories) => {
         const created = categories.find(
-          (c) => c.name.toLowerCase() === trimmed.toLowerCase()
+          (c) => c.name.toLowerCase() === trimmedLowerCase
         );
         return created!.id;
       }),

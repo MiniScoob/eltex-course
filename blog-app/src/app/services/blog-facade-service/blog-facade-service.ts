@@ -105,12 +105,6 @@ export class BlogFacadeService implements BlogFacade {
   ) {
     const { categoryName, ...rest } = value;
 
-    // Если категория не указана — сразу сохраняем
-    if (!categoryName) {
-      save({ ...rest, categoryId: null }).subscribe(this.updateStore);
-      return;
-    }
-
     this.categoriesStore.resolveCategory(categoryName).pipe(
       switchMap((categoryId) => save({...value, categoryId})),
     ).subscribe(this.updateStore);
