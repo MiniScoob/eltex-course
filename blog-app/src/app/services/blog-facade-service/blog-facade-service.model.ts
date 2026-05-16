@@ -19,6 +19,7 @@ export interface BlogFacade {
   addArticle: (value: ArticleRaw) => void;
   deleteArticle: (id: Id) => void;
   updateArticle: (id: Id, data: ArticleRaw) => void;
+  getArticleFormData: (article: ArticlePreview) => ArticleRaw;
   changePage: (page: number) => void;
   setPageSize: (page: number) => void;
   load: () => void;

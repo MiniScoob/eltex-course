@@ -13,10 +13,14 @@ export class CategoriesFacadeService implements CategoriesFacade {
   private _categories = signal<Category[]>([]);
   public readonly categories = this._categories.asReadonly();
 
-  public loadCategories(): void {
+  public loadCategories() {
     this.storage.getCategories().subscribe((categories) => {
       this._categories.set(categories);
     });
+  }
+
+  public getCategoryById(id: Id): Category | null {
+    return this._categories().find((c) => c.id === id) ?? null;
   }
 
   public resolveCategory(name: string): Observable<Id> {

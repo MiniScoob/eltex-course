@@ -99,6 +99,14 @@ export class BlogFacadeService implements BlogFacade {
     this.getArticles();
   }
 
+  public getArticleFormData(article: ArticlePreview): ArticleRaw {
+    const category = this.categoriesStore.getCategoryById(article.categoryId);
+    return {
+      ...article,
+      categoryName: category?.name ?? '',
+    };
+  }
+
   private resolveCategoryAndSave(
     value: ArticleRaw,
     save: (enriched: ArticleData) => Observable<ArticlesStorageResult>
@@ -125,6 +133,7 @@ export class BlogFacadeService implements BlogFacade {
   }
 
   private updateStore = (data: ArticlesStorageResult) => {
+    console.log(data);
     this.articlesStore.setArticles(data.articles);
     this.articlesStore.setTotalArticles(data.total);
   }

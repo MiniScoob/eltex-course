@@ -1,25 +1,29 @@
 import { Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import type { ArticleData, ArticleRaw } from '../../../models';
+import type { ArticleRaw } from '../../../models';
 import {getError, isInvalid, notEmptyFile} from '../../../utils';
 import { FileValueAccessor } from '../../directives';
+import {Autocomplete} from '../../components';
+import {JsonPipe} from '@angular/common';
 
 @Component({
   selector: 'blog-article-upsert',
-  imports: [FileValueAccessor, ReactiveFormsModule],
+  imports: [FileValueAccessor, ReactiveFormsModule, Autocomplete, JsonPipe],
   templateUrl: './blog-article-upsert.html',
   styleUrl: './blog-article-upsert.module.scss',
 })
 export class BlogArticleUpsert {
   private readonly formBuilder = inject(FormBuilder);
 
-  public initialValue = input<ArticleData | null>();
+  public categories = input.required<string[]>();
+  public initialValue = input<ArticleRaw | null>();
 
   protected blogArticleForm = this.formBuilder.group({
     title: [this.initialValue()?.title ?? '', [Validators.required, Validators.minLength(25)]],
     content: [this.initialValue()?.content ?? '', [Validators.required, Validators.minLength(20)]],
     image: [this.initialValue()?.image ?? null],
+    categoryName: [this.initialValue()?.categoryName ?? '', [Validators.required]],
   });
 
   constructor() {
@@ -42,11 +46,12 @@ export class BlogArticleUpsert {
   protected cancel = output<void>();
 
   protected handleSubmit() {
+    console.log(this.blogArticleForm.value);
     const value: ArticleRaw = {
       title: this.blogArticleForm.value.title ?? '',
       content: this.blogArticleForm.value.content ?? '',
       image: notEmptyFile(this.blogArticleForm.value.image) ? this.blogArticleForm.value.image : undefined,
-      categoryName: '',
+      categoryName: this.blogArticleForm.value.categoryName ?? '',
     };
 
     this.blogArticleForm.reset();

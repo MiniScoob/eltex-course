@@ -43,28 +43,27 @@ export class Blog implements OnInit {
   protected isStatisticsOpen = signal<boolean>(false);
   protected isAddFormHidden = signal<boolean>(true);
 
-  protected editingBlogArticle = computed<ArticleData | null>(() => {
+  protected editingBlogArticle = computed<ArticleRaw | null>(() => {
     const editing = this._editingBlogArticle();
 
     if (!editing) {
       return null;
     }
 
-    return {
-      title: editing.title,
-      content: editing.content,
-      categoryId: editing.categoryId,
-      image: null,
-    };
+    return this.store.getArticleFormData(editing);
   });
+
   protected totalPages = computed(() => this.store.totalArticles() > 0
     ? Math.ceil(this.store.totalArticles() / this.store.pageSize())
     : 1,
   );
+
   protected formTitle = computed(() => this._editingBlogArticle()
     ? 'Редактировать статью'
     : 'Добавить статью'
   );
+
+  protected categoriesNames = computed(() => this.store.categories().map((c) => c.name));
 
   public ngOnInit(){
     this.store.load();
@@ -74,11 +73,11 @@ export class Blog implements OnInit {
     const editing = this._editingBlogArticle();
 
     if (editing) {
-      this.store.updateArticle(editing.id, { ...value, categoryName: '' });
+      this.store.updateArticle(editing.id, { ...value });
 
       this._editingBlogArticle.set(null);
     } else {
-      this.store.addArticle({ ...value, categoryName: '' });
+      this.store.addArticle({ ...value });
     }
   }
 

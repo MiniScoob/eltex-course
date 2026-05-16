@@ -26,7 +26,7 @@ export interface ArticleDetails {
   title: string;
   content: string;
   imgSrc: string | null;
-  categoryId: Id | null;
+  categoryId: Id;
   rating: number;
   createdAt: string;
   updatedAt: string;

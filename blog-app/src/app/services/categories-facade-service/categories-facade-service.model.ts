@@ -7,6 +7,7 @@ import type { Category, Id } from '../../models';
 export interface CategoriesFacade {
   categories: Signal<Category[]>;
   loadCategories: () => void;
+  getCategoryById: (id: Id) => Category | null;
   resolveCategory: (name: string) => Observable<Id>;
 }
 

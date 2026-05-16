@@ -1,0 +1,19 @@
+@let labelValue = label();
+
+<mat-form-field appearance="outline" class="materialInput">
+  @if (labelValue) {
+    <mat-label>{{ labelValue }}</mat-label>
+  }
+  <input
+    type="text"
+    matInput
+    [formControl]="control"
+    [matAutocomplete]="auto"
+    [placeholder]="placeholder()"
+  />
+  <mat-autocomplete #auto="matAutocomplete">
+    @for (option of filteredOptions | async; track option) {
+      <mat-option [value]="option">{{option}}</mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>

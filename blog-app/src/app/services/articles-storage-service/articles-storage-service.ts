@@ -26,6 +26,7 @@ export class ArticlesStorageService implements ArticlesStorage {
   public addArticle(value: ArticleData, page: number, pageSize?: number) {
     const updated = this.addArticleToStorage(value);
     const result = this.prepareData(updated, page, pageSize);
+    console.log(result);
 
     return of(result);
   }
