@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
-import { of } from 'rxjs';
+import { type Observable, of } from 'rxjs';
 
 import type {
   ArticleDetails,
@@ -8,8 +8,10 @@ import type {
   ArticleData,
   CommentsStorageData,
   Id,
+  RatingAction,
 } from '../../models';
 import { ARTICLES_STORAGE_KEY, COMMENTS_STORAGE_KEY } from '../../constants';
+import { calculateRating } from '../../utils';
 import { STORAGE_ENGINE_TOKEN } from '../storage-engine-service';
 import type { ArticlesStorage, ArticlesStorageResult } from './articles-storage-service.model';
 import { PAGE_SIZE } from './articles-storage-service.constants';
@@ -47,6 +49,33 @@ export class ArticlesStorageService implements ArticlesStorage {
     const result = this.prepareData(values, page, pageSize);
 
     return of(result);
+  }
+
+  public getArticle(id: Id) {
+    return of(this.getArticleById(id));
+  }
+
+  public updateArticleRating(id: Id, action: RatingAction): Observable<ArticleDetails | null> {
+    const article = this.getArticleById(id);
+
+    if (!article) {
+      return of(null);
+    }
+
+    const updated: ArticleDetails = {
+      ...article,
+      rating: calculateRating(article.rating, action),
+    };
+    this.updateArticleInStorage(id, updated);
+
+    return of(updated);
+  }
+
+  private getArticleById(id: Id) {
+    const values = this.getArticlesFromStorage();
+    const article = values.find((a) => a.id === id);
+
+    return article ?? null;
   }
 
   public getAllComments() {
@@ -89,10 +118,10 @@ export class ArticlesStorageService implements ArticlesStorage {
     return updated;
   }
 
-  private updateArticleInStorage(id: Id, value: ArticleData) {
+  private updateArticleInStorage(id: Id, value: Partial<ArticleData>, updateTimestamp = true) {
     const articles = this.getArticlesFromStorage();
     const updated = articles.map((item) => item.id === id
-      ? { ...item, ...value, updatedAt: new Date().toISOString() }
+      ? { ...item, ...value, ...(updateTimestamp && { updatedAt: new Date().toISOString() }), }
       : item
     );
 

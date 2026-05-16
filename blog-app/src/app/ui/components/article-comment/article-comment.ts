@@ -8,7 +8,7 @@ import {
   MatCardTitle,
 } from '@angular/material/card';
 
-import type { Comment } from '../../../models';
+import type { Comment, RatingAction } from '../../../models';
 import { toDateString } from '../../../utils';
 import { RatingStepper } from '../rating-stepper';
 import { DateTime } from '../date-time';
@@ -33,9 +33,9 @@ export class ArticleComment {
 
   protected createdAt = computed(() => toDateString(new Date(this.data().createdAt)));
 
-  public ratingChange = output<number>();
+  public ratingChange = output<RatingAction>();
 
-  protected handleRatingChange(step: number) {
-    this.ratingChange.emit(step);
+  protected handleRatingChange(action: RatingAction) {
+    this.ratingChange.emit(action);
   }
 }

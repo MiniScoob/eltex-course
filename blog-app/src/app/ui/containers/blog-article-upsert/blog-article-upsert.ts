@@ -1,7 +1,7 @@
 import { Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import type { ArticleRaw } from '../../../models';
+import type { ArticleData, ArticleRaw } from '../../../models';
 import { getError, isInvalid } from '../../../utils';
 import { FileValueAccessor } from '../../directives';
 
@@ -14,7 +14,7 @@ import { FileValueAccessor } from '../../directives';
 export class BlogArticleUpsert {
   private readonly formBuilder = inject(FormBuilder);
 
-  public initialValue = input<ArticleRaw | null>();
+  public initialValue = input<ArticleData | null>();
 
   protected blogArticleForm = this.formBuilder.group({
     title: [this.initialValue()?.title ?? '', [Validators.required, Validators.minLength(25)]],
@@ -47,6 +47,7 @@ export class BlogArticleUpsert {
       content: this.blogArticleForm.value.content ?? '',
       image: this.blogArticleForm.value.image ?? null,
       categoryId: null,
+      categoryName: '',
     };
 
     this.blogArticleForm.reset();

@@ -1,8 +1,8 @@
-import type { ArticleRaw } from '../../models';
+import type { ArticleData } from '../../models';
 
 export const DEFAULT_PAGE_SIZE = 7;
 
-export const INITIAL_ARTICLES: ArticleRaw[] = [
+export const INITIAL_ARTICLES: ArticleData[] = [
   {
     title: 'Я уронил отварную сосиску',
     content: '4 марта около шести часов вечера выпусник НГТУ, Владислав Попов, '

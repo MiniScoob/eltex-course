@@ -1,12 +1,14 @@
-import {Component, input, output} from '@angular/core';
-import {MatMiniFabButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
+import { Component, input, output } from '@angular/core';
+import { MatMiniFabButton}  from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+
+import type { RatingAction } from '../../../models';
 
 @Component({
   selector: 'rating-stepper',
   imports: [
     MatMiniFabButton,
-    MatIcon
+    MatIcon,
   ],
   templateUrl: './rating-stepper.html',
   styleUrl: './rating-stepper.module.scss',
@@ -14,13 +16,13 @@ import {MatIcon} from '@angular/material/icon';
 export class RatingStepper {
   public value = input.required<number>();
 
-  protected change = output<number>();
+  protected change = output<RatingAction>();
 
   protected handleIncrement() {
-    this.change.emit(1);
+    this.change.emit('up');
   }
 
   protected handleDecrement() {
-    this.change.emit(-1);
+    this.change.emit('down');
   }
 }

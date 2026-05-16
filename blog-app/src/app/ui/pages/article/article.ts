@@ -1,11 +1,11 @@
 import { Component, computed, inject, type OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import type {CommentRaw, Id} from '../../../models';
+import type { CommentRaw, Id, RatingAction } from '../../../models';
 import { toDateString } from '../../../utils';
 import { ARTICLE_DETAILS_FACADE_TOKEN } from '../../../services/article-details-facade-service';
 import { CommentForm } from '../../containers';
-import {ArticleComment, DateTime, RatingStepper, Spinner} from '../../components';
+import { ArticleComment, DateTime, RatingStepper, Spinner } from '../../components';
 import { DEFAULT_IMAGE } from './article.constants';
 
 @Component({
@@ -39,12 +39,11 @@ export class Article implements OnInit {
     }
   }
 
-  protected onArticleRatingChange(step: number) {
-    this.store.updateArticleRating(step);
+  protected onArticleRatingChange(action: RatingAction) {
+    this.store.updateArticleRating(action);
   }
 
   protected onAddComment(value: CommentRaw) {
-    console.log('onAddComment');
     this.store.addComment(value);
   }
 

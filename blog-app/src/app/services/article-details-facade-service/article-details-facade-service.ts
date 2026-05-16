@@ -5,13 +5,16 @@ import type {
   CommentData,
   CommentRaw,
   Id,
+  RatingAction,
 } from '../../models';
+import { ARTICLES_STORAGE_TOKEN } from '../articles-storage-service';
 import { ARTICLE_DETAILS_STORAGE_TOKEN } from '../article-details-storage-service';
 import { ARTICLE_DETAILS_STORE_TOKEN } from '../article-details-store-service';
 import type { ArticleDetailsFacade } from './article-details-facade-service.model';
 
 @Injectable()
 export class ArticleDetailsFacadeService implements ArticleDetailsFacade {
+  private readonly newStorage = inject(ARTICLES_STORAGE_TOKEN);
   private readonly storage = inject(ARTICLE_DETAILS_STORAGE_TOKEN);
   private readonly store = inject(ARTICLE_DETAILS_STORE_TOKEN);
 
@@ -27,19 +30,18 @@ export class ArticleDetailsFacadeService implements ArticleDetailsFacade {
 
     const value = this.prepareCommentValue(comment);
     this.storage.addComment(value).subscribe((result) => {
-      console.log(result);
       this.store.setComments(result);
     });
   }
 
-  public updateArticleRating(step: number) {
+  public updateArticleRating(action: RatingAction) {
     const articleValue = this.store.article();
 
     if (!articleValue) {
       return;
     }
 
-    this.storage.updateArticleRating(articleValue.id, step).subscribe((result) => {
+    this.newStorage.updateArticleRating(articleValue.id, action).subscribe((result) => {
       if (result) {
         this.store.setArticle(result);
       }
@@ -47,7 +49,6 @@ export class ArticleDetailsFacadeService implements ArticleDetailsFacade {
   }
 
   public updateCommentRating(id: Id, step: number) {
-    console.log('updateCommentRating');
     const articleValue = this.store.article();
 
     if (!articleValue) {
@@ -61,7 +62,7 @@ export class ArticleDetailsFacadeService implements ArticleDetailsFacade {
   }
 
   public loadArticle(id: Id) {
-    this.storage.getArticle(id).subscribe((result) => {
+    this.newStorage.getArticle(id).subscribe((result) => {
       if (result) {
         this.store.setArticle(result);
       }

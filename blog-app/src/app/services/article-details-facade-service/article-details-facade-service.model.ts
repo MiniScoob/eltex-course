@@ -1,13 +1,18 @@
 import { InjectionToken, type Signal } from '@angular/core';
 
-import type { ArticleDetails, CommentRaw, Id } from '../../models';
+import type {
+  ArticleDetails,
+  CommentRaw,
+  Id,
+  RatingAction,
+} from '../../models';
 
 export interface ArticleDetailsFacade {
   article: Signal<ArticleDetails | null>;
   isLoaded: Signal<boolean>;
 
   addComment: (comment: CommentRaw) => void;
-  updateArticleRating: (step: number) => void;
+  updateArticleRating: (action: RatingAction) => void;
   updateCommentRating: (commentId: Id, step: number) => void;
   loadArticle: (id: Id) => void;
   setPreloadedArticle: (article: ArticleDetails | null) => void;
