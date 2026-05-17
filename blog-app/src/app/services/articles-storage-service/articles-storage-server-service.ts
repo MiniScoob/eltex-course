@@ -54,7 +54,18 @@ export class ArticlesStorageServerService implements ArticlesStorage {
   }
 
   public updateArticleRating(id: Id, action: RatingAction) {
-    return of(null);
+    return this.httpClient
+      .patch(`/api/articles/${id}/rating-${action}`, null)
+      .pipe(
+        switchMap(() => this.getArticle(id)),
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 404) {
+            return of(null);
+          }
+
+          throw error;
+        })
+      );
   }
 
   public getAllComments() {
