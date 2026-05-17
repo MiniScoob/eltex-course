@@ -16,7 +16,11 @@ import {
   CategoriesStorageServerService,
 } from '../services/categories-storage-service';
 import { CATEGORIES_FACADE_TOKEN, CategoriesFacadeService } from '../services/categories-facade-service';
-import { COMMENT_STORAGE_TOKEN, CommentsStorageService } from '../services/comments-storage-service';
+import {
+  COMMENT_STORAGE_TOKEN,
+  CommentsStorageClientService,
+  CommentsStorageServerService
+} from '../services/comments-storage-service';
 import {
   ARTICLES_STORAGE_TOKEN,
   ArticlesStorageClientService,
@@ -48,18 +52,21 @@ export const appConfig: ApplicationConfig = {
         : CategoriesStorageClientService,
     },
     {
-      provide: CATEGORIES_FACADE_TOKEN, useClass: CategoriesFacadeService,
-    },
-    {
       provide: ARTICLES_STORAGE_TOKEN,
       useClass: environment.useBackend
         ? ArticlesStorageServerService
         : ArticlesStorageClientService
     },
+    {
+      provide: COMMENT_STORAGE_TOKEN,
+      useClass: environment.useBackend
+        ? CommentsStorageClientService
+        : CommentsStorageServerService,
+    },
+    { provide: CATEGORIES_FACADE_TOKEN, useClass: CategoriesFacadeService },
     { provide: ARTICLES_STORE_TOKEN, useClass: ArticlesStoreService },
     { provide: BLOG_FACADE_TOKEN, useClass: BlogFacadeService },
     { provide: ARTICLE_PAGE_STORE_TOKEN, useClass: ArticlePageStoreService },
-    { provide: COMMENT_STORAGE_TOKEN, useClass: CommentsStorageService },
     { provide: ARTICLE_PAGE_FACADE_TOKEN, useClass: ArticlePageFacadeService },
   ],
 };

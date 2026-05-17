@@ -15,7 +15,7 @@ import { STORAGE_ENGINE_TOKEN } from '../storage-engine-service';
 import type { CommentsStorage } from './comments-storage-service.model';
 
 @Injectable()
-export class CommentsStorageService implements CommentsStorage {
+export class CommentsStorageClientService implements CommentsStorage {
   private readonly engine = inject(STORAGE_ENGINE_TOKEN);
 
   private readonly _commentsStorageKey = COMMENTS_STORAGE_KEY;

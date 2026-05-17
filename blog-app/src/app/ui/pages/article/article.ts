@@ -24,7 +24,9 @@ export class Article implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   protected readonly store = inject(ARTICLE_PAGE_FACADE_TOKEN);
 
-  protected readonly photo = DEFAULT_IMAGE;
+  protected readonly photo = computed(() =>
+    this.store.article()?.imgSrc ?? DEFAULT_IMAGE,
+  );
 
   protected createdAt = computed(() => {
     const article = this.store.article();

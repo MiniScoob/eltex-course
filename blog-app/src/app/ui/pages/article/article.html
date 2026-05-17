@@ -14,7 +14,7 @@
       </header>
       <div>
         <p class="article__text">{{ article.content }}</p>
-        <img class="article__image" [src]="photo" alt="Article cover" />
+        <img class="article__image" [src]="photo()" alt="Article cover" />
       </div>
       <footer class="article__footer">
         <rating-stepper [value]="article.rating" (change)="onArticleRatingChange($event)" />
