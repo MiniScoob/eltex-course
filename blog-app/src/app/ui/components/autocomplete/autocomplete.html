@@ -1,4 +1,5 @@
 @let labelValue = label();
+@let errorsValue = errors();
 
 <mat-form-field appearance="outline" class="materialInput">
   @if (labelValue) {
@@ -16,4 +17,7 @@
       <mat-option [value]="option">{{option}}</mat-option>
     }
   </mat-autocomplete>
+  @if (errorsValue) {
+    <mat-error class="comment-form__error-message">{{ errorsValue }}</mat-error>
+  }
 </mat-form-field>

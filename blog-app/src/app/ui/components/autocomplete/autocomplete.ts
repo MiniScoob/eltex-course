@@ -8,8 +8,17 @@ import {
 } from '@angular/forms';
 
 import { map, type Observable, startWith } from 'rxjs';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
-import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
+import {
+  MatError,
+  MatFormField,
+  MatInput,
+  MatLabel,
+} from '@angular/material/input';
+import {
+  MatAutocomplete,
+  MatAutocompleteTrigger,
+  MatOption,
+} from '@angular/material/autocomplete';
 
 @Component({
   selector: 'input-autocomplete',
@@ -22,6 +31,7 @@ import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/mat
     MatAutocompleteTrigger,
     AsyncPipe,
     MatLabel,
+    MatError,
   ],
   providers: [
     {
@@ -37,6 +47,7 @@ export class Autocomplete implements ControlValueAccessor {
   public options = input<string[]>([]);
   public placeholder = input<string>('Выберите значение');
   public label = input<string | null>(null);
+  public errors = input<string[]>([]);
 
   protected readonly control = new FormControl<string>('');
   protected filteredOptions: Observable<string[]>;

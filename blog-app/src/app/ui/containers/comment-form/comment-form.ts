@@ -4,7 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 
 import type { CommentRaw } from '../../../models';
-import { getError, isInvalid } from '../../../utils';
+import { getError } from '../../../utils';
 
 @Component({
   selector: 'article-comment-form',
@@ -38,12 +38,6 @@ export class CommentForm {
     this.commentForm.reset();
 
     this.save.emit(value);
-  }
-
-  protected isInvalid(name: keyof typeof this.commentForm.controls) {
-    const control = this.commentForm.get(name);
-
-    return isInvalid(control);
   }
 
   protected getError(name: keyof typeof this.commentForm.controls) {

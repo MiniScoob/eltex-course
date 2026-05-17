@@ -41,18 +41,14 @@
       <span class="blog-article-upsert__error-message">{{ contentErrorMessage }}</span>
     }
   </p>
-  <p>
-    <input-autocomplete
-      [options]="categories()"
-      label="Категория"
-      formControlName="categoryName"
-      [class.blog-article-upsert__invalid]="isInvalid('categoryName')"
-      [required]="true"
-    />
-    @if (categoryErrorMessage) {
-      <span class="blog-article-upsert__error-message">{{ categoryErrorMessage }}</span>
-    }
-  </p>
+  <input-autocomplete
+    [options]="categories()"
+    label="Категория"
+    formControlName="categoryName"
+    [class.blog-article-upsert__invalid]="isInvalid('categoryName')"
+    [required]="true"
+    [errors]="categoryErrorMessage"
+  />
   <p>
     <label for="photo-input">Прикрепить фото:</label>
     <br />
