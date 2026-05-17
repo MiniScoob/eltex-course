@@ -1,4 +1,9 @@
-import { type ApplicationConfig, PLATFORM_ID, provideBrowserGlobalErrorListeners } from '@angular/core';
+import {
+  type ApplicationConfig,
+  LOCALE_ID,
+  PLATFORM_ID,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
@@ -38,6 +43,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
+    { provide: LOCALE_ID, useValue: 'ru' },
     {
       provide: STORAGE_ENGINE_TOKEN,
       useFactory: (platformId: Object) => isPlatformBrowser(platformId)

@@ -1,6 +1,6 @@
 <p>
   <ng-content />
   <time [dateTime]="value()" class="date-time__time">
-    {{ dateString() }}
+    {{ dateValue() | date: 'd MMMM y'}}
   </time>
 </p>

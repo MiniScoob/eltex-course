@@ -2,7 +2,6 @@ import { Component, computed, inject, type OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import type { CommentRaw, Id, RatingAction } from '../../../models';
-import { toDateString } from '../../../utils';
 import { ARTICLE_PAGE_FACADE_TOKEN } from '../../../services/article-page-facade-service';
 import { CommentForm } from '../../containers';
 import { ArticleComment, CategoryChips, DateTime, RatingStepper, Spinner } from '../../components';
@@ -32,7 +31,7 @@ export class Article implements OnInit {
   protected createdAt = computed(() => {
     const article = this.store.article();
 
-    return article ? toDateString(new Date(article.createdAt)) : null;
+    return article ? article.createdAt : null;
   });
 
   ngOnInit() {

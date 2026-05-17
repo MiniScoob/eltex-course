@@ -9,7 +9,6 @@ import {
 } from '@angular/material/card';
 
 import type { Comment, RatingAction } from '../../../models';
-import { toDateString } from '../../../utils';
 import { RatingStepper } from '../rating-stepper';
 import { DateTime } from '../date-time';
 
@@ -31,7 +30,7 @@ import { DateTime } from '../date-time';
 export class ArticleComment {
   public data = input.required<Comment>();
 
-  protected createdAt = computed(() => toDateString(new Date(this.data().createdAt)));
+  protected createdAt = computed(() => this.data().createdAt);
 
   public ratingChange = output<RatingAction>();
 
