@@ -1,0 +1,13 @@
+@use '@angular/material' as mat;
+
+@use "variables";
+
+.category-chips__value {
+  @include mat.chips-overrides((
+    label-text-size: 1.4rem,
+    label-text-color: variables.$color-white,
+    elevated-container-color: variables.$color-primary,
+    outline-color: variables.$color-primary,
+  ));
+  padding: 0.5rem 1rem;
+}

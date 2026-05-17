@@ -31,7 +31,7 @@
       <app-spinner />
     } @else if (articles.length > 0) {
       <ul class="blog__articles-list">
-        @for (item of articles; track item.id) {
+        @for (item of articles | withCategoryName: store.categories(); track item.id) {
           <li>
             <blog-article-preview
               [value]="item"

@@ -27,6 +27,8 @@
 }
 
 .article__footer {
+  @include mixins.flexbox($justify: space-between);
+
   margin-top: 1rem;
 }
 

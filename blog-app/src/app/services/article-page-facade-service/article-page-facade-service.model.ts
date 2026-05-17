@@ -8,8 +8,12 @@ import type {
   RatingAction,
 } from '../../models';
 
+type ArticleDetailsWithCategoryName = ArticleDetails & {
+  categoryName: string | null;
+};
+
 export interface ArticlePageFacade {
-  article: Signal<ArticleDetails | null>;
+  article: Signal<ArticleDetailsWithCategoryName | null>;
   comments: Signal<Comment[]>;
   isArticleLoaded: Signal<boolean>;
   isCommentsLoaded: Signal<boolean>;

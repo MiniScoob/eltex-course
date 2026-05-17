@@ -4,7 +4,7 @@ import type {
   ArticleRaw,
   ArticlePreview,
   Id,
-  Category
+  Category, ArticlePreviewWithCategoryName
 } from '../../models';
 
 export interface BlogFacade {
@@ -19,7 +19,7 @@ export interface BlogFacade {
   addArticle: (value: ArticleRaw) => void;
   deleteArticle: (id: Id) => void;
   updateArticle: (id: Id, data: ArticleRaw) => void;
-  getArticleFormData: (article: ArticlePreview) => ArticleRaw;
+  getArticleFormData: (article: ArticlePreviewWithCategoryName) => ArticleRaw;
   changePage: (page: number) => void;
   setPageSize: (page: number) => void;
   load: () => void;

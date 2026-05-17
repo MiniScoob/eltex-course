@@ -5,12 +5,13 @@ import type { CommentRaw, Id, RatingAction } from '../../../models';
 import { toDateString } from '../../../utils';
 import { ARTICLE_PAGE_FACADE_TOKEN } from '../../../services/article-page-facade-service';
 import { CommentForm } from '../../containers';
-import { ArticleComment, DateTime, RatingStepper, Spinner } from '../../components';
+import { ArticleComment, CategoryChips, DateTime, RatingStepper, Spinner } from '../../components';
 import { DEFAULT_IMAGE } from './article.constants';
 
 @Component({
   selector: 'app-article',
   imports: [
+    CategoryChips,
     CommentForm,
     Spinner,
     ArticleComment,

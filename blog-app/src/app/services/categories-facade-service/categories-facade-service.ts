@@ -11,11 +11,15 @@ export class CategoriesFacadeService implements CategoriesFacade {
   private storage = inject(CATEGORIES_STORAGE_TOKEN);
 
   private _categories = signal<Category[]>([]);
+  private _isLoaded = signal<boolean>(false);
+
   public readonly categories = this._categories.asReadonly();
+  public readonly isLoaded = this._isLoaded.asReadonly();
 
   public loadCategories() {
     this.storage.getCategories().subscribe((categories) => {
       this._categories.set(categories);
+      this._isLoaded.set(true);
     });
   }
 

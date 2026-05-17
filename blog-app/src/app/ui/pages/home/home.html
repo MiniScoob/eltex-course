@@ -51,7 +51,7 @@
       <section>
         <h2 class="lead-title">Последние статьи</h2>
         <ul class="home__article-list">
-          @for (item of articles.slice(0, 2); track $index) {
+          @for (item of articles.slice(0, 2) | withCategoryName: []; track $index) {
             <li>
               <blog-article-preview [value]="item" />
             </li>

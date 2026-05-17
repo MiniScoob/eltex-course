@@ -17,6 +17,9 @@
         <img class="article__image" [src]="photo()" alt="Article cover" />
       </div>
       <footer class="article__footer">
+        @if (article.categoryName) {
+          <category-chips [categories]="[article.categoryName]" />
+        }
         <rating-stepper [value]="article.rating" (change)="onArticleRatingChange($event)" />
       </footer>
     </article>

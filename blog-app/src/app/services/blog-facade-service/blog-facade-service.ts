@@ -4,7 +4,7 @@ import { type Observable, switchMap } from 'rxjs';
 
 import type {
   ArticleData,
-  ArticlePreview,
+  ArticlePreview, ArticlePreviewWithCategoryName,
   ArticleRaw,
   Id,
 } from '../../models';
@@ -99,11 +99,10 @@ export class BlogFacadeService implements BlogFacade {
     this.getArticles();
   }
 
-  public getArticleFormData(article: ArticlePreview): ArticleRaw {
-    const category = this.categoriesStore.getCategoryById(article.categoryId);
+  public getArticleFormData(article: ArticlePreviewWithCategoryName): ArticleRaw {
     return {
       ...article,
-      categoryName: category?.name ?? '',
+      categoryName: article.categoryName ?? '',
     };
   }
 

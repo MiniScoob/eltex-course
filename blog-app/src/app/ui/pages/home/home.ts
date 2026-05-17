@@ -18,6 +18,7 @@ import {
   PROJECTS,
   SKILLS
 } from './home.constants';
+import {WithCategoryNamePipe} from '../../../pipes';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ import {
     SkillsList,
     ProjectsList,
     AchievementsList,
+    WithCategoryNamePipe,
   ],
   templateUrl: './home.html',
   styleUrl: './home.module.scss',

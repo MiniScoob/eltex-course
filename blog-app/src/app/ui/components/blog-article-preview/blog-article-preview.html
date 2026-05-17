@@ -37,6 +37,12 @@
         <date-time [value]="article.createdAt">Опубликовано:</date-time>
       </header>
       <p class="blog-article__text">{{ article.content }}</p>
+      @if (article.categoryName) {
+        <category-chips
+          class="blog-article__category"
+          [categories]="[article.categoryName]"
+        />
+      }
     </div>
     <img class="blog-article__image" [src]="image()" alt="Титульная картинка статьи" />
   </a>

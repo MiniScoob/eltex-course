@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 
 import type {
-  ArticleData,
   ArticlePreview,
+  ArticlePreviewWithCategoryName,
   ArticleRaw,
   Id,
 } from '../../../models';
@@ -21,8 +21,7 @@ import {
   Statistics,
   Toolbar,
 } from '../../components';
-import {HttpClient} from '@angular/common/http';
-import {ArticlesStorageServerService} from '../../../services/articles-storage-service/articles-storage-server-service';
+import {WithCategoryNamePipe} from '../../../pipes';
 
 @Component({
   selector: 'app-blog',
@@ -33,6 +32,7 @@ import {ArticlesStorageServerService} from '../../../services/articles-storage-s
     Toolbar,
     Pagination,
     Spinner,
+    WithCategoryNamePipe,
   ],
   templateUrl: './blog.html',
   styleUrl: './blog.module.scss',
@@ -40,7 +40,7 @@ import {ArticlesStorageServerService} from '../../../services/articles-storage-s
 export class Blog implements OnInit {
   protected store = inject(BLOG_FACADE_TOKEN);
 
-  private _editingBlogArticle = signal<ArticlePreview | null>(null);
+  private _editingBlogArticle = signal<ArticlePreviewWithCategoryName | null>(null);
 
   protected isStatisticsOpen = signal<boolean>(false);
   protected isAddFormHidden = signal<boolean>(true);
@@ -99,7 +99,7 @@ export class Blog implements OnInit {
     this.store.deleteArticle(id);
   }
 
-  protected onEditBlogArticle(value: ArticlePreview) {
+  protected onEditBlogArticle(value: ArticlePreviewWithCategoryName) {
     this._editingBlogArticle.set(value);
     this.showFrom();
   }
