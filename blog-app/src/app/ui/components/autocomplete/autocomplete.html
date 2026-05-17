@@ -1,0 +1,23 @@
+@let labelValue = label();
+@let errorsValue = errors();
+
+<mat-form-field appearance="outline" class="materialInput">
+  @if (labelValue) {
+    <mat-label>{{ labelValue }}</mat-label>
+  }
+  <input
+    type="text"
+    matInput
+    [formControl]="control"
+    [matAutocomplete]="auto"
+    [placeholder]="placeholder()"
+  />
+  <mat-autocomplete #auto="matAutocomplete">
+    @for (option of filteredOptions | async; track option) {
+      <mat-option [value]="option">{{option}}</mat-option>
+    }
+  </mat-autocomplete>
+  @if (errorsValue) {
+    <mat-error class="comment-form__error-message">{{ errorsValue }}</mat-error>
+  }
+</mat-form-field>

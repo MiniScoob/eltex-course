@@ -1,6 +1,7 @@
 @let article = store.article();
+@let comments = store.comments();
 
-@if (!store.isLoaded()) {
+@if (!store.isArticleLoaded()) {
   <div class="article">
     <app-spinner />
   </div>
@@ -12,10 +13,13 @@
         <date-time [value]="article.createdAt">Опубликовано:</date-time>
       </header>
       <div>
-        <p class="article__text">{{ article.text }}</p>
-        <img class="article__image" [src]="photo" alt="Article cover" />
+        <p class="article__text">{{ article.content }}</p>
+        <img class="article__image" [src]="photo()" alt="Article cover" />
       </div>
       <footer class="article__footer">
+        @if (article.categoryName) {
+          <category-chips [categories]="[article.categoryName]" />
+        }
         <rating-stepper [value]="article.rating" (change)="onArticleRatingChange($event)" />
       </footer>
     </article>
@@ -25,9 +29,11 @@
     </section>
     <section>
       <h2 class="title">Комментарии:</h2>
-      @if (article.comments.length > 0) {
+      @if (!store.isCommentsLoaded()) {
+        <app-spinner />
+      } @else if (comments.length > 0) {
         <ul class="article__comments-list">
-          @for (item of article.comments; track $index) {
+          @for (item of comments; track $index) {
             <li>
               <article-comment [data]="item" (ratingChange)="onCommentRatingChange(item.id, $event)" />
             </li>

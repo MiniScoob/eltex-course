@@ -1,5 +1,6 @@
 @let titleErrorMessage = getError('title');
-@let textErrorMessage = getError('text');
+@let contentErrorMessage = getError('content');
+@let categoryErrorMessage = getError('categoryName');
 
 <form [formGroup]="blogArticleForm" (ngSubmit)="handleSubmit()" class="blog-article-upsert">
   <p>
@@ -26,28 +27,36 @@
     <br />
     <textarea
       class="textarea"
-      id="text-input"
-      name="text"
-      formControlName="text"
+      id="content-input"
+      name="content"
+      formControlName="content"
       minlength="20"
       rows="10"
       cols="40"
       placeholder="Сама новость..."
-      [class.blog-article-upsert__invalid]="isInvalid('text')"
+      [class.blog-article-upsert__invalid]="isInvalid('content')"
       required
     ></textarea>
-    @if (textErrorMessage) {
-      <span class="blog-article-upsert__error-message">{{ textErrorMessage }}</span>
+    @if (contentErrorMessage) {
+      <span class="blog-article-upsert__error-message">{{ contentErrorMessage }}</span>
     }
   </p>
+  <input-autocomplete
+    [options]="categories()"
+    label="Категория"
+    formControlName="categoryName"
+    [class.blog-article-upsert__invalid]="isInvalid('categoryName')"
+    [required]="true"
+    [errors]="categoryErrorMessage"
+  />
   <p>
     <label for="photo-input">Прикрепить фото:</label>
     <br />
     <input
       class="input"
-      id="photo-input"
-      name="photo"
-      formControlName="photo"
+      id="image-input"
+      name="image"
+      formControlName="image"
       type="file"
       accept="image/*"
     />

@@ -2,24 +2,31 @@ import { Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import type { ArticleRaw } from '../../../models';
-import { getError, isInvalid } from '../../../utils';
+import { getError, isInvalid, notEmptyFile } from '../../../utils';
 import { FileValueAccessor } from '../../directives';
+import { Autocomplete } from '../../components';
 
 @Component({
   selector: 'blog-article-upsert',
-  imports: [FileValueAccessor, ReactiveFormsModule],
+  imports: [
+    FileValueAccessor,
+    ReactiveFormsModule,
+    Autocomplete,
+  ],
   templateUrl: './blog-article-upsert.html',
   styleUrl: './blog-article-upsert.module.scss',
 })
 export class BlogArticleUpsert {
   private readonly formBuilder = inject(FormBuilder);
 
+  public categories = input.required<string[]>();
   public initialValue = input<ArticleRaw | null>();
 
   protected blogArticleForm = this.formBuilder.group({
     title: [this.initialValue()?.title ?? '', [Validators.required, Validators.minLength(25)]],
-    text: [this.initialValue()?.text ?? '', [Validators.required, Validators.minLength(20)]],
-    photo: [this.initialValue()?.photo ?? null],
+    content: [this.initialValue()?.content ?? '', [Validators.required, Validators.minLength(20)]],
+    image: [this.initialValue()?.image ?? null],
+    categoryName: [this.initialValue()?.categoryName ?? '', [Validators.required]],
   });
 
   constructor() {
@@ -29,8 +36,9 @@ export class BlogArticleUpsert {
       if (blogArticle) {
         this.blogArticleForm.patchValue({
           title: blogArticle.title,
-          text: blogArticle.text,
-          photo: blogArticle?.photo,
+          content: blogArticle.content,
+          image: blogArticle?.image,
+          categoryName: blogArticle?.categoryName,
         });
       } else {
         this.blogArticleForm.reset();
@@ -42,10 +50,12 @@ export class BlogArticleUpsert {
   protected cancel = output<void>();
 
   protected handleSubmit() {
+    console.log(this.blogArticleForm.value);
     const value: ArticleRaw = {
       title: this.blogArticleForm.value.title ?? '',
-      text: this.blogArticleForm.value.text ?? '',
-      photo: this.blogArticleForm.value.photo ?? null,
+      content: this.blogArticleForm.value.content ?? '',
+      image: notEmptyFile(this.blogArticleForm.value.image) ? this.blogArticleForm.value.image : undefined,
+      categoryName: this.blogArticleForm.value.categoryName ?? '',
     };
 
     this.blogArticleForm.reset();

@@ -1,19 +1,35 @@
 import { InjectionToken } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import type { Observable } from 'rxjs';
 
-import { ArticlePreview, Comment, Id } from '../../models';
+import type {
+  ArticleData,
+  ArticleDetails,
+  ArticlePreview,
+  Comment,
+  Id,
+  RatingAction,
+} from '../../models';
 
 export type ArticlesStorageResult = {
   articles: ArticlePreview[];
   total: number;
 };
 
+export type ArticleServerRequestResult = {
+  items: ArticleDetails[];
+  total: number;
+  page: number;
+  limit: number;
+};
+
 export interface ArticlesStorage {
-  addArticle: (value: ArticlePreview, page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
-  deleteArticle: (id: Id, page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
-  updateArticle: (value: ArticlePreview, page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
-  getArticles: (page: number, pageSize?: number) => Observable<ArticlesStorageResult>;
+  addArticle: (value: ArticleData, page: number, limit?: number) => Observable<ArticlesStorageResult>;
+  deleteArticle: (id: Id, page: number, limit?: number) => Observable<ArticlesStorageResult>;
+  updateArticle: (id: Id, value: ArticleData, page: number, limit?: number) => Observable<ArticlesStorageResult>;
+  getArticles: (page: number, limit?: number) => Observable<ArticlesStorageResult>;
+  getArticle: (id: Id) => Observable<ArticleDetails | null>;
+  updateArticleRating: (id: Id, action: RatingAction) => Observable<ArticleDetails | null>;
   getAllComments: () => Observable<Comment[]>;
 }
 

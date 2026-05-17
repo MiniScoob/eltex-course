@@ -1,0 +1,9 @@
+@let categoriesValue = categories();
+
+<mat-chip-set aria-label="Категории" class="category-chips">
+  @for (category of categoriesValue; track category) {
+    <mat-chip class="category-chips__value">
+      {{ category }}
+    </mat-chip>
+  }
+</mat-chip-set>

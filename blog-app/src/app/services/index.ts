@@ -1,7 +1,8 @@
-export { ArticlesStorageService } from './articles-storage-service';
+export { CategoriesStorageClientService, CategoriesStorageServerService } from './categories-storage-service';
+export { CategoriesFacadeService } from './categories-facade-service';
+export { ArticlesStorageClientService, ArticlesStorageServerService } from './articles-storage-service';
+export { CommentsStorageClientService, CommentsStorageServerService } from './comments-storage-service';
 export { ArticlesStoreService } from './articles-store-service';
 export { BrowserStorageEngineService, ServerStorageEngineService } from './storage-engine-service';
-export { ArticlesFacadeService } from './articles-facade-service';
-export { ArticleDetailsStorageService } from './article-details-storage-service';
-export { ArticleDetailsStoreService } from './article-details-store-service';
-export { ArticleDetailsFacadeService } from './article-details-facade-service';
+export { ArticlePageStoreService } from './article-page-store-service';
+export { ArticlePageFacadeService } from './article-page-facade-service';

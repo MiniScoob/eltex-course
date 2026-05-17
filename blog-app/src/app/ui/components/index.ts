@@ -1,3 +1,5 @@
+export { Autocomplete } from './autocomplete';
+export { CategoryChips } from './category-chips';
 export { DateTime } from './date-time';
 export { BlogArticlePreview } from './blog-article-preview';
 export { HobbyCard } from './hobby-card';

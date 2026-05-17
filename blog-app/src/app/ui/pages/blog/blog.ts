@@ -8,11 +8,11 @@ import {
 
 import type {
   ArticlePreview,
-  ArticlePreviewElement,
+  ArticlePreviewWithCategoryName,
   ArticleRaw,
   Id,
 } from '../../../models';
-import { ARTICLES_FACADE_TOKEN } from '../../../services/articles-facade-service';
+import { BLOG_FACADE_TOKEN } from '../../../services/blog-facade-service';
 import { BlogArticleUpsert } from '../../containers';
 import {
   BlogArticlePreview,
@@ -21,6 +21,7 @@ import {
   Statistics,
   Toolbar,
 } from '../../components';
+import {WithCategoryNamePipe} from '../../../pipes';
 
 @Component({
   selector: 'app-blog',
@@ -31,60 +32,75 @@ import {
     Toolbar,
     Pagination,
     Spinner,
+    WithCategoryNamePipe,
   ],
   templateUrl: './blog.html',
   styleUrl: './blog.module.scss',
 })
 export class Blog implements OnInit {
-  protected store = inject(ARTICLES_FACADE_TOKEN);
+  protected store = inject(BLOG_FACADE_TOKEN);
 
-  protected editingBlogArticle = signal<ArticlePreview | null>(null);
+  private _editingBlogArticle = signal<ArticlePreviewWithCategoryName | null>(null);
+
   protected isStatisticsOpen = signal<boolean>(false);
   protected isAddFormHidden = signal<boolean>(true);
+
+  protected editingBlogArticle = computed<ArticleRaw | null>(() => {
+    const editing = this._editingBlogArticle();
+
+    if (!editing) {
+      return null;
+    }
+
+    return this.store.getArticleFormData(editing);
+  });
 
   protected totalPages = computed(() => this.store.totalArticles() > 0
     ? Math.ceil(this.store.totalArticles() / this.store.pageSize())
     : 1,
   );
-  protected formTitle = computed(() => this.editingBlogArticle()
+
+  protected formTitle = computed(() => this._editingBlogArticle()
     ? 'Редактировать статью'
     : 'Добавить статью'
   );
 
+  protected categoriesNames = computed(() => this.store.categories().map((c) => c.name));
+
   public ngOnInit(){
-    this.store.loadArticles();
+    this.store.load();
   }
 
   protected onSave(value: ArticleRaw) {
-    const editing = this.editingBlogArticle();
+    const editing = this._editingBlogArticle();
 
     if (editing) {
-      this.store.updateArticle(editing, value);
+      this.store.updateArticle(editing.id, { ...value });
 
-      this.editingBlogArticle.set(null);
+      this._editingBlogArticle.set(null);
     } else {
-      this.store.addArticle(value);
+      this.store.addArticle({ ...value });
     }
   }
 
   protected onCancel() {
-    if (this.editingBlogArticle()) {
-      this.editingBlogArticle.set(null);
+    if (this._editingBlogArticle()) {
+      this._editingBlogArticle.set(null);
     }
 
     this.hideFrom();
   }
 
   protected onDeleteBlogArticle(id: Id) {
-    if (this.editingBlogArticle()?.id === id) {
-      this.editingBlogArticle.set(null);
+    if (this._editingBlogArticle()?.id === id) {
+      this._editingBlogArticle.set(null);
     }
 
     this.store.deleteArticle(id);
   }
 
-  protected onEditBlogArticle(value: ArticlePreviewElement) {
-    this.editingBlogArticle.set(value);
+  protected onEditBlogArticle(value: ArticlePreviewWithCategoryName) {
+    this._editingBlogArticle.set(value);
     this.showFrom();
   }
 

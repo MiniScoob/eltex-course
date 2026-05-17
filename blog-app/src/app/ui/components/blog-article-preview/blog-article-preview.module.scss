@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 @use "variables";
 @use "mixins";
 
@@ -86,6 +88,11 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.blog-article__category {
+  display: block;
+  margin-top: 1rem;
 }
 
 @container (min-width: 898px) {

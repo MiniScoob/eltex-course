@@ -1,53 +1,38 @@
-import { Component, computed, input, OnDestroy, output } from '@angular/core';
+import {
+  Component,
+  computed,
+  input,
+  output,
+} from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
 
-import type { ArticlePreviewElement, Id } from '../../../models';
-import { notEmptyFile, toDateString } from '../../../utils';
-import type { Mode } from './blog-article-preview.model';
+import type { ArticlePreviewWithCategoryName, Id } from '../../../models';
+import { CategoryChips } from '../category-chips';
+import { DateTime } from '../date-time';
+import { Mode } from './blog-article-preview.model';
 import { DEFAULT_IMAGE } from './blog-article-preview.constants';
-import {DateTime} from '../date-time';
-import {MatIcon} from '@angular/material/icon';
-import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'blog-article-preview',
   imports: [
+    CategoryChips,
     DateTime,
     MatIcon,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './blog-article-preview.html',
   styleUrl: './blog-article-preview.module.scss',
 })
-export class BlogArticlePreview implements OnDestroy {
-  private _objectUrl?: string;
-
-  public value = input.required<ArticlePreviewElement>();
+export class BlogArticlePreview {
+  public value = input.required<ArticlePreviewWithCategoryName>();
   public mode = input<Mode>('view');
 
-  protected createdAt = computed(() => toDateString(new Date(this.value().createdAt)));
-  protected photo = computed(() => {
-    const file = this.value()?.photo;
-
-    if (notEmptyFile(file)) {
-      if (this._objectUrl) {
-        URL.revokeObjectURL(this._objectUrl);
-      }
-
-      this._objectUrl = URL.createObjectURL(file!);
-      return this._objectUrl;
-    }
-
-    return DEFAULT_IMAGE;
-  });
+  protected createdAt = computed(() => this.value().createdAt);
+  protected image = computed(() => this.value().imgSrc ?? DEFAULT_IMAGE);
 
   protected delete = output<Id>();
-  protected edit = output<ArticlePreviewElement>();
-
-  ngOnDestroy() {
-    if (this._objectUrl) {
-      URL.revokeObjectURL(this._objectUrl);
-    }
-  }
+  protected edit = output<ArticlePreviewWithCategoryName>();
 
   protected handleDelete() {
     this.delete.emit(this.value().id);
