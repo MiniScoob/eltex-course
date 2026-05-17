@@ -69,8 +69,8 @@ export const appConfig: ApplicationConfig = {
     {
       provide: COMMENT_STORAGE_TOKEN,
       useClass: environment.useBackend
-        ? CommentsStorageClientService
-        : CommentsStorageServerService,
+        ? CommentsStorageServerService
+        : CommentsStorageClientService,
     },
     { provide: CATEGORIES_FACADE_TOKEN, useClass: CategoriesFacadeService },
     { provide: ARTICLES_STORE_TOKEN, useClass: ArticlesStoreService },

@@ -1,6 +1,11 @@
 import { inject, Injectable, signal } from '@angular/core';
 
-import { type Observable, switchMap } from 'rxjs';
+import {
+  concatMap,
+  from,
+  type Observable,
+  switchMap
+} from 'rxjs';
 
 import type {
   ArticleData,
@@ -72,22 +77,29 @@ export class BlogFacadeService implements BlogFacade {
   public generateArticles() {
     const generated = Array.from(
       { length: 9 * INITIAL_ARTICLES.length },
-      (_, i) => INITIAL_ARTICLES[i % INITIAL_ARTICLES.length]
+      (_, i) => ({
+        ...INITIAL_ARTICLES[i % INITIAL_ARTICLES.length],
+        title: `${INITIAL_ARTICLES[i % INITIAL_ARTICLES.length].title} #${i + 1}`,
+      })
     );
 
-    generated.forEach((article) => {
-      this.storage.addArticle(
-        article,
-        this.page(),
-        this.pageSize()
-      );
-    });
-
-    this.getArticles();
+    from(generated).pipe(
+      concatMap((article) =>
+        this.categoriesStore.resolveCategory(article.categoryName).pipe(
+          switchMap((categoryId) =>
+            this.storage.addArticle(
+              { ...article, categoryId },
+              this.page(),
+              this.pageSize(),
+            )
+          )
+        )
+      ),
+    ).subscribe(this.updateStore);
   }
 
   public clearArticles() {
-    let copy: ArticlePreview[] =[];
+    let copy: ArticlePreview[] = [];
     this.storage.getArticles(1, this.totalArticles()).subscribe((result) => {
       copy = [...result.articles];
     });
