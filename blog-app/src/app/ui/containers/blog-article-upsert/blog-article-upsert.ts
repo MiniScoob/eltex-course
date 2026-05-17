@@ -2,14 +2,17 @@ import { Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import type { ArticleRaw } from '../../../models';
-import {getError, isInvalid, notEmptyFile} from '../../../utils';
+import { getError, isInvalid, notEmptyFile } from '../../../utils';
 import { FileValueAccessor } from '../../directives';
-import {Autocomplete} from '../../components';
-import {JsonPipe} from '@angular/common';
+import { Autocomplete } from '../../components';
 
 @Component({
   selector: 'blog-article-upsert',
-  imports: [FileValueAccessor, ReactiveFormsModule, Autocomplete, JsonPipe],
+  imports: [
+    FileValueAccessor,
+    ReactiveFormsModule,
+    Autocomplete,
+  ],
   templateUrl: './blog-article-upsert.html',
   styleUrl: './blog-article-upsert.module.scss',
 })
