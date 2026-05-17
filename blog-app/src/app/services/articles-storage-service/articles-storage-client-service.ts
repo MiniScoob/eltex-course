@@ -14,40 +14,39 @@ import { ARTICLES_STORAGE_KEY, COMMENTS_STORAGE_KEY } from '../../constants';
 import { calculateRating } from '../../utils';
 import { STORAGE_ENGINE_TOKEN } from '../storage-engine-service';
 import type { ArticlesStorage, ArticlesStorageResult } from './articles-storage-service.model';
-import { PAGE_SIZE } from './articles-storage-service.constants';
+import { LIMIT } from './articles-storage-service.constants';
 
 @Injectable()
-export class ArticlesStorageService implements ArticlesStorage {
+export class ArticlesStorageClientService implements ArticlesStorage {
   private engine = inject(STORAGE_ENGINE_TOKEN);
 
   private readonly _articlesStorageKey = ARTICLES_STORAGE_KEY;
   private readonly _commentsStorageKey = COMMENTS_STORAGE_KEY;
 
-  public addArticle(value: ArticleData, page: number, pageSize?: number) {
+  public addArticle(value: ArticleData, page: number, limit?: number) {
     const updated = this.addArticleToStorage(value);
-    const result = this.prepareData(updated, page, pageSize);
-    console.log(result);
+    const result = this.prepareData(updated, page, limit);
 
     return of(result);
   }
 
-  public deleteArticle(id: Id, page: number, pageSize?: number) {
+  public deleteArticle(id: Id, page: number, limit?: number) {
     const updated = this.removeArticlesFromStorage(id);
-    const result = this.prepareData(updated, page, pageSize);
+    const result = this.prepareData(updated, page, limit);
 
     return of(result);
   }
 
-  public updateArticle(id: Id, value: ArticleData, page: number, pageSize?: number) {
+  public updateArticle(id: Id, value: ArticleData, page: number, limit?: number) {
     const updated = this.updateArticleInStorage(id, value);
-    const result = this.prepareData(updated, page, pageSize);
+    const result = this.prepareData(updated, page, limit);
 
     return of(result);
   }
 
-  public getArticles(page: number, pageSize?: number) {
+  public getArticles(page: number, limit?: number) {
     const values = this.getArticlesFromStorage();
-    const result = this.prepareData(values, page, pageSize);
+    const result = this.prepareData(values, page, limit);
 
     return of(result);
   }
@@ -89,10 +88,10 @@ export class ArticlesStorageService implements ArticlesStorage {
     return of(result);
   }
 
-  private prepareData(values: ArticleDetails[], page: number, pageSize = PAGE_SIZE): ArticlesStorageResult {
-    const totalPages = Math.ceil(values.length / pageSize);
+  private prepareData(values: ArticleDetails[], page: number, limit = LIMIT): ArticlesStorageResult {
+    const totalPages = Math.ceil(values.length / limit);
     const realPage = this.getRealPage(page, totalPages);
-    const articles = values.slice((realPage - 1) * pageSize, realPage * pageSize).map(this.getPreview);
+    const articles = values.slice((realPage - 1) * limit, realPage * limit).map(this.getPreview);
 
     return {
       articles,

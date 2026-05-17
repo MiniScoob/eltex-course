@@ -4,6 +4,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 
+import { environment } from '../../environments/environment';
 import {
   STORAGE_ENGINE_TOKEN,
   BrowserStorageEngineService,
@@ -12,7 +13,11 @@ import {
 import { CATEGORIES_STORAGE_TOKEN, CategoriesStorageService } from '../services/categories-storage-service';
 import { CATEGORIES_FACADE_TOKEN, CategoriesFacadeService } from '../services/categories-facade-service';
 import { COMMENT_STORAGE_TOKEN, CommentsStorageService } from '../services/comments-storage-service';
-import { ARTICLES_STORAGE_TOKEN, ArticlesStorageService } from '../services/articles-storage-service';
+import {
+  ARTICLES_STORAGE_TOKEN,
+  ArticlesStorageClientService,
+  ArticlesStorageServerService,
+} from '../services/articles-storage-service';
 import { ARTICLES_STORE_TOKEN, ArticlesStoreService } from '../services/articles-store-service';
 import { BLOG_FACADE_TOKEN, BlogFacadeService } from '../services/blog-facade-service';
 import { ARTICLE_PAGE_STORE_TOKEN, ArticlePageStoreService } from '../services/article-page-store-service';
@@ -38,7 +43,12 @@ export const appConfig: ApplicationConfig = {
     {
       provide: CATEGORIES_FACADE_TOKEN, useClass: CategoriesFacadeService,
     },
-    { provide: ARTICLES_STORAGE_TOKEN, useClass: ArticlesStorageService },
+    {
+      provide: ARTICLES_STORAGE_TOKEN,
+      useClass: environment.useBackend
+        ? ArticlesStorageServerService
+        : ArticlesStorageClientService
+    },
     { provide: ARTICLES_STORE_TOKEN, useClass: ArticlesStoreService },
     { provide: BLOG_FACADE_TOKEN, useClass: BlogFacadeService },
     { provide: ARTICLE_PAGE_STORE_TOKEN, useClass: ArticlePageStoreService },

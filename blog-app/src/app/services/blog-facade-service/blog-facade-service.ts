@@ -133,7 +133,6 @@ export class BlogFacadeService implements BlogFacade {
   }
 
   private updateStore = (data: ArticlesStorageResult) => {
-    console.log(data);
     this.articlesStore.setArticles(data.articles);
     this.articlesStore.setTotalArticles(data.total);
   }
