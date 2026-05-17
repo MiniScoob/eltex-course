@@ -8,7 +8,7 @@ import { STORAGE_ENGINE_TOKEN } from '../storage-engine-service';
 import type { CategoriesStorage } from './categories-storage-service.model';
 
 @Injectable()
-export class CategoriesStorageService implements CategoriesStorage {
+export class CategoriesStorageClientService implements CategoriesStorage {
   private readonly engine = inject(STORAGE_ENGINE_TOKEN);
 
   private readonly _storageKey = CATEGORIES_STORAGE_KEY;
@@ -21,10 +21,11 @@ export class CategoriesStorageService implements CategoriesStorage {
     const prepared: CategoryRaw = {
       name: value.name.trim(),
     };
+    const nameLowerCase = prepared.name.toLowerCase();
     const categories = this.getCategoriesFromStorage();
 
     const exists = categories.some(
-      (c) => c.name.toLowerCase() === prepared.name.toLowerCase()
+      (c) => c.name.toLowerCase() === nameLowerCase,
     );
 
     if (exists) {

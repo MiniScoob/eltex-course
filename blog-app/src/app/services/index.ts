@@ -1,4 +1,4 @@
-export { CategoriesStorageService } from './categories-storage-service';
+export { CategoriesStorageClientService, CategoriesStorageServerService } from './categories-storage-service';
 export { CategoriesFacadeService } from './categories-facade-service';
 export { ArticlesStorageClientService, ArticlesStorageServerService } from './articles-storage-service';
 export { ArticlesStoreService } from './articles-store-service';

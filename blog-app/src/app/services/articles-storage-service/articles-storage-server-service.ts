@@ -12,8 +12,9 @@ export class ArticlesStorageServerService implements ArticlesStorage {
   private httpClient = inject(HttpClient);
 
   public addArticle(value: ArticleData, page: number, limit?: number) {
+    const prepared = this.prepareData(value);
     return this.httpClient
-      .post('/api/articles', value)
+      .post('/api/articles', prepared)
       .pipe(
         switchMap(() => this.getArticlesFromServer(page, limit))
       );
@@ -28,8 +29,9 @@ export class ArticlesStorageServerService implements ArticlesStorage {
   }
 
   public updateArticle(id: Id, value: ArticleData, page: number, limit?: number) {
+    const prepared = this.prepareData(value);
     return this.httpClient
-      .patch(`/api/articles/${id}`, value)
+      .patch(`/api/articles/${id}`, prepared)
       .pipe(
         switchMap(() => this.getArticlesFromServer(page, limit))
       );
@@ -104,5 +106,17 @@ export class ArticlesStorageServerService implements ArticlesStorage {
       categoryId: value.categoryId,
       createdAt: value.createdAt,
     };
+  }
+
+  private prepareData(data: ArticleData): FormData {
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== null) {
+        formData.append(key, typeof value === 'number' ? value.toString() : value);
+      }
+    });
+
+    return formData;
   }
 }

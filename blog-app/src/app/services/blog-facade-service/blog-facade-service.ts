@@ -114,7 +114,7 @@ export class BlogFacadeService implements BlogFacade {
     const { categoryName, ...rest } = value;
 
     this.categoriesStore.resolveCategory(categoryName).pipe(
-      switchMap((categoryId) => save({...value, categoryId})),
+      switchMap((categoryId) => save({...rest, categoryId})),
     ).subscribe(this.updateStore);
   }
 

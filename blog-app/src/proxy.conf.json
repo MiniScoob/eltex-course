@@ -3,5 +3,9 @@
     "target": "http://localhost:3000",
     "pathRewrite": { "^/api" : "" },
     "secure": false
+  },
+  "/uploads/*": {
+    "target": "http://localhost:3000",
+    "secure": false
   }
 }

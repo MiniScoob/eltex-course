@@ -10,7 +10,11 @@ import {
   BrowserStorageEngineService,
   ServerStorageEngineService
 } from '../services/storage-engine-service';
-import { CATEGORIES_STORAGE_TOKEN, CategoriesStorageService } from '../services/categories-storage-service';
+import {
+  CATEGORIES_STORAGE_TOKEN,
+  CategoriesStorageClientService,
+  CategoriesStorageServerService,
+} from '../services/categories-storage-service';
 import { CATEGORIES_FACADE_TOKEN, CategoriesFacadeService } from '../services/categories-facade-service';
 import { COMMENT_STORAGE_TOKEN, CommentsStorageService } from '../services/comments-storage-service';
 import {
@@ -38,7 +42,10 @@ export const appConfig: ApplicationConfig = {
       deps: [PLATFORM_ID],
     },
     {
-      provide: CATEGORIES_STORAGE_TOKEN, useClass: CategoriesStorageService,
+      provide: CATEGORIES_STORAGE_TOKEN,
+      useClass: environment.useBackend
+        ? CategoriesStorageServerService
+        : CategoriesStorageClientService,
     },
     {
       provide: CATEGORIES_FACADE_TOKEN, useClass: CategoriesFacadeService,

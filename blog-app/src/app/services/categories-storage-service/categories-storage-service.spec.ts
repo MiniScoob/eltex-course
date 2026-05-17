@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CategoriesStorageService } from './categories-storage-service';
+import { CategoriesStorageClientService } from './categories-storage-client-service';
 
 describe('CategoriesStorageService', () => {
-  let service: CategoriesStorageService;
+  let service: CategoriesStorageClientService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CategoriesStorageService);
+    service = TestBed.inject(CategoriesStorageClientService);
   });
 
   it('should be created', () => {

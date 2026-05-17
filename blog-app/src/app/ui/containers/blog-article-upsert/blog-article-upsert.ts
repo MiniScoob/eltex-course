@@ -38,6 +38,7 @@ export class BlogArticleUpsert {
           title: blogArticle.title,
           content: blogArticle.content,
           image: blogArticle?.image,
+          categoryName: blogArticle?.categoryName,
         });
       } else {
         this.blogArticleForm.reset();

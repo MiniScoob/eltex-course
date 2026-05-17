@@ -6,8 +6,7 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
-
-import { map, type Observable, startWith } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 import {
   MatError,
   MatFormField,
@@ -19,6 +18,13 @@ import {
   MatAutocompleteTrigger,
   MatOption,
 } from '@angular/material/autocomplete';
+
+import {
+  combineLatest,
+  map,
+  type Observable,
+  startWith,
+} from 'rxjs';
 
 @Component({
   selector: 'input-autocomplete',
@@ -53,9 +59,14 @@ export class Autocomplete implements ControlValueAccessor {
   protected filteredOptions: Observable<string[]>;
 
   constructor() {
-    this.filteredOptions = this.control.valueChanges.pipe(
-      startWith(''),
-      map(value => this.filter(value || '')),
+    const value$ = this.control.valueChanges.pipe(startWith(''));
+    const options$ = toObservable(this.options);
+
+    this.filteredOptions = combineLatest([value$, options$]).pipe(
+      map(([value, options]) => {
+        const filterValue = (value ?? '').toLowerCase();
+        return options.filter(o => o.toLowerCase().includes(filterValue));
+      }),
     );
 
     this.control.valueChanges.subscribe(value => {
