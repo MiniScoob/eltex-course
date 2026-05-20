@@ -1,23 +1,26 @@
-import {computed, inject, Injectable} from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
+
+import { map, of, switchMap, tap } from 'rxjs';
 
 import type {
-  ArticleDetails, Category,
   CommentData,
   CommentRaw,
   Id,
   RatingAction,
 } from '../../models';
+import { buildCategoryMap, enrichWithCategory } from '../../utils';
 import { ARTICLES_STORAGE_TOKEN } from '../articles-storage-service';
 import { ARTICLE_PAGE_STORE_TOKEN } from '../article-page-store-service';
 import { CATEGORIES_FACADE_TOKEN } from '../categories-facade-service';
 import { COMMENT_STORAGE_TOKEN } from '../comments-storage-service';
+import { GRAPHQL_STORAGE_TOKEN } from '../graphql-storage-service';
 import type { ArticlePageFacade } from './article-page-facade-service.model';
-import {buildCategoryMap, enrichWithCategory} from '../../utils';
 
 @Injectable()
 export class ArticlePageFacadeService implements ArticlePageFacade {
   private readonly articlesStorage = inject(ARTICLES_STORAGE_TOKEN);
   private readonly commentsStorage = inject(COMMENT_STORAGE_TOKEN);
+  private readonly graphqlStorage = inject(GRAPHQL_STORAGE_TOKEN, { optional: true });
   private readonly categoriesStore = inject(CATEGORIES_FACADE_TOKEN);
   private readonly store = inject(ARTICLE_PAGE_STORE_TOKEN);
 
@@ -36,8 +39,7 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
   });
 
   public readonly comments = this.store.comments;
-  public readonly isArticleLoaded = this.store.isArticleLoaded;
-  public readonly isCommentsLoaded = this.store.isCommentsLoaded;
+  public readonly isLoaded = this.store.isLoaded;
 
   public addComment(comment: CommentRaw) {
     const articleValue = this.store.article();
@@ -79,34 +81,52 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
     });
   }
 
-  public loadArticle(id: Id) {
-    this.articlesStorage.getArticle(id).subscribe((result) => {
-      if (result) {
-        this.store.setArticle(result);
-        this.loadCategories();
-      }
-    });
-  }
+  public load(id: Id) {
+    if (this.graphqlStorage) {
+      return this.graphqlStorage
+        .getArticleWithComments(id)
+        .pipe(
+          map((result) => {
+            if (!result) {
+              return null;
+            }
 
-  public loadComments() {
-    const articleId = this.article()?.id;
+            const { comments, ...article } = result.article;
+            return { article, comments };
+          }),
+          tap((result) => {
+            if (result) {
+              this.store.setArticle(result.article);
+              this.store.setComments(result.comments);
+              this.loadCategories();
+            }
 
-    if (!articleId) {
-      return;
+            this.store.setLoaded();
+          }),
+          map((result) => result?.article ?? null),
+        );
     }
 
-    this.commentsStorage.getComments(articleId).subscribe((result) => {
-      this.store.setComments(result);
-      this.store.setCommentsLoaded();
-    });
-  }
+    return this.articlesStorage
+      .getArticle(id)
+      .pipe(
+        switchMap((article) => {
+          if (!article) {
+            return of(null);
+          }
 
-  public setPreloadedArticle(article: ArticleDetails | null) {
-    if (article) {
-      this.store.setArticle(article);
-      this.loadCategories();
-    }
-    this.store.setArticleLoaded();
+          this.store.setArticle(article);
+          this.loadCategories();
+
+          return this.commentsStorage!.getComments(id).pipe(
+            tap((comments) => {
+              this.store.setComments(comments);
+            }),
+            map(() => article)
+          );
+        }),
+        tap(() => this.store.setLoaded()),
+      );
   }
 
   private loadCategories() {

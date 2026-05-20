@@ -7,13 +7,11 @@ import type { ArticlePageStore } from './article-page-store-service.model';
 export class ArticlePageStoreService implements ArticlePageStore {
   private _article = signal<ArticleDetails | null>(null);
   private _comments = signal<Comment[]>([]);
-  private _isArticleLoaded = signal<boolean>(false);
-  private _isCommentsLoaded = signal<boolean>(false);
+  private _isLoaded = signal<boolean>(false);
 
   public readonly article = this._article.asReadonly();
   public readonly comments = this._comments.asReadonly();
-  public readonly isArticleLoaded = this._isArticleLoaded.asReadonly();
-  public readonly isCommentsLoaded = this._isCommentsLoaded.asReadonly();
+  public readonly isLoaded = this._isLoaded.asReadonly();
 
   public setArticle(article: ArticleDetails) {
     this._article.set(article);
@@ -23,15 +21,9 @@ export class ArticlePageStoreService implements ArticlePageStore {
     this._comments.set(comments);
   }
 
-  public setArticleLoaded() {
-    if (!this._isArticleLoaded()) {
-      this._isArticleLoaded.set(true);
-    }
-  }
-
-  public setCommentsLoaded() {
-    if (!this._isCommentsLoaded()) {
-      this._isCommentsLoaded.set(true);
+  public setLoaded() {
+    if (!this._isLoaded()) {
+      this._isLoaded.set(true);
     }
   }
 }

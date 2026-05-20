@@ -32,6 +32,10 @@ export interface ArticleDetails {
   updatedAt: string;
 }
 
+export type EnrichedArticleDetails = ArticleDetails & {
+  comments: Comment[];
+};
+
 export type ArticlePreview = Pick<
   ArticleDetails,
   'id' | 'title' | 'content' | 'imgSrc' | 'categoryId' | 'createdAt'

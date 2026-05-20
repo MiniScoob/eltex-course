@@ -6,13 +6,11 @@ import type { ArticleDetails, Comment } from '../../models';
 export interface ArticlePageStore {
   article: Signal<ArticleDetails | null>;
   comments: Signal<Comment[]>;
-  isArticleLoaded: Signal<boolean>;
-  isCommentsLoaded: Signal<boolean>;
+  isLoaded: Signal<boolean>;
 
   setArticle: (article: ArticleDetails) => void;
   setComments: (comments: Comment[]) => void;
-  setArticleLoaded: () => void;
-  setCommentsLoaded: () => void;
+  setLoaded: () => void;
 }
 
 export const ARTICLE_PAGE_STORE_TOKEN = new InjectionToken<ArticlePageStore>('ArticlePageStore');

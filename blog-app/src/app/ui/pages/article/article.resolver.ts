@@ -2,14 +2,13 @@ import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, type ResolveFn } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 
-import type { ArticleDetails } from '../../../models';
-import { ARTICLES_STORAGE_TOKEN } from '../../../services/articles-storage-service';
+import { ARTICLE_PAGE_FACADE_TOKEN } from '../../../services/article-page-facade-service';
 import { TITLE_SUFFIX } from './article.constants';
 
-export const articleResolver: ResolveFn<ArticleDetails | null> = (route: ActivatedRouteSnapshot) => {
-  const storage = inject(ARTICLES_STORAGE_TOKEN);
+export const articleResolver: ResolveFn<null> = (route: ActivatedRouteSnapshot) => {
+  const store = inject(ARTICLE_PAGE_FACADE_TOKEN);
   const titleService = inject(Title);
 
   const id = route.paramMap.get('id');
@@ -18,11 +17,14 @@ export const articleResolver: ResolveFn<ArticleDetails | null> = (route: Activat
     return null;
   }
 
-  return storage.getArticle(id).pipe(
-    tap((article) => {
-      if (article?.title) {
-        titleService.setTitle(`${article.title}${TITLE_SUFFIX}`);
-      }
-    }),
-  );
+  return store
+    .load(id)
+    .pipe(
+      tap((article) => {
+        if (article?.title) {
+          titleService.setTitle(`${article.title}${TITLE_SUFFIX}`);
+        }
+      }),
+      map(() => null)
+    );
 };

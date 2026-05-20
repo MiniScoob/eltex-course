@@ -1,5 +1,7 @@
 import { InjectionToken, type Signal } from '@angular/core';
 
+import type { Observable } from 'rxjs';
+
 import type {
   ArticleDetails,
   Comment,
@@ -15,15 +17,12 @@ type ArticleDetailsWithCategoryName = ArticleDetails & {
 export interface ArticlePageFacade {
   article: Signal<ArticleDetailsWithCategoryName | null>;
   comments: Signal<Comment[]>;
-  isArticleLoaded: Signal<boolean>;
-  isCommentsLoaded: Signal<boolean>;
+  isLoaded: Signal<boolean>;
 
   addComment: (comment: CommentRaw) => void;
   updateArticleRating: (action: RatingAction) => void;
   updateCommentRating: (commentId: Id, action: RatingAction) => void;
-  loadArticle: (id: Id) => void;
-  loadComments: () => void;
-  setPreloadedArticle: (article: ArticleDetails | null) => void;
+  load: (id: Id) => Observable<ArticleDetails | null>;
 }
 
 export const ARTICLE_PAGE_FACADE_TOKEN = new InjectionToken<ArticlePageFacade>('ArticlePageFacade');
