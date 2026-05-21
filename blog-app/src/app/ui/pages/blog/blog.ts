@@ -7,11 +7,11 @@ import {
 } from '@angular/core';
 
 import type {
-  ArticlePreview,
   ArticlePreviewWithCategoryName,
   ArticleRaw,
   Id,
 } from '../../../models';
+import { WithCategoryNamePipe } from '../../../pipes';
 import { BLOG_FACADE_TOKEN } from '../../../services/blog-facade-service';
 import { BlogArticleUpsert } from '../../containers';
 import {
@@ -21,7 +21,6 @@ import {
   Statistics,
   Toolbar,
 } from '../../components';
-import {WithCategoryNamePipe} from '../../../pipes';
 
 @Component({
   selector: 'app-blog',
