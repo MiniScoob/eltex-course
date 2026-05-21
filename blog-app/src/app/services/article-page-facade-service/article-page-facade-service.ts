@@ -9,6 +9,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   catchError,
   EMPTY,
+  finalize,
   map,
   of,
   switchMap,
@@ -60,6 +61,15 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
   public readonly comments = this.store.comments;
   public readonly isLoaded = this.store.isLoaded;
 
+  constructor() {
+    this.destroyRef.onDestroy(() => {
+      const articleId = this.store.article()?.id;
+      if (articleId) {
+        this.eventSubscriber.unsubscribeFromArticle(articleId);
+      }
+    });
+  }
+
   public watchForUpdates() {
     const article = this.store.article();
 
@@ -74,13 +84,6 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
         catchError(() => EMPTY),
       )
       .subscribe((event) => this.handleEvent(event));
-
-    this.destroyRef.onDestroy(() => {
-      const articleId = this.store.article()?.id;
-      if (articleId) {
-        this.eventSubscriber.unsubscribeFromArticle(articleId);
-      }
-    });
   }
 
   public addComment(comment: CommentRaw) {
@@ -147,50 +150,11 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
   }
 
   public load(id: Id) {
-    if (this.graphqlStorage) {
-      return this.graphqlStorage
-        .getArticleWithComments(id)
-        .pipe(
-          map((result) => {
-            if (!result) {
-              return null;
-            }
-
-            const { comments, ...article } = result;
-            return { article, comments };
-          }),
-          tap((result) => {
-            if (result) {
-              this.store.setArticle(result.article);
-              this.store.setComments(result.comments);
-              this.loadCategories();
-            }
-
-            this.store.setLoaded();
-          }),
-          map((result) => result?.article ?? null),
-        );
-    }
-
-    return this.articlesStorage
-      .getArticle(id)
+    return this
+      .loadArticleWithComments(id)
       .pipe(
-        switchMap((article) => {
-          if (!article) {
-            return of(null);
-          }
-
-          this.store.setArticle(article);
-          this.loadCategories();
-
-          return this.commentsStorage!.getComments(id).pipe(
-            tap((comments) => {
-              this.store.setComments(comments);
-            }),
-            map(() => article)
-          );
-        }),
-        tap(() => this.store.setLoaded()),
+        tap(() => this.loadCategories()),
+        finalize(() => this.store.setLoaded()),
       );
   }
 
@@ -210,6 +174,57 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
         this.store.updateComment(id, rest);
       }
     }
+  }
+
+  private loadArticleWithComments(id: Id) {
+    if (this.graphqlStorage) {
+      return this.loadByGraphql(id);
+    }
+
+    return this.loadByRest(id);
+  }
+
+  private loadByGraphql(id: Id) {
+    return this.graphqlStorage!
+      .getArticleWithComments(id)
+      .pipe(
+        map((result) => {
+          if (!result) {
+            return null;
+          }
+
+          const { comments, ...article } = result;
+          return { article, comments };
+        }),
+        tap((result) => {
+          if (result) {
+            this.store.setArticle(result.article);
+            this.store.setComments(result.comments);
+          }
+        }),
+        map((result) => result?.article ?? null),
+      );
+  }
+
+  private loadByRest(id: Id) {
+    return this.articlesStorage
+      .getArticle(id)
+      .pipe(
+        switchMap((article) => {
+          if (!article) {
+            return of(null);
+          }
+
+          this.store.setArticle(article);
+
+          return this.commentsStorage!.getComments(id).pipe(
+            tap((comments) => {
+              this.store.setComments(comments);
+            }),
+            map(() => article)
+          );
+        }),
+      );
   }
 
   private loadCategories() {
