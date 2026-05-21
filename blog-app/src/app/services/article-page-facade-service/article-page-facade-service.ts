@@ -15,9 +15,11 @@ import { CATEGORIES_FACADE_TOKEN } from '../categories-facade-service';
 import { COMMENT_STORAGE_TOKEN } from '../comments-storage-service';
 import { GRAPHQL_STORAGE_TOKEN } from '../graphql-storage-service';
 import type { ArticlePageFacade } from './article-page-facade-service.model';
+import { ARTICLE_EVENT_SUBSCRIBER_TOKEN } from '../article-event-subscriber-service';
 
 @Injectable()
 export class ArticlePageFacadeService implements ArticlePageFacade {
+  private readonly eventSubscriber = inject(ARTICLE_EVENT_SUBSCRIBER_TOKEN);
   private readonly articlesStorage = inject(ARTICLES_STORAGE_TOKEN);
   private readonly commentsStorage = inject(COMMENT_STORAGE_TOKEN);
   private readonly graphqlStorage = inject(GRAPHQL_STORAGE_TOKEN, { optional: true });
@@ -40,6 +42,18 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
 
   public readonly comments = this.store.comments;
   public readonly isLoaded = this.store.isLoaded;
+
+  public watchForUpdates() {
+    const article = this.store.article();
+
+    if (!article) {
+      return;
+    }
+
+    this.eventSubscriber
+      .subscribeToArticle(article.id)
+      .subscribe((event) => console.log(event));
+  }
 
   public addComment(comment: CommentRaw) {
     const articleValue = this.store.article();
@@ -76,7 +90,6 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
     }
 
     this.commentsStorage.updateCommentRating(articleId, id, action).subscribe((result) => {
-      console.log(result);
       this.store.setComments(result);
     });
   }

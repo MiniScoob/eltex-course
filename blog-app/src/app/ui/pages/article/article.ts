@@ -36,7 +36,7 @@ import { DEFAULT_IMAGE } from './article.constants';
   templateUrl: './article.html',
   styleUrl: './article.module.scss',
 })
-export class Article {
+export class Article implements OnInit {
   protected readonly store = inject(ARTICLE_PAGE_FACADE_TOKEN);
 
   protected readonly photo = computed(() =>
@@ -48,6 +48,10 @@ export class Article {
 
     return article ? article.createdAt : null;
   });
+
+  public ngOnInit() {
+    this.store.watchForUpdates();
+  }
 
   protected onArticleRatingChange(action: RatingAction) {
     this.store.updateArticleRating(action);

@@ -19,6 +19,7 @@ export interface ArticlePageFacade {
   comments: Signal<Comment[]>;
   isLoaded: Signal<boolean>;
 
+  watchForUpdates: () => void;
   addComment: (comment: CommentRaw) => void;
   updateArticleRating: (action: RatingAction) => void;
   updateCommentRating: (commentId: Id, action: RatingAction) => void;

@@ -35,17 +35,8 @@ import {
   ArticlesStorageClientService,
   ArticlesStorageServerService,
 } from '../services/articles-storage-service';
-import { GRAPHQL_STORAGE_TOKEN, GraphqlStorageService } from '../services/graphql-storage-service';
 import { ARTICLES_STORE_TOKEN, ArticlesStoreService } from '../services/articles-store-service';
 import { BLOG_FACADE_TOKEN, BlogFacadeService } from '../services/blog-facade-service';
-import {
-  ARTICLE_PAGE_STORE_TOKEN,
-  ArticlePageStoreService,
-} from '../services/article-page-store-service';
-import {
-  ARTICLE_PAGE_FACADE_TOKEN,
-  ArticlePageFacadeService,
-} from '../services/article-page-facade-service';
 import { routes } from './app.routes';
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
@@ -98,7 +89,5 @@ export const appConfig: ApplicationConfig = {
     { provide: CATEGORIES_FACADE_TOKEN, useClass: CategoriesFacadeService },
     { provide: ARTICLES_STORE_TOKEN, useClass: ArticlesStoreService },
     { provide: BLOG_FACADE_TOKEN, useClass: BlogFacadeService },
-    { provide: ARTICLE_PAGE_STORE_TOKEN, useClass: ArticlePageStoreService },
-    { provide: ARTICLE_PAGE_FACADE_TOKEN, useClass: ArticlePageFacadeService },
   ],
 };
