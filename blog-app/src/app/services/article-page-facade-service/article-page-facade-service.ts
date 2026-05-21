@@ -37,7 +37,7 @@ import type { ArticlePageFacade } from './article-page-facade-service.model';
 export class ArticlePageFacadeService implements ArticlePageFacade {
   private readonly destroyRef = inject(DestroyRef);
 
-  private readonly eventSubscriber = inject(ARTICLE_EVENT_SUBSCRIBER_TOKEN);
+  private readonly eventSubscriber = inject(ARTICLE_EVENT_SUBSCRIBER_TOKEN, { optional: true });
   private readonly articlesStorage = inject(ARTICLES_STORAGE_TOKEN);
   private readonly commentsStorage = inject(COMMENT_STORAGE_TOKEN);
   private readonly graphqlStorage = inject(GRAPHQL_STORAGE_TOKEN, { optional: true });
@@ -64,7 +64,7 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
   constructor() {
     this.destroyRef.onDestroy(() => {
       const articleId = this.store.article()?.id;
-      if (articleId) {
+      if (articleId && this.eventSubscriber) {
         this.eventSubscriber.unsubscribeFromArticle(articleId);
       }
     });
@@ -73,7 +73,7 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
   public watchForUpdates() {
     const article = this.store.article();
 
-    if (!article) {
+    if (!article || !this.eventSubscriber) {
       return;
     }
 
@@ -102,9 +102,10 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
     }
 
     const value = this.prepareCommentValue(comment);
-    this.commentsStorage.addComment(value).subscribe((result) => {
-      this.store.setComments(result);
-    });
+    this.commentsStorage.addComment(value)
+      .subscribe((result) => {
+        this.store.setComments(result);
+      });
   }
 
   public updateArticleRating(action: RatingAction) {
@@ -122,11 +123,12 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
       return;
     }
 
-    this.articlesStorage.updateArticleRating(articleId, action).subscribe((result) => {
-      if (result) {
-        this.store.setArticle(result);
-      }
-    });
+    this.articlesStorage.updateArticleRating(articleId, action)
+      .subscribe((result) => {
+        if (result) {
+          this.store.setArticle(result);
+        }
+      });
   }
 
   public updateCommentRating(id: Id, action: RatingAction) {
@@ -144,9 +146,10 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
       return;
     }
 
-    this.commentsStorage.updateCommentRating(articleId, id, action).subscribe((result) => {
-      this.store.setComments(result);
-    });
+    this.commentsStorage.updateCommentRating(articleId, id, action)
+      .subscribe((result) => {
+        this.store.setComments(result);
+      });
   }
 
   public load(id: Id) {
