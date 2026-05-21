@@ -26,6 +26,23 @@ export const GET_ARTICLE_WITH_COMMENTS = gql`
   }
 `;
 
+export const CREATE_COMMENT = gql`
+  mutation CreateComment($articleId: String!, $content: String!, $username: String!) {
+    comment: createComment(createComment: {
+      articleId: $articleId,
+      content: $content,
+      username: $username
+    }) {
+      articleId
+      content
+      createdAt
+      id
+      rating
+      username
+    }
+  }
+`;
+
 const UP_ARTICLE_RATING = gql`
   mutation ArticleRatingUp($id: ID!) {
     article: articleRatingUp(id: $id) {

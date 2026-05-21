@@ -68,6 +68,14 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
       return;
     }
 
+    if (this.graphqlStorage) {
+      this.graphqlStorage
+        .addComment({ ...comment, articleId: articleValue.id })
+        .subscribe();
+
+      return;
+    }
+
     const value = this.prepareCommentValue(comment);
     this.commentsStorage.addComment(value).subscribe((result) => {
       this.store.setComments(result);
