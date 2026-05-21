@@ -1,41 +1,8 @@
-import type { ArticleEventType, Id } from '../../models';
+import { InjectionToken } from '@angular/core';
+
 import type { Observable } from 'rxjs';
-import {InjectionToken} from '@angular/core';
 
-type EventBasic = {
-  payload: {
-    articleId: string;
-  };
-};
-
-type CommentCreatedEvent = EventBasic & {
-  type: ArticleEventType.CommentCreated;
-  payload: {
-    commentId: string;
-    content: string;
-    username: string;
-    createdAt: Date;
-  };
-};
-
-type CommentRatingChangedEvent = EventBasic & {
-  type: ArticleEventType.CommentRatingChanged;
-  payload: {
-    commentId: string;
-    rating: number;
-    prevRating: number;
-  };
-};
-
-type ArticleRatingChangedEvent = EventBasic & {
-  type: ArticleEventType.ArticleRatingChanged;
-  payload: {
-    rating: number;
-    prevRating: number;
-  };
-};
-
-export type ArticleEvent = CommentCreatedEvent | CommentRatingChangedEvent | ArticleRatingChangedEvent;
+import type { ArticleEvent, Id } from '../../models';
 
 export type SubscribeData = {
   event: string;
@@ -43,7 +10,7 @@ export type SubscribeData = {
 };
 
 export interface ArticleEventSubscriber {
-  subscribeToArticle(articleId: Id): Observable<unknown>;
+  subscribeToArticle(articleId: Id): Observable<ArticleEvent>;
   unsubscribeFromArticle(articleId: Id): void;
 }
 

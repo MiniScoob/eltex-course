@@ -28,46 +28,16 @@ export const GET_ARTICLE_WITH_COMMENTS = gql`
 
 const UP_ARTICLE_RATING = gql`
   mutation ArticleRatingUp($id: ID!) {
-    articleRatingUp(id: $id) {
-      categoryId
-      content
-      createdAt
-      id
-      imgSrc
+    article: articleRatingUp(id: $id) {
       rating
-      title
-      updatedAt
-      comments {
-        articleId
-        content
-        createdAt
-        id
-        rating
-        username
-      }
     }
   }
 `;
 
 const DOWN_ARTICLE_RATING = gql`
   mutation ArticleRatingDown($id: ID!) {
-    articleRatingDown(id: $id) {
-      categoryId
-      content
-      createdAt
-      id
-      imgSrc
+    article: articleRatingDown(id: $id) {
       rating
-      title
-      updatedAt
-      comments {
-        articleId
-        content
-        createdAt
-        id
-        rating
-        username
-      }
     }
   }
 `;
@@ -79,53 +49,16 @@ export const ARTICLE_RATING_MUTATIONS: Record<RatingAction, DocumentNode> = {
 
 const UP_COMMENT_RATING = gql`
   mutation CommentRatingUp($id: ID!) {
-    commentRatingUp(id: $id) {
-      article {
-        categoryId
-        content
-        createdAt
-        id
-        imgSrc
-        rating
-        title
-        comments {
-          articleId
-          avgRating
-          content
-          createdAt
-          id
-          rating
-          username
-          votes
-          votesCount
-        }
-        updatedAt
-      }
+    comment: commentRatingUp(id: $id) {
+      rating
     }
   }
 `;
 
 const DOWN_COMMENT_RATING = gql`
   mutation CommentRatingDown($id: ID!) {
-    commentRatingDown(id: $id) {
-      article {
-        categoryId
-        content
-        createdAt
-        id
-        imgSrc
-        rating
-        title
-        updatedAt
-        comments {
-          articleId
-          content
-          createdAt
-          id
-          rating
-          username
-        }
-      }
+    comment: commentRatingDown(id: $id) {
+      rating
     }
   }
 `;

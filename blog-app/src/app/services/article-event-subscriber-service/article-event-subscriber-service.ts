@@ -3,12 +3,8 @@ import { Injectable } from '@angular/core';
 import { filter } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
 
-import type { Id } from '../../models';
-import type {
-  ArticleEvent,
-  ArticleEventSubscriber,
-  SubscribeData,
-} from './article-event-subscriber-service.model';
+import type { ArticleEvent, Id } from '../../models';
+import type { ArticleEventSubscriber, SubscribeData } from './article-event-subscriber-service.model';
 import { UNSUBSCRIBE_EVENT_NAME, SUBSCRIBE_EVENT_NAME } from './article-event-subscriber-service.constants';
 
 @Injectable()

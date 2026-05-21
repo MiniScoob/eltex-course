@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-import type { ArticleDetails, Comment } from '../../models';
+import type {ArticleDetails, Comment, Id} from '../../models';
 import type { ArticlePageStore } from './article-page-store-service.model';
 
 @Injectable()
@@ -25,5 +25,32 @@ export class ArticlePageStoreService implements ArticlePageStore {
     if (!this._isLoaded()) {
       this._isLoaded.set(true);
     }
+  }
+
+  public addComment(comment: Comment) {
+    this._comments.update((values) => [...values, comment]);
+  }
+
+  public updateArticle(article: Partial<ArticleDetails>) {
+    const prevValue = this._article();
+
+    if (!prevValue) {
+      return;
+    }
+
+    this._article.set({
+      ...prevValue,
+      ...article,
+    });
+  }
+
+  public updateComment(id: Id, comment: Partial<Comment>) {
+    this._comments.update((values) => values.map((c) => {
+      if (c.id === id) {
+        return { ...c, ...comment };
+      }
+
+      return c;
+    }));
   }
 }

@@ -5,7 +5,12 @@ import { map } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 
 import { Id, RatingAction } from '../../models';
-import type { GraphqlStorage, GraphqlStorageResult } from './graphql-storage-service.model';
+import type {
+  ArticleRatingChangeResult,
+  CommentRatingChangeResult,
+  GetArticleResult,
+  GraphqlStorage,
+} from './graphql-storage-service.model';
 import {
   ARTICLE_RATING_MUTATIONS,
   COMMENT_RATING_MUTATIONS,
@@ -20,12 +25,12 @@ export class GraphqlStorageService implements GraphqlStorage {
     const strId = this.idToString(id);
 
     return this.apollo
-      .query<GraphqlStorageResult>({
+      .query<GetArticleResult>({
         query: GET_ARTICLE_WITH_COMMENTS,
         variables: { id: strId },
       })
       .pipe(
-        map((result) => result.data ?? null)
+        map((result) => result?.data?.article ?? null),
       );
   };
 
@@ -33,12 +38,12 @@ export class GraphqlStorageService implements GraphqlStorage {
     const strId = this.idToString(id);
 
     return this.apollo
-      .query<GraphqlStorageResult>({
-        query: ARTICLE_RATING_MUTATIONS[action],
+      .mutate<ArticleRatingChangeResult>({
+        mutation: ARTICLE_RATING_MUTATIONS[action],
         variables: { id: strId },
       })
       .pipe(
-        map((result) => result.data ?? null)
+        map((result) => result?.data?.article ?? null),
       );
   };
 
@@ -46,12 +51,12 @@ export class GraphqlStorageService implements GraphqlStorage {
     const strId = this.idToString(id);
 
     return this.apollo
-      .query<GraphqlStorageResult>({
-        query: COMMENT_RATING_MUTATIONS[action],
+      .mutate<CommentRatingChangeResult>({
+        mutation: COMMENT_RATING_MUTATIONS[action],
         variables: { id: strId },
       })
       .pipe(
-        map((result) => result.data ?? null)
+        map((result) => result?.data?.comment ?? null),
       );
   };
 

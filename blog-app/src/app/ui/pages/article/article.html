@@ -31,7 +31,7 @@
       <h2 class="title">Комментарии:</h2>
       @if (comments.length > 0) {
         <ul class="article__comments-list">
-          @for (item of comments; track $index) {
+          @for (item of comments; track item.id) {
             <li>
               <article-comment [data]="item" (ratingChange)="onCommentRatingChange(item.id, $event)" />
             </li>

@@ -1,24 +1,22 @@
-import { computed, inject, Injectable } from '@angular/core';
+import {computed, DestroyRef, inject, Injectable} from '@angular/core';
 
-import { map, of, switchMap, tap } from 'rxjs';
+import {map, of, switchMap, tap} from 'rxjs';
 
-import type {
-  CommentData,
-  CommentRaw,
-  Id,
-  RatingAction,
-} from '../../models';
-import { buildCategoryMap, enrichWithCategory } from '../../utils';
-import { ARTICLES_STORAGE_TOKEN } from '../articles-storage-service';
-import { ARTICLE_PAGE_STORE_TOKEN } from '../article-page-store-service';
-import { CATEGORIES_FACADE_TOKEN } from '../categories-facade-service';
-import { COMMENT_STORAGE_TOKEN } from '../comments-storage-service';
-import { GRAPHQL_STORAGE_TOKEN } from '../graphql-storage-service';
-import type { ArticlePageFacade } from './article-page-facade-service.model';
-import { ARTICLE_EVENT_SUBSCRIBER_TOKEN } from '../article-event-subscriber-service';
+import {ArticleEvent, ArticleEventType, CommentData, CommentRaw, Id, RatingAction,} from '../../models';
+import {buildCategoryMap, enrichWithCategory} from '../../utils';
+import {ARTICLE_EVENT_SUBSCRIBER_TOKEN} from '../article-event-subscriber-service';
+import {ARTICLES_STORAGE_TOKEN} from '../articles-storage-service';
+import {ARTICLE_PAGE_STORE_TOKEN} from '../article-page-store-service';
+import {CATEGORIES_FACADE_TOKEN} from '../categories-facade-service';
+import {COMMENT_STORAGE_TOKEN} from '../comments-storage-service';
+import {GRAPHQL_STORAGE_TOKEN} from '../graphql-storage-service';
+import type {ArticlePageFacade} from './article-page-facade-service.model';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Injectable()
 export class ArticlePageFacadeService implements ArticlePageFacade {
+  private readonly destroyRef = inject(DestroyRef);
+
   private readonly eventSubscriber = inject(ARTICLE_EVENT_SUBSCRIBER_TOKEN);
   private readonly articlesStorage = inject(ARTICLES_STORAGE_TOKEN);
   private readonly commentsStorage = inject(COMMENT_STORAGE_TOKEN);
@@ -52,7 +50,15 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
 
     this.eventSubscriber
       .subscribeToArticle(article.id)
-      .subscribe((event) => console.log(event));
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => this.handleEvent(event));
+
+    this.destroyRef.onDestroy(() => {
+      const articleId = this.store.article()?.id;
+      if (articleId) {
+        this.eventSubscriber.unsubscribeFromArticle(articleId);
+      }
+    });
   }
 
   public addComment(comment: CommentRaw) {
@@ -75,6 +81,14 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
       return;
     }
 
+    if (this.graphqlStorage) {
+      this.graphqlStorage
+        .updateArticleRating(articleId, action)
+        .subscribe();
+
+      return;
+    }
+
     this.articlesStorage.updateArticleRating(articleId, action).subscribe((result) => {
       if (result) {
         this.store.setArticle(result);
@@ -86,6 +100,14 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
     const articleId = this.store.article()?.id;
 
     if (!articleId) {
+      return;
+    }
+
+    if (this.graphqlStorage) {
+      this.graphqlStorage
+        .updateCommentRating(id, action)
+        .subscribe();
+
       return;
     }
 
@@ -104,7 +126,7 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
               return null;
             }
 
-            const { comments, ...article } = result.article;
+            const { comments, ...article } = result;
             return { article, comments };
           }),
           tap((result) => {
@@ -140,6 +162,24 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
         }),
         tap(() => this.store.setLoaded()),
       );
+  }
+
+  private handleEvent(event: ArticleEvent) {
+    switch (event.type) {
+      case ArticleEventType.ArticleRatingChanged: {
+        this.store.updateArticle({ rating: event.payload.rating });
+        break;
+      }
+      case ArticleEventType.CommentCreated: {
+        const { commentId: id, ...rest } = event.payload;
+        this.store.addComment({ ...rest, id });
+        break;
+      }
+      case ArticleEventType.CommentRatingChanged: {
+        const { commentId: id, prevRating, ...rest } = event.payload;
+        this.store.updateComment(id, rest);
+      }
+    }
   }
 
   private loadCategories() {
