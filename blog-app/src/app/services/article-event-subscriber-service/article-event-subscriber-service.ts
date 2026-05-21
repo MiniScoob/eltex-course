@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { filter } from 'rxjs';
+import { catchError, EMPTY, filter, retry } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
 
 import type { ArticleEvent, Id } from '../../models';
@@ -19,6 +19,8 @@ export class ArticleEventSubscriberService implements ArticleEventSubscriber {
 
     return this.subject.pipe(
       filter((event): event is ArticleEvent => 'type' in event),
+      retry({ count: 3, delay: 2000 }),
+      catchError(() => EMPTY),
     );
   }
 

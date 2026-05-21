@@ -1,17 +1,36 @@
-import {computed, DestroyRef, inject, Injectable} from '@angular/core';
+import {
+  computed,
+  DestroyRef,
+  inject,
+  Injectable,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import {map, of, switchMap, tap} from 'rxjs';
+import {
+  catchError,
+  EMPTY,
+  map,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 
-import {ArticleEvent, ArticleEventType, CommentData, CommentRaw, Id, RatingAction,} from '../../models';
-import {buildCategoryMap, enrichWithCategory} from '../../utils';
-import {ARTICLE_EVENT_SUBSCRIBER_TOKEN} from '../article-event-subscriber-service';
-import {ARTICLES_STORAGE_TOKEN} from '../articles-storage-service';
-import {ARTICLE_PAGE_STORE_TOKEN} from '../article-page-store-service';
-import {CATEGORIES_FACADE_TOKEN} from '../categories-facade-service';
-import {COMMENT_STORAGE_TOKEN} from '../comments-storage-service';
-import {GRAPHQL_STORAGE_TOKEN} from '../graphql-storage-service';
-import type {ArticlePageFacade} from './article-page-facade-service.model';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import type {
+  ArticleEvent,
+  CommentData,
+  CommentRaw,
+  Id,
+  RatingAction,
+} from '../../models';
+import { ArticleEventType } from '../../models';
+import { buildCategoryMap, enrichWithCategory } from '../../utils';
+import { ARTICLE_EVENT_SUBSCRIBER_TOKEN } from '../article-event-subscriber-service';
+import { ARTICLES_STORAGE_TOKEN } from '../articles-storage-service';
+import { ARTICLE_PAGE_STORE_TOKEN } from '../article-page-store-service';
+import { CATEGORIES_FACADE_TOKEN } from '../categories-facade-service';
+import { COMMENT_STORAGE_TOKEN } from '../comments-storage-service';
+import { GRAPHQL_STORAGE_TOKEN } from '../graphql-storage-service';
+import type { ArticlePageFacade } from './article-page-facade-service.model';
 
 @Injectable()
 export class ArticlePageFacadeService implements ArticlePageFacade {
@@ -50,7 +69,10 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
 
     this.eventSubscriber
       .subscribeToArticle(article.id)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError(() => EMPTY),
+      )
       .subscribe((event) => this.handleEvent(event));
 
     this.destroyRef.onDestroy(() => {
