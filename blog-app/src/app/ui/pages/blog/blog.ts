@@ -21,6 +21,7 @@ import {
   Statistics,
   Toolbar,
 } from '../../components';
+import {AUTH_SERVICE_TOKEN} from '../../../services/auth-service';
 
 @Component({
   selector: 'app-blog',
@@ -37,7 +38,8 @@ import {
   styleUrl: './blog.module.scss',
 })
 export class Blog implements OnInit {
-  protected store = inject(BLOG_FACADE_TOKEN);
+  protected readonly auth = inject(AUTH_SERVICE_TOKEN);
+  protected readonly store = inject(BLOG_FACADE_TOKEN);
 
   private _editingBlogArticle = signal<ArticlePreviewWithCategoryName | null>(null);
 

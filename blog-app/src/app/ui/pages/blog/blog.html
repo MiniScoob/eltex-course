@@ -1,4 +1,6 @@
 @let articles = store.articles();
+@let isAdmin = auth.currentUser()?.role === 'admin';
+@let articleMode = isAdmin ? 'edit' : 'view';
 
 <blog-statistics
   [isOpen]="isStatisticsOpen()"
@@ -6,7 +8,9 @@
   [blogCommentsCount]="store.totalComments()"
   (close)="closeStatistics()"
 />
-<blog-toolbar (showAddForm)="showFrom()" (showStatistic)="showStatistics()" />
+@if (isAdmin) {
+  <blog-toolbar (showAddForm)="showFrom()" (showStatistic)="showStatistics()" />
+}
 <main class="blog">
   <section>
     <h1 class="lead-title">Блог</h1>
@@ -35,7 +39,7 @@
           <li>
             <blog-article-preview
               [value]="item"
-              [mode]="'edit'"
+              [mode]="articleMode"
               (delete)="onDeleteBlogArticle($event)"
               (edit)="onEditBlogArticle($event)"
             />

@@ -118,14 +118,15 @@ export class AuthDialog {
   }
 
   private handleRegister(): Observable<User> {
-    const { email, username, password } = {
+    const { email, username, password, isAdmin } = {
       email: this.registerForm.value.email ?? '',
       username: this.registerForm.value.username ?? '',
       password: this.registerForm.value.password ?? '',
+      isAdmin: this.registerForm.value.isAdmin ?? false,
     };
 
     return this.authService
-      .register({ email, username, password })
+      .register({ email, username, password, isAdmin })
       .pipe(
         switchMap(() => this.authService.login({ login: username, password })),
       );
