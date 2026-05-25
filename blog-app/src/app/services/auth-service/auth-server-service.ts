@@ -2,7 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import {HttpBackend, HttpClient} from '@angular/common/http';
 
 import {
-  catchError,
+  catchError, EMPTY,
   map,
   type Observable, of,
   tap,
@@ -112,10 +112,9 @@ export class AuthServerService implements AuthService {
       .pipe(
         tap((result) => this._currentUser.set(result)),
         map(() => void 0),
-        catchError((err) => {
-          console.error('restoreSession failed:', err);
+        catchError(() => {
           this.clearSession();
-          return throwError(() => null);
+          return EMPTY;
         }),
       );
   }
