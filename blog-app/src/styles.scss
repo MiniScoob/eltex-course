@@ -257,6 +257,14 @@ a:visited {
         )
     );
   }
+
+  &__text {
+    @include mat.button-overrides(
+        (
+          text-label-text-size: 1.6rem,
+        )
+    );
+  }
 }
 
 .materialInput {

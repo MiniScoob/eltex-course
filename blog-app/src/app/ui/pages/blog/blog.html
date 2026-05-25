@@ -6,7 +6,11 @@
   [blogCommentsCount]="store.totalComments()"
   (close)="closeStatistics()"
 />
-<blog-toolbar (showAddForm)="showFrom()" (showStatistic)="showStatistics()" />
+<blog-toolbar
+  *hasRole="'admin'"
+  (showAddForm)="showFrom()"
+  (showStatistic)="showStatistics()"
+/>
 <main class="blog">
   <section>
     <h1 class="lead-title">Блог</h1>
@@ -18,7 +22,7 @@
   <section>
     <div class="blog__articles-header">
       <h2 class="lead-title">Статьи</h2>
-      <div class="blog__articles-controls">
+      <div *hasRole="'admin'" class="blog__articles-controls">
         <button class="button" (click)="store.generateArticles()">
           Сгенерировать
         </button>
@@ -35,7 +39,6 @@
           <li>
             <blog-article-preview
               [value]="item"
-              [mode]="'edit'"
               (delete)="onDeleteBlogArticle($event)"
               (edit)="onEditBlogArticle($event)"
             />

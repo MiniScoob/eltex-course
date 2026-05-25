@@ -1,35 +1,32 @@
-@let isEditMode = mode() === 'edit';
 @let article = value();
 
-<article class="blog-article" [class.edit]="isEditMode">
-  @if (isEditMode) {
-    <div class="blog-article__menu">
-       <button
-        type="button"
-        class="blog-article__button"
-        title="Редактировать статью"
-        (click)="handleEdit()"
-      >
-         <mat-icon
-           svgIcon="edit_article"
-           aria-hidden="false"
-           aria-label="Иконка редактирования в виде ручки и бумаги"
-         ></mat-icon>
-      </button>
-      <button
-        type="button"
-        class="blog-article__button"
-        title="Удалить статью"
-        (click)="handleDelete()"
-      >
-        <mat-icon
-          svgIcon="trash_can"
-          aria-hidden="false"
-          aria-label="Иконка удаления в виде мусорной корзины"
-        ></mat-icon>
-      </button>
-    </div>
-  }
+<article class="blog-article">
+  <div *hasRole="'admin'" class="blog-article__menu">
+     <button
+      type="button"
+      class="blog-article__button"
+      title="Редактировать статью"
+      (click)="handleEdit()"
+    >
+       <mat-icon
+         svgIcon="edit_article"
+         aria-hidden="false"
+         aria-label="Иконка редактирования в виде ручки и бумаги"
+       ></mat-icon>
+    </button>
+    <button
+      type="button"
+      class="blog-article__button"
+      title="Удалить статью"
+      (click)="handleDelete()"
+    >
+      <mat-icon
+        svgIcon="trash_can"
+        aria-hidden="false"
+        aria-label="Иконка удаления в виде мусорной корзины"
+      ></mat-icon>
+    </button>
+  </div>
   <a [routerLink]="`/blog/${article.id}`" class="blog-article__link-container">
     <div class="blog-article__content">
       <header class="blog-article__header">

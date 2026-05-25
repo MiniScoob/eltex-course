@@ -1,0 +1,26 @@
+@use '@angular/material' as mat;
+@use "variables";
+@use "mixins";
+
+.auth-dialog__general-error {
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  color: variables.$color-error;
+}
+
+.auth-dialog__form {
+  @include mixins.flexbox($align: stretch, $direction: column);
+
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.auth-dialog__input-message {
+  font-size: 1.2rem;
+}
+
+.auth-dialog__checkbox {
+  @include mat.checkbox-overrides((
+    label-text-size: 1.6rem,
+  ));
+}

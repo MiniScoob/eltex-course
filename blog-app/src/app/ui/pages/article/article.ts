@@ -2,12 +2,10 @@ import {
   Component,
   computed,
   inject,
-  input,
   type OnInit,
 } from '@angular/core';
 
 import type {
-  ArticleDetails,
   CommentRaw,
   Id,
   RatingAction,
@@ -22,6 +20,7 @@ import {
   Spinner,
 } from '../../components';
 import { DEFAULT_IMAGE } from './article.constants';
+import {AUTH_SERVICE_TOKEN} from '../../../services/auth-service';
 
 @Component({
   selector: 'app-article',
@@ -37,6 +36,7 @@ import { DEFAULT_IMAGE } from './article.constants';
   styleUrl: './article.module.scss',
 })
 export class Article implements OnInit {
+  private readonly auth = inject(AUTH_SERVICE_TOKEN);
   protected readonly store = inject(ARTICLE_PAGE_FACADE_TOKEN);
 
   protected readonly photo = computed(() =>
@@ -48,6 +48,8 @@ export class Article implements OnInit {
 
     return article ? article.createdAt : null;
   });
+
+  protected username = computed<string | null>(() => this.auth.currentUser()?.username ?? null);
 
   public ngOnInit() {
     this.store.watchForUpdates();

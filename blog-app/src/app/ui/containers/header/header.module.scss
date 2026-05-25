@@ -38,3 +38,9 @@
         color: variables.$color-primary;
     }
 }
+
+.header__auth-block {
+  @include mixins.flexbox;
+
+  gap: 1rem;
+}

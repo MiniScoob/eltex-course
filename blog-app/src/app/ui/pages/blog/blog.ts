@@ -13,6 +13,7 @@ import type {
 } from '../../../models';
 import { WithCategoryNamePipe } from '../../../pipes';
 import { BLOG_FACADE_TOKEN } from '../../../services/blog-facade-service';
+import { HasRole } from '../../directives';
 import { BlogArticleUpsert } from '../../containers';
 import {
   BlogArticlePreview,
@@ -32,12 +33,13 @@ import {
     Pagination,
     Spinner,
     WithCategoryNamePipe,
+    HasRole,
   ],
   templateUrl: './blog.html',
   styleUrl: './blog.module.scss',
 })
 export class Blog implements OnInit {
-  protected store = inject(BLOG_FACADE_TOKEN);
+  protected readonly store = inject(BLOG_FACADE_TOKEN);
 
   private _editingBlogArticle = signal<ArticlePreviewWithCategoryName | null>(null);
 
