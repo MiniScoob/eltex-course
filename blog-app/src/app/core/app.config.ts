@@ -17,6 +17,11 @@ import {
   ServerStorageEngineService,
 } from '../services/storage-engine-service';
 import {
+  AUTH_SERVICE_TOKEN,
+  AuthClientService,
+  AuthServerService,
+} from '../services/auth-service';
+import {
   CATEGORIES_STORAGE_TOKEN,
   CategoriesStorageClientService,
   CategoriesStorageServerService,
@@ -66,6 +71,12 @@ export const appConfig: ApplicationConfig = {
           ? new BrowserStorageEngineService()
           : new ServerStorageEngineService(),
       deps: [PLATFORM_ID],
+    },
+    {
+      provide: AUTH_SERVICE_TOKEN,
+      useClass: environment.useBackend
+        ? AuthServerService
+        : AuthClientService,
     },
     {
       provide: CATEGORIES_STORAGE_TOKEN,
