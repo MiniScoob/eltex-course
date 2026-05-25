@@ -25,7 +25,10 @@
     </article>
     <section>
       <h2 class="title">Добавить комментарий</h2>
-      <article-comment-form (save)="onAddComment($event)" />
+      <article-comment-form
+        [username]="username()"
+        (save)="onAddComment($event)"
+      />
     </section>
     <section>
       <h2 class="title">Комментарии:</h2>

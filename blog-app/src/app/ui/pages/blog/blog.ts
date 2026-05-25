@@ -13,6 +13,7 @@ import type {
 } from '../../../models';
 import { WithCategoryNamePipe } from '../../../pipes';
 import { BLOG_FACADE_TOKEN } from '../../../services/blog-facade-service';
+import { HasRole } from '../../directives';
 import { BlogArticleUpsert } from '../../containers';
 import {
   BlogArticlePreview,
@@ -21,7 +22,6 @@ import {
   Statistics,
   Toolbar,
 } from '../../components';
-import {AUTH_SERVICE_TOKEN} from '../../../services/auth-service';
 
 @Component({
   selector: 'app-blog',
@@ -33,12 +33,12 @@ import {AUTH_SERVICE_TOKEN} from '../../../services/auth-service';
     Pagination,
     Spinner,
     WithCategoryNamePipe,
+    HasRole,
   ],
   templateUrl: './blog.html',
   styleUrl: './blog.module.scss',
 })
 export class Blog implements OnInit {
-  protected readonly auth = inject(AUTH_SERVICE_TOKEN);
   protected readonly store = inject(BLOG_FACADE_TOKEN);
 
   private _editingBlogArticle = signal<ArticlePreviewWithCategoryName | null>(null);

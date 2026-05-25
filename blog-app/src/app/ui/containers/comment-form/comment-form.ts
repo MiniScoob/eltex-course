@@ -1,4 +1,10 @@
-import { Component, inject, output } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
@@ -22,10 +28,22 @@ import { getError } from '../../../utils';
 export class CommentForm {
   private readonly formBuilder = inject(FormBuilder);
 
+  public readonly username = input<string | null>(null);
+
   protected commentForm = this.formBuilder.group({
-    username: ['', [Validators.required, Validators.minLength(5)]],
+    username: [this.username() ?? '', [Validators.required, Validators.minLength(5)]],
     content: ['', [Validators.required, Validators.minLength(10)]],
   });
+
+  constructor() {
+    effect(() => {
+      const username = this.username();
+
+      this.commentForm.patchValue({
+        username: username ?? '',
+      });
+    });
+  }
 
   protected save = output<CommentRaw>();
 
@@ -35,7 +53,9 @@ export class CommentForm {
       content: this.commentForm.value.content ?? '',
     };
 
-    this.commentForm.reset();
+    this.commentForm.patchValue({
+      content: '',
+    });
 
     this.save.emit(value);
   }
