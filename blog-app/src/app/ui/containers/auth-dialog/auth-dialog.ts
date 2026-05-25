@@ -9,6 +9,7 @@ import {MatError, MatFormField, MatHint, MatInput, MatLabel} from '@angular/mate
 import {finalize, Observable, switchMap} from 'rxjs';
 import {User} from '../../../models';
 import {HttpErrorResponse} from '@angular/common/http';
+import {MatCheckbox} from '@angular/material/checkbox';
 
 @Component({
   selector: 'auth-dialog',
@@ -23,7 +24,8 @@ import {HttpErrorResponse} from '@angular/common/http';
     MatHint,
     MatInput,
     MatLabel,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCheckbox,
   ],
   templateUrl: './auth-dialog.html',
   styleUrl: './auth-dialog.module.scss',
@@ -42,6 +44,7 @@ export class AuthDialog {
     email:    ['', [Validators.required, Validators.email]],
     username: ['', [Validators.required, Validators.minLength(3)]],
     password: ['', [Validators.required, Validators.minLength(6)]],
+    isAdmin: [false],
   });
 
   protected readonly mode = signal<AUTH_MODE>(AUTH_MODE.LOGIN);
