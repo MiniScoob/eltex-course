@@ -8,7 +8,7 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { withEventReplay } from '@angular/platform-browser';
 
 import { environment } from '../../environments/environment';
 import {
@@ -52,7 +52,6 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(withFetch()),
     provideRouter(routes, withComponentInputBinding()),
-    provideClientHydration(withEventReplay()),
     provideApollo(() => {
       const httpLink = inject(HttpLink);
 
