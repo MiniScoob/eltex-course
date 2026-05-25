@@ -10,15 +10,27 @@
                         </a>
                     </li>
                 }
-                <button
-                  (click)="handleAuth()"
-                >
-                  Войти
-                </button>
             </ul>
         </nav>
-      @if (user()) {
-        <p>{{ user()?.username }}</p>
-      }
+      <div class="header__auth-block">
+        @if (user()) {
+          <p>{{ user()?.username }}</p>
+          <button
+            matButton="outlined"
+            class="materialButton__outlined"
+            (click)="handleLogout()"
+          >
+            Выйти
+          </button>
+        } @else {
+          <button
+            matButton="filled"
+            class="materialButton__filled"
+            (click)="handleAuth()"
+          >
+            Войти
+          </button>
+        }
+      </div>
     </div>
 </header>

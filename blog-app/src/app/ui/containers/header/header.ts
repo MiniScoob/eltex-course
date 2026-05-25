@@ -1,12 +1,16 @@
-import {Component, computed, inject} from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { MatButton } from '@angular/material/button';
 
 import { NAV_LINKS } from './header.constants';
-import {AUTH_SERVICE_TOKEN} from '../../../services/auth-service';
+import { AUTH_SERVICE_TOKEN } from '../../../services/auth-service';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink],
+  imports: [
+    RouterLink,
+    MatButton,
+  ],
   templateUrl: './header.html',
   styleUrl: './header.module.scss',
 })
@@ -19,5 +23,9 @@ export class Header {
 
   protected handleAuth() {
     this.authService.openDialog();
+  }
+
+  protected handleLogout() {
+    this.authService.logout().subscribe();
   }
 }
