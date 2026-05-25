@@ -19,11 +19,13 @@ export type LocalUser = User & {
 };
 
 export type LoginRequestData = {
-  username: string;
+  login: string;
   password: string;
 };
 
-export type RegisterRequestData = LoginRequestData & {
+export type RegisterRequestData = {
+  username: string;
+  password: string;
   email: string;
   isAdmin?: boolean;
 };

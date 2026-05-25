@@ -1,0 +1,17 @@
+@use "variables";
+@use "mixins";
+
+.auth-service__general-error {
+  color: variables.$color-error;
+}
+
+.auth-form {
+  @include mixins.flexbox($align: stretch, $direction: column);
+
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.auth-form__error-message {
+  font-size: 1.2rem;
+}

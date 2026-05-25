@@ -10,7 +10,15 @@
                         </a>
                     </li>
                 }
+                <button
+                  (click)="handleAuth()"
+                >
+                  Войти
+                </button>
             </ul>
         </nav>
+      @if (user()) {
+        <p>{{ user()?.username }}</p>
+      }
     </div>
 </header>

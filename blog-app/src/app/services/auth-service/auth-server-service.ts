@@ -23,11 +23,14 @@ import type {
   RegisterResponse,
 } from './auth-service.model';
 import { TOKEN_KEY } from './auth-service.constants';
+import {MatDialog} from '@angular/material/dialog';
+import {AuthDialog} from '../../ui/containers/auth-dialog/auth-dialog';
 
 @Injectable()
 export class AuthServerService implements AuthService {
   private readonly httpClient = inject(HttpClient);
   private readonly engine = inject(STORAGE_ENGINE_TOKEN);
+  private readonly dialog = inject(MatDialog);
 
   private readonly _currentUser = signal<User| null>(null);
 
@@ -52,7 +55,7 @@ export class AuthServerService implements AuthService {
 
   public register(data: RegisterRequestData): Observable<User> {
     return this.httpClient
-      .post<RegisterResponse>('api/auth/register', data)
+      .post<RegisterResponse>('api/users/register', data)
       .pipe(
         map((result) => result.user),
       );
@@ -81,6 +84,19 @@ export class AuthServerService implements AuthService {
 
   public getToken(): string | null {
     return this.engine.getItem(TOKEN_KEY);
+  }
+
+  public openDialog(): Observable<User | null> {
+    return this.dialog.open<AuthDialog, void, User | null>(
+      AuthDialog,
+      {
+        width: '500px',
+      },
+      )
+      .afterClosed()
+      .pipe(
+        map((result) => result ?? null),
+      );
   }
 
   private restoreSession(): void {

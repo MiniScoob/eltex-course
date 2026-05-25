@@ -1,0 +1,143 @@
+@let loginMode = isLoginMode();
+@let isSubmitDisabled = activeForm().invalid || isLoading();
+@let errorMessage = error();
+@let emailErrorMessage = getError('email');
+@let loginErrorMessage = getError('login');
+@let usernameErrorMessage = getError('username');
+@let passwordErrorMessage = getError('password');
+
+<h2 mat-dialog-title>
+  @if (loginMode) {
+    Авторизация
+  } @else {
+    Регистрация
+  }
+</h2>
+<mat-dialog-content class="auth-dialog__content">
+  @if (errorMessage) {
+    <p class="auth-service__general-error">{{ errorMessage }}</p>
+  }
+  @if (loginMode) {
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <mat-form-field appearance="outline" class="materialInput">
+        <mat-label>Имя пользователя:</mat-label>
+        <input
+          matInput
+          id="login-input"
+          name="login"
+          formControlName="login"
+          type="text"
+          minlength="3"
+          size="40"
+          required
+        />
+        @if (loginErrorMessage) {
+          <mat-error class="auth-form__error-message">{{ loginErrorMessage }}</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="materialInput">
+        <mat-label>Пароль:</mat-label>
+        <input
+          matInput
+          id="password-input"
+          name="password"
+          formControlName="password"
+          type="password"
+          minlength="3"
+          size="40"
+          required
+        />
+        <mat-hint align="start">
+          <strong>Минимум 6 символов</strong>
+        </mat-hint>
+        @if (passwordErrorMessage) {
+          <mat-error class="auth-form__error-message">{{ passwordErrorMessage }}</mat-error>
+        }
+      </mat-form-field>
+    </form>
+  } @else {
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <mat-form-field appearance="outline" class="materialInput">
+        <mat-label>Email:</mat-label>
+        <input
+          matInput
+          id="email-input"
+          name="email"
+          formControlName="email"
+          type="email"
+          size="40"
+          required
+        />
+        @if (emailErrorMessage) {
+          <mat-error class="auth-form__error-message">{{ emailErrorMessage }}</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="materialInput">
+        <mat-label>Имя пользователя:</mat-label>
+        <input
+          matInput
+          id="username-input"
+          name="username"
+          formControlName="username"
+          type="text"
+          minlength="3"
+          size="40"
+          required
+        />
+        @if (usernameErrorMessage) {
+          <mat-error class="auth-form__error-message">{{ usernameErrorMessage }}</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="materialInput">
+        <mat-label>Пароль:</mat-label>
+        <input
+          matInput
+          id="password-input"
+          name="password"
+          formControlName="password"
+          type="password"
+          minlength="3"
+          size="40"
+          required
+        />
+        <mat-hint align="start">
+          <strong>Минимум 6 символов</strong>
+        </mat-hint>
+        @if (passwordErrorMessage) {
+          <mat-error class="auth-form__error-message">{{ passwordErrorMessage }}</mat-error>
+        }
+      </mat-form-field>
+    </form>
+  }
+  <div class="auth-dialog__mode-toggle">
+    <button
+      matButton="text"
+      color="accent"
+      class="materialButton__text"
+      (click)="handleToggleMode()">
+      {{ loginMode ? 'Нет аккаунта? Зарегистрироваться' : 'Уже есть аккаунт? Войти' }}
+    </button>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button
+    matButton="filled"
+    class="materialButton__filled"
+    [disabled]="isSubmitDisabled"
+    (click)="onSubmit()"
+  >
+    @if (loginMode) {
+      Войти
+    } @else {
+      Зарегистрироваться
+    }
+  </button>
+  <button
+    matButton="outlined"
+    class="materialButton__outlined"
+    [disabled]="isLoading()"
+    (click)="handleCancel()"
+  >
+    Отмена
+  </button>
+</mat-dialog-actions>

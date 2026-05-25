@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 
-import { type Observable, of, throwError } from 'rxjs';
+import {map, type Observable, of, throwError} from 'rxjs';
 
 import type {
   User,
@@ -11,10 +11,13 @@ import type {
 import { STORAGE_ENGINE_TOKEN } from '../storage-engine-service';
 import type { AuthService } from './auth-service.model';
 import { CURRENT_USER_KEY, TOKEN_KEY, USERS_KEY } from './auth-service.constants';
+import {MatDialog} from '@angular/material/dialog';
+import {AuthDialog} from '../../ui/containers/auth-dialog/auth-dialog';
 
 @Injectable()
 export class AuthClientService implements AuthService {
   private readonly engine = inject(STORAGE_ENGINE_TOKEN);
+  private readonly dialog = inject(MatDialog);
 
   private readonly _currentUser = signal<User | null>(null);
 
@@ -28,7 +31,7 @@ export class AuthClientService implements AuthService {
   public login(data: LoginRequestData): Observable<User> {
     const users = this.getUsers();
     const exist = users.find((u) =>
-      u.username === data.username && u.password === data.password,
+      u.username === data.login && u.password === data.password,
     );
 
     if (!exist) {
@@ -95,6 +98,19 @@ export class AuthClientService implements AuthService {
 
   getToken(): string | null {
     return this.engine.getItem(TOKEN_KEY);
+  }
+
+  public openDialog(): Observable<User | null> {
+    return this.dialog.open<AuthDialog, void, User | null>(
+        AuthDialog,
+        {
+          width: '420px',
+        },
+      )
+      .afterClosed()
+      .pipe(
+        map((result) => result ?? null),
+      );
   }
 
   private getUsers(): LocalUser[] {

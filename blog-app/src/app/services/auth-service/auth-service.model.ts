@@ -1,11 +1,11 @@
-import {InjectionToken, Signal} from '@angular/core';
+import { InjectionToken, type Signal } from '@angular/core';
 
 import type { Observable } from 'rxjs';
 
 import type {
   User,
   LoginRequestData,
-  RegisterRequestData
+  RegisterRequestData,
 } from '../../models';
 
 export type RegisterResponse = {
@@ -35,6 +35,7 @@ export interface AuthService {
   logout: () => Observable<void>;
   refreshToken: () => Observable<string>;
   getToken: () => string | null;
+  openDialog: () => Observable<User | null>;
 }
 
 export const AUTH_SERVICE_TOKEN = new InjectionToken<AuthService>('AuthService');
