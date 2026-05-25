@@ -1,6 +1,12 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
-import {map, type Observable, of, throwError} from 'rxjs';
+import {
+  map,
+  type Observable,
+  of,
+  throwError,
+} from 'rxjs';
 
 import type {
   User,
@@ -8,11 +14,10 @@ import type {
   RegisterRequestData,
   LocalUser,
 } from '../../models';
+import { AuthDialog } from '../../ui/containers/auth-dialog/auth-dialog';
 import { STORAGE_ENGINE_TOKEN } from '../storage-engine-service';
 import type { AuthService } from './auth-service.model';
 import { CURRENT_USER_KEY, TOKEN_KEY, USERS_KEY } from './auth-service.constants';
-import {MatDialog} from '@angular/material/dialog';
-import {AuthDialog} from '../../ui/containers/auth-dialog/auth-dialog';
 
 @Injectable()
 export class AuthClientService implements AuthService {
@@ -23,10 +28,6 @@ export class AuthClientService implements AuthService {
 
   public readonly currentUser = this._currentUser.asReadonly();
   public readonly isAuthenticated = computed(() => !!this._currentUser());
-
-  // constructor() {
-  //   this.restoreSession();
-  // }
 
   public login(data: LoginRequestData): Observable<User> {
     const users = this.getUsers();

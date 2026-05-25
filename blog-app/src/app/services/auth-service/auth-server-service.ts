@@ -1,8 +1,10 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import {HttpBackend, HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
 
 import {
-  catchError, EMPTY,
+  catchError,
+  EMPTY,
   map,
   type Observable, of,
   tap,
@@ -14,6 +16,7 @@ import type {
   RegisterRequestData,
   User,
 } from '../../models';
+import { AuthDialog } from '../../ui/containers/auth-dialog/auth-dialog';
 import { STORAGE_ENGINE_TOKEN } from '../storage-engine-service';
 import type {
   AboutUserResponse,
@@ -23,8 +26,6 @@ import type {
   RegisterResponse,
 } from './auth-service.model';
 import { TOKEN_KEY } from './auth-service.constants';
-import {MatDialog} from '@angular/material/dialog';
-import {AuthDialog} from '../../ui/containers/auth-dialog/auth-dialog';
 
 @Injectable()
 export class AuthServerService implements AuthService {
@@ -36,11 +37,6 @@ export class AuthServerService implements AuthService {
 
   public readonly currentUser = this._currentUser.asReadonly();
   public readonly isAuthenticated = computed(() => !!this._currentUser());
-
-  // constructor() {
-  //   this.httpClient = new HttpClient(httpBackend);
-  //   this.restoreSession();
-  // }
 
   public login(data: LoginRequestData): Observable<User> {
     return this.httpClient

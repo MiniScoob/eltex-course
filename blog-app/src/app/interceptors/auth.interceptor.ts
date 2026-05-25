@@ -1,9 +1,25 @@
-import {inject, Injectable} from '@angular/core';
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from 'rxjs';
-import {AUTH_SERVICE_TOKEN} from '../services/auth-service';
+import { inject, Injectable } from '@angular/core';
+import {
+  HttpErrorResponse,
+  type HttpEvent,
+  HttpHandler,
+  type HttpInterceptor,
+  HttpRequest,
+} from '@angular/common/http';
 
-const AUTH_URLS = ['/auth/login', '/auth/refresh', '/user/register'];
+import {
+  BehaviorSubject,
+  catchError,
+  filter,
+  type Observable,
+  switchMap,
+  take,
+  throwError,
+} from 'rxjs';
+
+import { AUTH_SERVICE_TOKEN } from '../services/auth-service';
+
+const AUTH_URLS = ['/auth/login', '/auth/refresh', '/users/register'];
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -12,7 +28,7 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshToken = new BehaviorSubject<string | null>(null)
   private isRefreshing = false;
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const isAuthUrl = AUTH_URLS.some(url => req.url.includes(url));
     const token = this.authService.getToken();
 

@@ -1,15 +1,33 @@
-import {Component, computed, inject, signal} from '@angular/core';
-import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
-import {AUTH_MODE} from './auth-dialog.constants';
-import {AUTH_SERVICE_TOKEN} from '../../../services/auth-service';
-import {MatButton} from '@angular/material/button';
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {getError} from '../../../utils';
-import {MatError, MatFormField, MatHint, MatInput, MatLabel} from '@angular/material/input';
-import {finalize, Observable, switchMap} from 'rxjs';
-import {User} from '../../../models';
-import {HttpErrorResponse} from '@angular/common/http';
-import {MatCheckbox} from '@angular/material/checkbox';
+import { Component, computed, inject, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import {
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import {
+  MatError,
+  MatFormField,
+  MatHint,
+  MatInput,
+  MatLabel,
+} from '@angular/material/input';
+
+import { finalize, type Observable, switchMap } from 'rxjs';
+
+import type { User } from '../../../models';
+import { getError } from '../../../utils';
+import { AUTH_SERVICE_TOKEN } from '../../../services/auth-service';
+import { AUTH_MODE } from './auth-dialog.constants';
 
 @Component({
   selector: 'auth-dialog',

@@ -3,11 +3,21 @@ import {
   LOCALE_ID,
   PLATFORM_ID,
   provideBrowserGlobalErrorListeners,
-  inject, provideAppInitializer,
+  inject,
+  provideAppInitializer,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
+import { InMemoryCache } from '@apollo/client';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
+
+import { provideApollo } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
 
 import { environment } from '../../environments/environment';
 import {
@@ -18,7 +28,7 @@ import {
 import {
   AUTH_SERVICE_TOKEN,
   AuthClientService,
-  AuthServerService, AuthService,
+  AuthServerService,
 } from '../services/auth-service';
 import {
   CATEGORIES_STORAGE_TOKEN,
@@ -41,15 +51,8 @@ import {
 } from '../services/articles-storage-service';
 import { ARTICLES_STORE_TOKEN, ArticlesStoreService } from '../services/articles-store-service';
 import { BLOG_FACADE_TOKEN, BlogFacadeService } from '../services/blog-facade-service';
+import { AuthInterceptor } from '../interceptors';
 import { routes } from './app.routes';
-import { provideApollo } from 'apollo-angular';
-import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache } from '@apollo/client';
-import {AuthInterceptor} from '../interceptors';
-
-function initSession(authService: AuthService) {
-  return () => authService.restoreSession();
-}
 
 export const appConfig: ApplicationConfig = {
   providers: [
