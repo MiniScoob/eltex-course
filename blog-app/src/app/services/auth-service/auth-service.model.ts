@@ -35,6 +35,7 @@ export interface AuthService {
   logout: () => Observable<void>;
   refreshToken: () => Observable<string>;
   getToken: () => string | null;
+  restoreSession: () => Observable<void>;
   openDialog: () => Observable<User | null>;
 }
 

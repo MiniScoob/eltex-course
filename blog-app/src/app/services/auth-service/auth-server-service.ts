@@ -1,10 +1,10 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpBackend, HttpClient} from '@angular/common/http';
 
 import {
   catchError,
   map,
-  type Observable,
+  type Observable, of,
   tap,
   throwError,
 } from 'rxjs';
@@ -37,9 +37,10 @@ export class AuthServerService implements AuthService {
   public readonly currentUser = this._currentUser.asReadonly();
   public readonly isAuthenticated = computed(() => !!this._currentUser());
 
-  constructor() {
-    this.restoreSession();
-  }
+  // constructor() {
+  //   this.httpClient = new HttpClient(httpBackend);
+  //   this.restoreSession();
+  // }
 
   public login(data: LoginRequestData): Observable<User> {
     return this.httpClient
@@ -99,23 +100,24 @@ export class AuthServerService implements AuthService {
       );
   }
 
-  private restoreSession(): void {
+  public restoreSession(): Observable<void> {
     const token = this.getToken();
 
     if (!token) {
-      return;
+      return of();
     }
 
-    this.httpClient
+    return this.httpClient
       .get<AboutUserResponse>('api/auth/me')
       .pipe(
         tap((result) => this._currentUser.set(result)),
-        catchError(() => {
+        map(() => void 0),
+        catchError((err) => {
+          console.error('restoreSession failed:', err);
           this.clearSession();
           return throwError(() => null);
         }),
-      )
-      .subscribe();
+      );
   }
 
   private setToken(token: string): void {

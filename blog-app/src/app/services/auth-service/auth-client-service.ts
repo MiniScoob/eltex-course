@@ -24,9 +24,9 @@ export class AuthClientService implements AuthService {
   public readonly currentUser = this._currentUser.asReadonly();
   public readonly isAuthenticated = computed(() => !!this._currentUser());
 
-  constructor() {
-    this.restoreSession();
-  }
+  // constructor() {
+  //   this.restoreSession();
+  // }
 
   public login(data: LoginRequestData): Observable<User> {
     const users = this.getUsers();
@@ -131,15 +131,16 @@ export class AuthClientService implements AuthService {
     this.engine.setItem(TOKEN_KEY, token);
   }
 
-  private restoreSession() {
+  public restoreSession(): Observable<void> {
     const currentUser = this.engine.getItem(CURRENT_USER_KEY);
 
     if (!currentUser) {
       this.clearSession();
-      return;
+      return of();
     }
 
     this._currentUser.set(JSON.parse(currentUser));
+    return of();
   }
 
   private clearSession() {

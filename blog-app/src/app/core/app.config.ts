@@ -3,12 +3,11 @@ import {
   LOCALE_ID,
   PLATFORM_ID,
   provideBrowserGlobalErrorListeners,
-  inject,
+  inject, provideAppInitializer,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { withEventReplay } from '@angular/platform-browser';
 
 import { environment } from '../../environments/environment';
 import {
@@ -19,7 +18,7 @@ import {
 import {
   AUTH_SERVICE_TOKEN,
   AuthClientService,
-  AuthServerService,
+  AuthServerService, AuthService,
 } from '../services/auth-service';
 import {
   CATEGORIES_STORAGE_TOKEN,
@@ -46,11 +45,16 @@ import { routes } from './app.routes';
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client';
+import {AuthInterceptor} from '../interceptors';
+
+function initSession(authService: AuthService) {
+  return () => authService.restoreSession();
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideRouter(routes, withComponentInputBinding()),
     provideApollo(() => {
       const httpLink = inject(HttpLink);
@@ -63,6 +67,7 @@ export const appConfig: ApplicationConfig = {
       };
     }),
     { provide: LOCALE_ID, useValue: 'ru' },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {
       provide: STORAGE_ENGINE_TOKEN,
       useFactory: (platformId: Object) =>
@@ -99,5 +104,9 @@ export const appConfig: ApplicationConfig = {
     { provide: CATEGORIES_FACADE_TOKEN, useClass: CategoriesFacadeService },
     { provide: ARTICLES_STORE_TOKEN, useClass: ArticlesStoreService },
     { provide: BLOG_FACADE_TOKEN, useClass: BlogFacadeService },
+    provideAppInitializer(() => {
+      const authService = inject(AUTH_SERVICE_TOKEN);
+      return authService.restoreSession();
+    }),
   ],
 };
