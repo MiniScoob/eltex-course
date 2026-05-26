@@ -48,6 +48,7 @@
         <button
           matIconButton
           matSuffix
+          type="button"
           (click)="handleTogglePasswordVisibility($event)"
           [attr.aria-label]="hidePassword() ? 'Показать пароль' : 'Скрыть пароль'"
         >
@@ -109,6 +110,15 @@
           size="40"
           required
         />
+        <button
+          matIconButton
+          matSuffix
+          type="button"
+          (click)="handleTogglePasswordVisibility($event)"
+          [attr.aria-label]="hidePassword() ? 'Показать пароль' : 'Скрыть пароль'"
+        >
+          <mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
         <mat-hint align="start" class="auth-dialog__input-message">
           <strong>Минимум 6 символов</strong>
         </mat-hint>
