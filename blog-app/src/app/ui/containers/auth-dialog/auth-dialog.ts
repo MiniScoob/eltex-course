@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 import {
   MatDialogActions,
@@ -20,6 +20,7 @@ import {
   MatHint,
   MatInput,
   MatLabel,
+  MatSuffix,
 } from '@angular/material/input';
 
 import { finalize, type Observable, switchMap } from 'rxjs';
@@ -28,6 +29,7 @@ import type { User } from '../../../models';
 import { getError } from '../../../utils';
 import { AUTH_SERVICE_TOKEN } from '../../../services/auth-service';
 import { AUTH_MODE } from './auth-dialog.constants';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'auth-dialog',
@@ -44,6 +46,9 @@ import { AUTH_MODE } from './auth-dialog.constants';
     MatLabel,
     ReactiveFormsModule,
     MatCheckbox,
+    MatIconButton,
+    MatSuffix,
+    MatIcon,
   ],
   templateUrl: './auth-dialog.html',
   styleUrl: './auth-dialog.module.scss',
@@ -68,6 +73,7 @@ export class AuthDialog {
   protected readonly mode = signal<AUTH_MODE>(AUTH_MODE.LOGIN);
   protected readonly isLoading = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
+  protected readonly hidePassword = signal<boolean>(true);
 
   protected readonly isLoginMode = computed(() => this.mode() === 'login');
   protected readonly activeForm = computed(() =>
@@ -96,6 +102,12 @@ export class AuthDialog {
       next: (result) => this.dialogRef.close(result),
       error: (err: HttpErrorResponse) => this.handleError(err),
     });
+  }
+
+  protected handleTogglePasswordVisibility(e: MouseEvent) {
+    e.stopPropagation();
+
+    this.hidePassword.update((prev) => !prev);
   }
 
   protected handleToggleMode() {

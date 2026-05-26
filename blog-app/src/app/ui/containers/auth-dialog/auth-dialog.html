@@ -28,7 +28,9 @@
           required
         />
         @if (loginErrorMessage) {
-          <mat-error class="auth-dialog__input-message">{{ loginErrorMessage }}</mat-error>
+          <mat-error class="auth-dialog__input-message">
+            {{ loginErrorMessage }}
+          </mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline" class="materialInput">
@@ -38,16 +40,23 @@
           id="password-input"
           name="password"
           formControlName="password"
-          type="password"
+          [type]="hidePassword() ? 'password' : 'text'"
           minlength="3"
           size="40"
           required
         />
-        <mat-hint align="start">
-          <strong>Минимум 6 символов</strong>
-        </mat-hint>
+        <button
+          matIconButton
+          matSuffix
+          (click)="handleTogglePasswordVisibility($event)"
+          [attr.aria-label]="hidePassword() ? 'Показать пароль' : 'Скрыть пароль'"
+        >
+          <mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
         @if (passwordErrorMessage) {
-          <mat-error class="auth-dialog__input-message">{{ passwordErrorMessage }}</mat-error>
+          <mat-error class="auth-dialog__input-message">
+            {{ passwordErrorMessage }}
+          </mat-error>
         }
       </mat-form-field>
     </form>
@@ -65,7 +74,9 @@
           required
         />
         @if (emailErrorMessage) {
-          <mat-error class="auth-dialog__input-message">{{ emailErrorMessage }}</mat-error>
+          <mat-error class="auth-dialog__input-message">
+            {{ emailErrorMessage }}
+          </mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline" class="materialInput">
@@ -81,7 +92,9 @@
           required
         />
         @if (usernameErrorMessage) {
-          <mat-error class="auth-dialog__input-message">{{ usernameErrorMessage }}</mat-error>
+          <mat-error class="auth-dialog__input-message">
+            {{ usernameErrorMessage }}
+          </mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline" class="materialInput">
@@ -100,7 +113,9 @@
           <strong>Минимум 6 символов</strong>
         </mat-hint>
         @if (passwordErrorMessage) {
-          <mat-error class="auth-dialog__input-message">{{ passwordErrorMessage }}</mat-error>
+          <mat-error class="auth-dialog__input-message">
+            {{ passwordErrorMessage }}
+          </mat-error>
         }
       </mat-form-field>
       <p>
