@@ -20,6 +20,7 @@ export interface ArticlePageFacade {
   isLoaded: Signal<boolean>;
 
   watchForUpdates: () => void;
+  stopWatchForUpdates: () => void;
   addComment: (comment: CommentRaw) => void;
   updateArticleRating: (action: RatingAction) => void;
   updateCommentRating: (commentId: Id, action: RatingAction) => void;

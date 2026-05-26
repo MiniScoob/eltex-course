@@ -1,14 +1,10 @@
 import {
   computed,
-  DestroyRef,
   inject,
   Injectable,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
-  catchError,
-  EMPTY,
   finalize,
   map,
   of,
@@ -35,8 +31,6 @@ import type { ArticlePageFacade } from './article-page-facade-service.model';
 
 @Injectable()
 export class ArticlePageFacadeService implements ArticlePageFacade {
-  private readonly destroyRef = inject(DestroyRef);
-
   private readonly eventSubscriber = inject(ARTICLE_EVENT_SUBSCRIBER_TOKEN, { optional: true });
   private readonly articlesStorage = inject(ARTICLES_STORAGE_TOKEN);
   private readonly commentsStorage = inject(COMMENT_STORAGE_TOKEN);
@@ -61,15 +55,6 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
   public readonly comments = this.store.comments;
   public readonly isLoaded = this.store.isLoaded;
 
-  constructor() {
-    this.destroyRef.onDestroy(() => {
-      const articleId = this.store.article()?.id;
-      if (articleId && this.eventSubscriber) {
-        this.eventSubscriber.unsubscribeFromArticle(articleId);
-      }
-    });
-  }
-
   public watchForUpdates() {
     const article = this.store.article();
 
@@ -79,11 +64,18 @@ export class ArticlePageFacadeService implements ArticlePageFacade {
 
     this.eventSubscriber
       .subscribeToArticle(article.id)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        catchError(() => EMPTY),
-      )
       .subscribe((event) => this.handleEvent(event));
+  }
+
+  public stopWatchForUpdates() {
+    const article = this.store.article();
+
+    if (!article || !this.eventSubscriber) {
+      return;
+    }
+
+    this.eventSubscriber.unsubscribeFromArticle(article.id);
+    this.eventSubscriber.destroy();
   }
 
   public addComment(comment: CommentRaw) {

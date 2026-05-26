@@ -2,6 +2,7 @@ import {
   Component,
   computed,
   inject,
+  type OnDestroy,
   type OnInit,
 } from '@angular/core';
 
@@ -35,7 +36,7 @@ import {AUTH_SERVICE_TOKEN} from '../../../services/auth-service';
   templateUrl: './article.html',
   styleUrl: './article.module.scss',
 })
-export class Article implements OnInit {
+export class Article implements OnDestroy, OnInit {
   private readonly auth = inject(AUTH_SERVICE_TOKEN);
   protected readonly store = inject(ARTICLE_PAGE_FACADE_TOKEN);
 
@@ -53,6 +54,10 @@ export class Article implements OnInit {
 
   public ngOnInit() {
     this.store.watchForUpdates();
+  }
+
+  public ngOnDestroy() {
+    this.store.stopWatchForUpdates();
   }
 
   protected onArticleRatingChange(action: RatingAction) {

@@ -12,6 +12,7 @@ export type SubscribeData = {
 export interface ArticleEventSubscriber {
   subscribeToArticle(articleId: Id): Observable<ArticleEvent>;
   unsubscribeFromArticle(articleId: Id): void;
+  destroy(): void;
 }
 
 export const ARTICLE_EVENT_SUBSCRIBER_TOKEN = new InjectionToken<ArticleEventSubscriber>('ArticleEventSubscriber');
